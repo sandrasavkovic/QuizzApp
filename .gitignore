@@ -1,0 +1,23 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.vsidx
+my-project/
+
+# Build folderi
+bin/
+obj/
+Debug/
+Release/
+
+# Node.js frontend
+node_modules/
+npm-debug.log
+yarn-error.log
+*.lock
+
+# Ostalo
+.env
+*.db
+*.sqlite
