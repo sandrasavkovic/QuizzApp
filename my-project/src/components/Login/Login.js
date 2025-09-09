@@ -1,8 +1,7 @@
-import React from "react";
 import { useState } from "react";
 
 function Login() {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");   
     const [error, setError] = useState("");
     const API_URL = process.env.REACT_APP_API_URL;
@@ -11,12 +10,13 @@ function Login() {
         e.preventDefault();
         setError("");
         try {
-            const response = await fetch(`${API_URL}/auth/login`, {
+          console.log("Submitting login for:", username, password);
+            const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ username, password }),
             });
 
             if (!response.ok) {
@@ -43,12 +43,12 @@ function Login() {
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600 mb-1">
-            Email
+            Username
           </label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
             className="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

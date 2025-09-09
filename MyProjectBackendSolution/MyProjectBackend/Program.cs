@@ -27,22 +27,40 @@ namespace MyProjectBackend
     }
 }
 */
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using MyProjectBackend.Infrastructure;
+using MyProjectBackend.Interfaces;
+using MyProjectBackend.Mapping;
+using MyProjectBackend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-     policy =>
-     {
-         policy.AllowAnyOrigin()
-               .AllowAnyHeader()
-               .AllowAnyMethod();
-     });
+    options.AddPolicy("AllowReact",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000") // frontend URL
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
 });
 
+
+
+// mapiranje servisa i interfejsa
+builder.Services.AddScoped<IUserService, UserService>();
+//var mapperConfig = new MapperConfiguration(mc =>
+//{
+//    mc.AddProfile(new MappingProfile());
+//});
+
+//IMapper mapper = mapperConfig.CreateMapper();
+//builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -52,6 +70,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+app.UseCors("AllowReact"); // aktivacija corsa
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -63,6 +82,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseStaticFiles(); // wwwroot folder, za slike
 
 app.MapControllers();
 
