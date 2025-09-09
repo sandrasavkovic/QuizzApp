@@ -33,7 +33,7 @@ namespace MyProjectBackend.Controllers
         */
 
         [HttpPost("login")]
-        public IActionResult Login([FromForm] LoginUserDto loginUser)
+        public IActionResult Login([FromBody] LoginUserDto loginUser)
         {
             string username = loginUser.Username;
             string password = loginUser.Password;
