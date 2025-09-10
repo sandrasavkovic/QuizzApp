@@ -6,6 +6,7 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
   const [selectedThemeId, setSelectedThemeId] = useState(themes.length > 0 ? themes[0].Id : "");
   const [text, setText] = useState("");
   const [type, setType] = useState("SingleChoice");
+  const [points, setPoints] = useState(0);
   const [options, setOptions] = useState([{ text: "", isCorrect: false }]);
   const [correctAnswer, setCorrectAnswer] = useState("");
  
@@ -32,7 +33,8 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
      const newQuestion = {
       Text: text,
       ThemeId: Number(selectedThemeId),
-      Type: type, // pretpostavka: backend podržava string enum ili JsonStringEnumConverter
+      Type: type, 
+      Points:points,
       Options: (type === "SingleChoice" || type === "MultipleChoice") ? options : [],
       CorrectAnswer: (type === "FillInTheBlank" || type === "TrueFalse") ? correctAnswer : null,
     };
@@ -65,7 +67,9 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
             <option>TrueFalse</option>
             <option>FillInTheBlank</option>
           </select>
-
+          
+          <label>Points for question:</label>
+          <input type="number" value={points} onChange={e => setPoints(e.target.value)} required/>
           {(type === "SingleChoice" || type === "MultipleChoice") && (
             <div>
               <h4>Options:</h4>

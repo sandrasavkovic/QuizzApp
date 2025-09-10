@@ -1,10 +1,10 @@
 const API_URL = process.env.REACT_APP_API_URL;
+const token = localStorage.getItem("token");
 
 export async function getQuizzes() {
   try {
-    const token = localStorage.getItem("token");
 
-    const response = await fetch(`${API_URL}/api/quiz/quizzes`, {
+    const response = await fetch(`${API_URL}/api/quizz/quizzes`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -18,6 +18,28 @@ export async function getQuizzes() {
 
     const data = await response.json();
     return data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function createQuiz(newQuiz) {
+  try {
+    const response = await fetch(`${API_URL}/api/quizz/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(newQuiz)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Failed to create quizz");
+    }
+
+    return await response.json();
   } catch (err) {
     throw err;
   }

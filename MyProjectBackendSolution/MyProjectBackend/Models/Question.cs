@@ -17,6 +17,9 @@
 
         public Theme Theme { get; set; }
 
+
+        public int Points { get; set; }
+
         public QuestionType Type { get; set; }
 
         // opcije

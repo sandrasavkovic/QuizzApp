@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyProjectBackend.Dto.Quizz;
 using MyProjectBackend.Interfaces;
+using MyProjectBackend.Models;
 
 namespace MyProjectBackend.Controllers
 {
@@ -25,5 +26,21 @@ namespace MyProjectBackend.Controllers
         }
 
 
+        [HttpPost("create")]
+        public IActionResult Create(CreateQuizzDto createdQuizz)
+        {
+            List<Theme> themes = _quizzService.GetThemesByIds(createdQuizz.ThemeIds);
+            int maxScore = _quizzService.GetMaxScore(createdQuizz.ThemeIds);
+            var quiz = new QuizzDto
+            {
+                Title = createdQuizz.Title,
+                TimeLimit = createdQuizz.TimeLimit,
+                MaxScore = maxScore,
+                Difficulty = createdQuizz.Difficulty,
+                Themes = themes
+            };
+            QuizzDto newQuizz = _quizzService.AddQuizz(quiz);
+            return Ok(newQuizz);
+        }
     }
 }

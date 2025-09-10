@@ -1,5 +1,11 @@
 ﻿namespace MyProjectBackend.Models
 {
+    public enum DifficultyLevel
+    {
+        Easy,
+        Medium,
+        Hard
+    }
     public class Quizz
     {
 
@@ -17,7 +23,7 @@
 
         public int MaxScore { get; set; }
 
-        public string Difficulty {get; set; } // Easy, Medium, Hard
+        public DifficultyLevel Difficulty {get; set; }
 
     }
 }

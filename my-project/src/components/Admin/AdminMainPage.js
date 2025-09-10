@@ -5,6 +5,7 @@ import { getQuizzes } from "../../services/quizServices";
 import AddQuestionForm from "./forms/AddQuestionForm";
 import { getThemes } from "../../services/themeService";
 import AddThemeForm from "./forms/AddThemeForm";
+import AddQuizForm from "./forms/AddQuizForm";
 
 
 function AdminMainPage() {
@@ -15,6 +16,12 @@ function AdminMainPage() {
     const [themes, setThemes] = useState([]);
     const [themeName, setThemeName] = useState("");
     const [themeForm, setThemeForm] = useState(false);
+    const [quizzForm, setQuizzForm] = useState(false);
+    const difficultyMap = {
+      0: "Easy",
+      1: "Medium",
+      2: "Hard"
+    };
 
     const fetchQuizzes = async () => {
         try{
@@ -75,12 +82,30 @@ function AdminMainPage() {
       {
         setThemeForm(false);
       }
+
+      const openQuizzForm = () =>
+      {
+        setQuizzForm(true);
+      }
+
+      const handleCloseQuizzForm = () =>
+      {
+        setQuizzForm(false);
+      }
+
+      const handleQuizzAdded = (newQuizz) =>
+      {
+        setQuizess((prev) =>[...prev, newQuizz])
+      }
+
+      
+
  return (
     <div className="admin-container">
       <div className="admin-header">
         <h1>Admin Dashboard</h1>
         <div className="admin-buttons">
-          <button className="btn btn-blue" onClick={() => alert("Dodaj novi kviz")}>Add Quizz</button>
+          <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
           <button className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button>
           <button className="btn btn-green" onClick={openThemeForm}>Add Theme</button>
             {showAddQuestionForm && (
@@ -95,6 +120,11 @@ function AdminMainPage() {
                 onThemeAdded={handleThemeAdded}
                 onClose = {handleCloseThemeForm}/>
             )}
+            {quizzForm && (
+              <AddQuizForm 
+                onQuizAdded={handleQuizzAdded}
+                onClose={handleCloseQuizzForm}/>
+            )}
         </div>
       </div>
 
@@ -103,7 +133,11 @@ function AdminMainPage() {
           quizzes.map((quiz) => (
             <div key={quiz.Id} className="quiz-card" onClick={() => handleOpenQuiz(quiz)}>
               <h2>{quiz.Title}</h2>
-              <p>Difficulty: <span className={`difficulty ${quiz.Difficulty.toLowerCase()}`}>{quiz.Difficulty}</span></p>
+            <p>
+             Difficulty: <span className={`difficulty ${difficultyMap[quiz.Difficulty]?.toLowerCase() || ""}`}>
+             {difficultyMap[quiz.Difficulty] || "Unknown"}
+              </span>
+            </p>
               <p>Time Limit: {quiz.TimeLimit} sec</p>
               <p>Max Score: {quiz.MaxScore}</p>
             </div>

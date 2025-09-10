@@ -19,7 +19,10 @@ namespace MyProjectBackend.Services
 
         public QuizzDto AddQuizz(QuizzDto newQuizz)
         {
-            throw new NotImplementedException();
+            Quizz quizz = _mapper.Map<Quizz>(newQuizz);
+            _dbContext.Quizzes.Add(quizz);
+            _dbContext.SaveChanges();
+            return _mapper.Map<QuizzDto>(quizz);
         }
 
         public bool DeleteQuizz(int id)
@@ -42,6 +45,25 @@ namespace MyProjectBackend.Services
         public QuizzDto UpdateQuizz(int id, QuizzDto updatedQuizz)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Theme> GetThemesByIds(List<int> ids)
+        { 
+            List<Theme>themes = _dbContext.Themes.Where(t => ids.Contains(t.Id)).ToList();
+            return themes;
+        }
+
+        public int GetMaxScore(List<int> ids)
+        {
+            List<Theme> themes = _dbContext.Themes.Where(t => ids.Contains(t.Id)).ToList();
+            List<Question> questions = new List<Question>();
+            foreach (Theme t in themes)
+            {
+                if (t.Questions != null)
+                    questions.AddRange(t.Questions);
+            }
+            int score = questions.Sum(q => q.Points);
+            return score;
         }
     }
 }

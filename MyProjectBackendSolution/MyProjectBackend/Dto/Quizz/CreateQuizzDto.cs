@@ -2,18 +2,17 @@
 
 namespace MyProjectBackend.Dto.Quizz
 {
-    public class QuizzDto
+    public class CreateQuizzDto
     {
-        public int Id { get; set; }
 
         public string Title { get; set; }
 
         public int TimeLimit { get; set; } // u sekundama
 
-        public int MaxScore { get; set; }
-
+  
         public DifficultyLevel Difficulty { get; set; } // Easy, Medium, Hard
 
-        public List<MyProjectBackend.Models.Theme> Themes { get; set; } = new();
+
+       public List<int> ThemeIds { get; set; } = new();
     }
 }

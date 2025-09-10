@@ -1,0 +1,105 @@
+.add-quiz-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(17, 24, 39, 0.6); /* tamni overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.add-quiz-form {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  width: 100%;
+  max-width: 550px;
+  max-height: 90%;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  animation: slideDown 0.35s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.add-quiz-form h3 {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.add-quiz-form label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.add-quiz-form input,
+.add-quiz-form select {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.9rem;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+  margin-bottom: 0.8rem;
+}
+
+.add-quiz-form input:focus,
+.add-quiz-form select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.25);
+}
+
+/* Dugmad */
+.btn-blue, .btn-gray {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.btn-blue {
+  background: linear-gradient(to right, #3b82f6, #9333ea);
+  color: white;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.btn-blue:hover {
+  background: linear-gradient(to right, #2563eb, #7e22ce);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+}
+
+.btn-gray {
+  background: #9ca3af;
+  color: white;
+}
+
+.btn-gray:hover {
+  background: #6b7280;
+  transform: translateY(-2px);
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-25px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
