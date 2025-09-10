@@ -10,9 +10,9 @@
         // ima pitanja
         public List<Question> Questions { get; set; } = new();
 
-        public int QuizzId { get; set; }
+        //public int QuizzId { get; set; }
 
-        public Quizz Quizz { get; set; }
+        //public Quizz Quizz { get; set; }
 
        
     }

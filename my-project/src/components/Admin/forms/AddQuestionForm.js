@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./AddQuestionForm.css";
 import { createQuestion } from "../../../services/questionServices";
-
+import { createTheme } from "../../../services/themeService";
 function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
-  const [selectedThemeId, setSelectedThemeId] = useState(themes[0]?.Id || "");
+  const [selectedThemeId, setSelectedThemeId] = useState(themes.length > 0 ? themes[0].Id : "");
   const [text, setText] = useState("");
   const [type, setType] = useState("SingleChoice");
   const [options, setOptions] = useState([{ text: "", isCorrect: false }]);
   const [correctAnswer, setCorrectAnswer] = useState("");
-  const [themeName, setThemeName] = useState("");
+ 
+
+    useEffect(() => {
+    if (!selectedThemeId && themes && themes.length > 0) {
+      setSelectedThemeId(themes[0].Id);
+    }
+  }, [themes]);
 
   const handleAddOption = () => {
     setOptions([...options, { text: "", isCorrect: false }]);
@@ -22,23 +28,19 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newQuestion = {
+    console.log(selectedThemeId);
+     const newQuestion = {
       Text: text,
-      ThemeId: selectedThemeId,
-      Type: type,
-      Options: type === "SingleChoice" || type === "MultipleChoice" ? options : [],
-      CorrectAnswer: type === "FillInTheBlank" || type === "TrueFalse" ? correctAnswer : null,
+      ThemeId: Number(selectedThemeId),
+      Type: type, // pretpostavka: backend podržava string enum ili JsonStringEnumConverter
+      Options: (type === "SingleChoice" || type === "MultipleChoice") ? options : [],
+      CorrectAnswer: (type === "FillInTheBlank" || type === "TrueFalse") ? correctAnswer : null,
     };
     // poziv API-ja za backend može ići ovde
     const data = await createQuestion(newQuestion);
-    onQuestionCreated(newQuestion);
+    onQuestionCreated(data);
   };
 
-  const handleAddTheme = (newTheme) =>
-  {
-
-
-  }
 
   return (
     <div className="add-question-overlay">
@@ -48,12 +50,11 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
           <label>Theme:</label>
           <select value={selectedThemeId} onChange={(e) => setSelectedThemeId(Number(e.target.value))}>
             {themes.map(theme => (
-              <option key={theme.Id} value={theme.Id}>{theme.Name}</option>
+              console.log("Tema" , theme),
+              <option key={theme.id} value={theme.id}>{theme.name}</option>
             ))}
           </select>
-         <label>Add new theme:</label>
-         <input type="text" value={themeName} placeholder="enter theme name" onChange={e=>setThemeName(e.target.value)}/>
-         <button onClick={handleAddTheme(themeName)}>Add theme</button>
+         
           <label>Question Text:</label>
           <input type="text" value={text} onChange={e => setText(e.target.value)} required />
 

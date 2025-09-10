@@ -3,12 +3,18 @@ import jwtDecode from "jwt-decode";
 import "./AdminMainPage.css";  
 import { getQuizzes } from "../../services/quizServices";
 import AddQuestionForm from "./forms/AddQuestionForm";
+import { getThemes } from "../../services/themeService";
+import AddThemeForm from "./forms/AddThemeForm";
+
+
 function AdminMainPage() {
     const [quizzes, setQuizess] = useState([]);
     // forme za dodavanje su odvojene komponente, ovde ih
     // samo prikazujemo
     const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
     const [themes, setThemes] = useState([]);
+    const [themeName, setThemeName] = useState("");
+    const [themeForm, setThemeForm] = useState(false);
 
     const fetchQuizzes = async () => {
         try{
@@ -23,13 +29,15 @@ function AdminMainPage() {
     {
         try 
         {
-          //  const data = 
+            const data = await getThemes();
+            setThemes(data);
         }
         catch(error)
         {
             console.log(error);
         }
     }
+    
         useEffect(() => {
             fetchQuizzes();
             fetchThemes();
@@ -54,8 +62,14 @@ function AdminMainPage() {
         setShowAddQuestionForm(false);
     }
 
-    
+     const handleThemeAdded = (newTheme) => {
+      setThemes((prev) => [...prev, newTheme]); // dodajemo u listu tema
+    };
 
+      const openThemeForm = () =>
+      {
+        setThemeForm(true);
+      }
  return (
     <div className="admin-container">
       <div className="admin-header">
@@ -63,6 +77,7 @@ function AdminMainPage() {
         <div className="admin-buttons">
           <button className="btn btn-blue" onClick={() => alert("Dodaj novi kviz")}>Add Quizz</button>
           <button className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button>
+          <button className="btn btn-green" onClick={openThemeForm}>Add Theme</button>
             {showAddQuestionForm && (
                 <AddQuestionForm 
                     themes={themes}
@@ -70,6 +85,10 @@ function AdminMainPage() {
                     onQuestionCreated={handleQuestionCreated}
                 />
                 )}
+            {themeForm && (
+              <AddThemeForm
+                onThemeAdded={handleThemeAdded}/>
+            )}
         </div>
       </div>
 

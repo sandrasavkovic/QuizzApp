@@ -1,5 +1,6 @@
 ﻿using MyProjectBackend.Dto.Question;
 using MyProjectBackend.Dto.Theme;
+using MyProjectBackend.Models;
 
 namespace MyProjectBackend.Interfaces
 {

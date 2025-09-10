@@ -2,6 +2,7 @@
 using MyProjectBackend.Dto.Theme;
 using MyProjectBackend.Infrastructure;
 using MyProjectBackend.Interfaces;
+using MyProjectBackend.Models;
 
 namespace MyProjectBackend.Services
 {
@@ -17,11 +18,11 @@ namespace MyProjectBackend.Services
         }
         public ThemeDto AddTheme(ThemeDto newTheme)
         {
-            Theme theme = _mapper.Map<ThemeDto>(newQuestion);
+            Theme theme = _mapper.Map<Theme>(newTheme);
             _dbContext.Themes.Add(theme);
             _dbContext.SaveChanges();
             return _mapper.Map<ThemeDto>(theme);
-
+          // return theme;
         }
 
         public bool DeleteTheme(int id)
@@ -31,7 +32,7 @@ namespace MyProjectBackend.Services
 
         public List<ThemeDto> GetAllThemes()
         {
-            List<Theme>themes = _dbContext.Themes().ToList();   
+            List<Theme>themes = _dbContext.Themes.ToList();   
             List<ThemeDto>themesDto = _mapper.Map<List<ThemeDto>>(themes);
             return themesDto;
         }

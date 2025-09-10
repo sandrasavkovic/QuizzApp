@@ -13,6 +13,7 @@ namespace MyProjectBackend.Mapping
         {
             CreateMap<User, UserDto>().ReverseMap(); //Kazemo mu da mapira User na UserDto i obrnuto
             CreateMap<Quizz, QuizzDto>().ReverseMap();
+            CreateMap<Option, OptionDto>().ReverseMap();
             CreateMap<Question, QuestionDto>().ReverseMap();
             CreateMap<Theme, ThemeDto>().ReverseMap();
 

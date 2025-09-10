@@ -20,6 +20,7 @@ namespace MyProjectBackend.Services
 
         public QuestionDto AddQuestion(QuestionDto newQuestion)
         {
+
             Question question = _mapper.Map<Question>(newQuestion);
             _dbContext.Questions.Add(question);
             _dbContext.SaveChanges();
