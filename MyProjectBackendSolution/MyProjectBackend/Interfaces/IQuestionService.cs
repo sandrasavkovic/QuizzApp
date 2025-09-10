@@ -1,0 +1,19 @@
+﻿using MyProjectBackend.Dto.Question;
+using MyProjectBackend.Dto.Quizz;
+
+namespace MyProjectBackend.Interfaces
+{
+    public interface IQuestionService
+    {
+        List<QuestionDto> GetAllQuestions();
+        QuestionDto GetQuestionById(int id);
+
+        QuestionDto AddQuestion(QuestionDto newQuestion);
+
+        QuestionDto UpdateQuestion(int id, QuestionDto updatedQuestion);
+
+
+
+        bool DeleteQuestion(int id);
+    }
+}

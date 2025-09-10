@@ -1,54 +1,86 @@
 import {useState, useEffect, use} from "react";
 import jwtDecode from "jwt-decode";
 import "./AdminMainPage.css";  
+import { getQuizzes } from "../../services/quizServices";
+import AddQuestionForm from "./forms/AddQuestionForm";
 function AdminMainPage() {
     const [quizzes, setQuizess] = useState([]);
-    const API_URL = process.env.REACT_APP_API_URL;
-
+    // forme za dodavanje su odvojene komponente, ovde ih
+    // samo prikazujemo
+    const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
+    const [themes, setThemes] = useState([]);
 
     const fetchQuizzes = async () => {
         try{
-            const token = localStorage.getItem("token");
-            const response = await fetch(`${API_URL}/api/quizzes`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}` ,   
-                    },
-                });
-            if(!response.ok){
-                throw new Error("Failed to fetch quizzes");
-            }
-            const data = await response.json();
+            const data = await getQuizzes();
             setQuizess(data);   
         }catch(error){
             console.error("Error fetching quizzes:", error);
         }
     };
+
+    const fetchThemes = async () =>
+    {
+        try 
+        {
+          //  const data = 
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+    }
         useEffect(() => {
             fetchQuizzes();
-        }, [API_URL]);
+            fetchThemes();
+        }, []);
     const handleOpenQuiz = (quiz) => {
         // detalji kviza
         alert(`Open quiz: ${quiz.title}`);
     }
+    const handleAddQuestionClick = () =>
+    {
+        setShowAddQuestionForm(true);
+    }
+
+    const handleCloseQuestionForm = () => 
+    {
+        setShowAddQuestionForm(false);
+    }
+
+    const handleQuestionCreated = (newQuestion) =>
+    {
+        // mozda refresh liste 
+        setShowAddQuestionForm(false);
+    }
+
+    
+
  return (
     <div className="admin-container">
       <div className="admin-header">
         <h1>Admin Dashboard</h1>
         <div className="admin-buttons">
           <button className="btn btn-blue" onClick={() => alert("Dodaj novi kviz")}>Add Quizz</button>
-          <button className="btn btn-green" onClick={() => alert("Dodaj novo pitanje")}>Add Question</button>
+          <button className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button>
+            {showAddQuestionForm && (
+                <AddQuestionForm 
+                    themes={themes}
+                    onClose = {handleCloseQuestionForm}
+                    onQuestionCreated={handleQuestionCreated}
+                />
+                )}
         </div>
       </div>
 
       <div className="quiz-grid">
         {quizzes.length > 0 ? (
           quizzes.map((quiz) => (
-            <div key={quiz.id} className="quiz-card" onClick={() => handleOpenQuiz(quiz)}>
-              <h2>{quiz.title}</h2>
-              <p>Difficulty: <span className={`difficulty ${quiz.difficulty.toLowerCase()}`}>{quiz.difficulty}</span></p>
-              <p>Time Limit: {quiz.timeLimit} sec</p>
-              <p>Max Score: {quiz.maxScore}</p>
+            <div key={quiz.Id} className="quiz-card" onClick={() => handleOpenQuiz(quiz)}>
+              <h2>{quiz.Title}</h2>
+              <p>Difficulty: <span className={`difficulty ${quiz.Difficulty.toLowerCase()}`}>{quiz.Difficulty}</span></p>
+              <p>Time Limit: {quiz.TimeLimit} sec</p>
+              <p>Max Score: {quiz.MaxScore}</p>
             </div>
           ))
         ) : (

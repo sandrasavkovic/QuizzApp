@@ -1,65 +1,40 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Register.css"
+import { register as registerUser } from "../../services/authServices";
+import "./Register.css";
+
 function Register() {
-    const [formData, setFormData] = useState({
-        username: "",
-        email: "",
-        password: "",
-        image: null,
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    image: null,
+  });
+  const [err, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setFormData({
+      ...formData,
+      [name]: files ? files[0] : value,
     });
+  };
 
-    const [err, setError] = useState("");
-    const API_URL = process.env.REACT_APP_API_URL;
-    const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
-    const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        setFormData({
-            ...formData,
-            [name]: files ? files[0] : value,
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-
-        const data = new FormData();
-        data.append("Username", formData.username);
-        data.append("Email", formData.email);
-        data.append("Password", formData.password);
-        if (formData.image) {
-           // data.append("image", formData.image);
-           data.append("ImageFile", formData.image);
-        }
-        for (let [key, value] of data.entries()) {
-        console.log(key, value);
-      }
-
-        try 
-        {
-            const response = await fetch(`${API_URL}/api/auth/register`, {
-                method: "POST",
-                body: data,
-            });
-            if (response.ok)
-            {
-                alert("Registration successful! Please log in.");
-                navigate("/login");
-            }
-            else
-                {
-                    
-                    const errorText = await response.text();
-                    alert(errorText);
-                    throw new Error("Registration failed");
-                }
-            
-    }catch (err) {
-            setError(err.message);
+    try {
+      await registerUser(formData);
+      alert("Registration successful! Please log in.");
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
+      alert(err.message);
     }
-    }
+  };
+  
 
 return (
   <div className="register-container">

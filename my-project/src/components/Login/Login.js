@@ -1,51 +1,40 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import jwtDecode  from "jwt-decode";
+import jwtDecode from "jwt-decode";
+import { login } from "../../services/authServices"; 
 import "./Login.css"
 
 function Login() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");   
-    const [error, setError] = useState("");
-    const API_URL = process.env.REACT_APP_API_URL;
-    const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");   
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-        try {
-          console.log("Submitting login for:", username, password);
-            const response = await fetch(`${API_URL}/api/auth/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ Username : username, Password : password }),
-            });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      console.log("Submitting login for:", username, password);
 
-            if (!response.ok) {
-                throw new Error("Login failed");
-            }
+      const data = await login(username, password);
 
-            const data = await response.json();
-            console.log("Login successful:", data);
-            localStorage.setItem("token", data.token);  
-        
-            const decodedToken = jwtDecode(data.token);
-            console.log("Decoded token:", decodedToken);
-            const roleClaim = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      console.log("Login successful:", data);
+      localStorage.setItem("token", data.token);  
 
-            if(roleClaim ==="admin"){
-              console.log("Navigating to admin page");
-              navigate("/admin");
-            }else{
-              navigate("/user");
-            }
-          } catch (err) {
-            setError(err.message);
-        }
-};
+      const decodedToken = jwtDecode(data.token);
+      console.log("Decoded token:", decodedToken);
+      const roleClaim = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
+      if (roleClaim === "admin") {
+        console.log("Navigating to admin page");
+        navigate("/admin");
+      } else {
+        navigate("/user");
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 return (
   <div className="login-container">
     <form onSubmit={handleSubmit} className="login-form">

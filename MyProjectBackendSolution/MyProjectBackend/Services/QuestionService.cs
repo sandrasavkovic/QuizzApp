@@ -1,0 +1,49 @@
+﻿using AutoMapper;
+using MyProjectBackend.Dto.Question;
+using MyProjectBackend.Infrastructure;
+using MyProjectBackend.Interfaces;
+using MyProjectBackend.Models;
+
+namespace MyProjectBackend.Services
+{
+    public class QuestionService : IQuestionService
+    {
+
+        private readonly IMapper _mapper;
+        private readonly AppDbContext _dbContext;
+
+        public QuestionService(IMapper mapper, AppDbContext dbContext)
+        {
+            _mapper = mapper;
+            _dbContext = dbContext;
+        }
+
+        public QuestionDto AddQuestion(QuestionDto newQuestion)
+        {
+            Question question = _mapper.Map<Question>(newQuestion);
+            _dbContext.Questions.Add(question);
+            _dbContext.SaveChanges();
+            return _mapper.Map<QuestionDto>(question);
+        }
+
+        public bool DeleteQuestion(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<QuestionDto> GetAllQuestions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public QuestionDto GetQuestionById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public QuestionDto UpdateQuestion(int id, QuestionDto updatedQuestion)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
