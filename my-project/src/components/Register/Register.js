@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-
+import { useNavigate } from "react-router-dom";
+import "./Register.css"
 function Register() {
     const [formData, setFormData] = useState({
         username: "",
@@ -10,6 +11,7 @@ function Register() {
 
     const [err, setError] = useState("");
     const API_URL = process.env.REACT_APP_API_URL;
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -44,6 +46,7 @@ function Register() {
             if (response.ok)
             {
                 alert("Registration successful! Please log in.");
+                navigate("/login");
             }
             else
                 {
@@ -59,59 +62,53 @@ function Register() {
     }
 
 return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-2xl shadow-md w-96"
-      >
-        <h2 className="text-2xl font-bold mb-4 text-center">Registracija</h2>
+  <div className="register-container">
+    <form onSubmit={handleSubmit} className="register-form">
+      <h2>Registration</h2>
 
-        <input
-          type="text"
-          name="username"
-          placeholder="Korisničko ime"
-          value={formData.username}
-          onChange={handleChange}
-          className="w-full mb-3 p-2 border rounded"
-          required
-        />
+      <input
+        type="text"
+        name="username"
+        placeholder="Username"
+        value={formData.username}
+        onChange={handleChange}
+        required
+      />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full mb-3 p-2 border rounded"
-          required
-        />
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Lozinka"
-          value={formData.password}
-          onChange={handleChange}
-          className="w-full mb-3 p-2 border rounded"
-          required
-        />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+        required
+      />
 
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-          className="w-full mb-4"
-        />
+      <input
+        type="file"
+        name="image"
+        accept="image/*"
+        onChange={handleChange}
+      />
 
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
-        >
-          Registruj se
-        </button>
-      </form>
-    </div>
-  );
+      {err && <p className="error">{err}</p>}
+
+      <button type="submit">Sign up</button>
+
+      <p>
+        Alredy have an account? <a href="/login">Log in</a>
+      </p>
+    </form>
+  </div>
+);
 }
 export default Register;

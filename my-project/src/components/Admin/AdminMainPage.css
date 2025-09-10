@@ -1,0 +1,89 @@
+/* Osnovna pozadina i font */
+.admin-container {
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header sa dugmadima */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* Dugmad */
+.admin-buttons .btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-blue { background-color: #3b82f6; }
+.btn-blue:hover { background-color: #2563eb; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+
+.btn-green { background-color: #10b981; }
+.btn-green:hover { background-color: #059669; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+
+/* Grid kvizova */
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Kviz kartica */
+.quiz-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.quiz-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+/* Naslov kviza */
+.quiz-card h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+/* Difficulty boje */
+.difficulty {
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+  color: white;
+}
+
+.difficulty.easy { background-color: #10b981; }
+.difficulty.medium { background-color: #f59e0b; }
+.difficulty.hard { background-color: #ef4444; }
+
+/* Ostali tekstovi */
+.quiz-card p {
+  color: #4b5563;
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+}

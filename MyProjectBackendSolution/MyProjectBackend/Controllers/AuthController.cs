@@ -93,6 +93,12 @@ namespace MyProjectBackend.Controllers
                 return BadRequest("Username alredy exists!");
             }
 
+            var existingEmail = _userService.GetAllUsers()
+                                 .FirstOrDefault(u => u.Email.ToLower() == registerDto.Email.ToLower());
+            if (existingEmail != null)
+            {
+                return BadRequest("User with this email alredy exists!");
+            }
 
             if (registerDto.ImageFile != null && registerDto.ImageFile.Length > 0)
             {
