@@ -81,7 +81,19 @@ namespace MyProjectBackend.Controllers
             string imageUrl = null;
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
 
-          
+            // validacije polja
+            if (string.IsNullOrWhiteSpace(registerDto.Password) || registerDto.Password.Length < 6)
+            {
+                return BadRequest("Password should have at least 6 characters.");
+            }
+            var existingUser = _userService.GetAllUsers()
+                                  .FirstOrDefault(u => u.Username.ToLower() == registerDto.Username.ToLower());
+            if (existingUser != null)
+            {
+                return BadRequest("Username alredy exists!");
+            }
+
+
             if (registerDto.ImageFile != null && registerDto.ImageFile.Length > 0)
             {
                 var fileName = Guid.NewGuid() + Path.GetExtension(registerDto.ImageFile.FileName);

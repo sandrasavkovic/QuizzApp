@@ -1,0 +1,23 @@
+﻿namespace MyProjectBackend.Models
+{
+    public class Quizz
+    {
+
+        public int Id { get; set; }
+
+
+        public string Title { get; set; }
+
+
+        // ima teme
+        public List<Theme> Themes { get; set; } = new();
+        // pitanaja realizujem pomocu veze s temom
+
+        public int TimeLimit { get; set; } // u sekundama
+
+        public int MaxScore { get; set; }
+
+        public string Difficulty {get; set; } // Easy, Medium, Hard
+
+    }
+}

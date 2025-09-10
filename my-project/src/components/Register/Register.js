@@ -47,7 +47,9 @@ function Register() {
             }
             else
                 {
-                    alert("Registration failed. Please try again.");
+                    
+                    const errorText = await response.text();
+                    alert(errorText);
                     throw new Error("Registration failed");
                 }
             
