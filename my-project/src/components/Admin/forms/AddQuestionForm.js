@@ -87,7 +87,7 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
                   </label>
                 </div>
               ))}
-              <button type="button" onClick={handleAddOption}>Add Option</button>
+              <button type="button" className="btn btn-blue" onClick={handleAddOption}>Add Option</button>
             </div>
           )}
 

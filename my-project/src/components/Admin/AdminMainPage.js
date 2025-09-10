@@ -64,11 +64,16 @@ function AdminMainPage() {
 
      const handleThemeAdded = (newTheme) => {
       setThemes((prev) => [...prev, newTheme]); // dodajemo u listu tema
+    //  setThemeForm(false);
     };
 
       const openThemeForm = () =>
       {
         setThemeForm(true);
+      }
+      const handleCloseThemeForm = () =>
+      {
+        setThemeForm(false);
       }
  return (
     <div className="admin-container">
@@ -87,7 +92,8 @@ function AdminMainPage() {
                 )}
             {themeForm && (
               <AddThemeForm
-                onThemeAdded={handleThemeAdded}/>
+                onThemeAdded={handleThemeAdded}
+                onClose = {handleCloseThemeForm}/>
             )}
         </div>
       </div>
