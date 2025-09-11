@@ -1,5 +1,5 @@
-import {useState, useEffect, use} from "react";
-import jwtDecode from "jwt-decode";
+import {useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import "./AdminMainPage.css";  
 import { getQuizzes } from "../../services/quizServices";
 import AddQuestionForm from "./forms/AddQuestionForm";
@@ -16,7 +16,7 @@ function AdminMainPage() {
     const [themes, setThemes] = useState([]);
     const [themeForm, setThemeForm] = useState(false);
     const [quizzForm, setQuizzForm] = useState(false);
-    
+    const navigate = useNavigate();
     // za filtriranje
     const [themeFilter, setThemeFilter] = useState("");
     const [difficultyFilter, setDifficultyFilter] = useState("");
@@ -57,7 +57,7 @@ function AdminMainPage() {
          t.name.toLowerCase().includes(themeFilter.toLowerCase())
       );
       const mathesDifficulty = 
-        difficultyFilter === "" || quiz.difficulty == difficultyFilter;
+        difficultyFilter === "" || quiz.difficulty === difficultyFilter;
       const matchesKeyword =
           keywordFilter === "" ||
           quiz.title.toLowerCase().includes(keywordFilter.toLowerCase()) ||
@@ -66,10 +66,7 @@ function AdminMainPage() {
       return mathcesTheme && mathesDifficulty && matchesKeyword;
     });
 
-    const handleOpenQuiz = (quiz) => {
-        // detalji kviza
-        alert(`Open quiz: ${quiz.title}`);
-    }
+  
     const handleAddQuestionClick = () =>
     {
         setShowAddQuestionForm(true);
@@ -116,6 +113,11 @@ function AdminMainPage() {
       }
 
       
+      const handleStartQuizz = (quizId) =>
+      {
+         alert(quizId);
+        navigate("/start-quiz", {state :  { quizId } })
+      }
 
  return (
     <div className="admin-container">
@@ -182,7 +184,7 @@ function AdminMainPage() {
             <div
               key={quiz.title}
               className="quiz-card"
-              onClick={() => handleOpenQuiz(quiz)}
+              // onClick={() => handleOpenQuiz(quiz)}
             >
           <h2>{quiz.title}</h2>
         <p>{quiz.description}</p>
@@ -199,6 +201,7 @@ function AdminMainPage() {
             ? quiz.themes.map((t) => t.name).join(", ")
             : "No themes"}
         </p>
+        <button className="btn btn-blue" onClick={() => handleStartQuizz(quiz.id)}>Start quizz</button>
       </div>
     ))
     ) : (

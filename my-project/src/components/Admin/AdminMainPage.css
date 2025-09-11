@@ -56,7 +56,7 @@
   cursor: pointer;
 
    width: 230px;   /* fiksna širina */
-  height: 230px;  /* fiksna visina */
+  height: 250px;  /* fiksna visina */
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* lepo rasporedi sadržaj unutra */

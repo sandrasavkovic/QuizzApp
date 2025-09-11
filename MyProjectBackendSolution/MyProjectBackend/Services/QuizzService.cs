@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MyProjectBackend.Dto.Quizz;
 using MyProjectBackend.Infrastructure;
 using MyProjectBackend.Interfaces;
@@ -20,6 +21,8 @@ namespace MyProjectBackend.Services
         public QuizzDto AddQuizz(QuizzDto newQuizz)
         {
             Quizz quizz = _mapper.Map<Quizz>(newQuizz);
+            var themes = GetThemesByIds(newQuizz.Themes.Select(t => t.Id).ToList());
+            quizz.Themes = themes;
             _dbContext.Quizzes.Add(quizz);
             _dbContext.SaveChanges();
             return _mapper.Map<QuizzDto>(quizz);
@@ -42,6 +45,7 @@ namespace MyProjectBackend.Services
             var quizzes = _dbContext.Quizzes
                 .Select(q => new BasicQuizzInfoDto
                 {
+                    Id = q.Id,
                     Title = q.Title,
                     Description = q.Description,
                     Themes = q.Themes,
@@ -56,7 +60,12 @@ namespace MyProjectBackend.Services
 
         public QuizzDto GetQuizzById(int id)
         {
-            throw new NotImplementedException();
+            var quizz = _dbContext.Quizzes
+                      .Include(q => q.Themes)
+                      .ThenInclude(t => t.Questions)
+                      .FirstOrDefault(q => q.Id == id);
+
+            return _mapper.Map<QuizzDto>(_dbContext.Quizzes.Find(id));
         }
 
         public QuizzDto UpdateQuizz(int id, QuizzDto updatedQuizz)

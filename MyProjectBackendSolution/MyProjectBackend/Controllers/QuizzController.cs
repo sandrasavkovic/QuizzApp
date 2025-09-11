@@ -50,5 +50,13 @@ namespace MyProjectBackend.Controllers
             QuizzDto newQuizz = _quizzService.AddQuizz(quiz);
             return Ok(newQuizz);
         }
+
+        [HttpGet("getById/{quizId}")]
+        public IActionResult GetQuizById(int quizId)
+        {
+            QuizzDto quizz = _quizzService.GetQuizzById(quizId);
+            return Ok(quizz);
+
+        }
     }
 }

@@ -44,3 +44,26 @@ export async function createQuiz(newQuiz) {
     throw err;
   }
 }
+
+export async function getQuizById(quizId) {
+  try {
+
+    const response = await fetch(`${API_URL}/api/quizz/getById/${quizId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Failed to fetch quizzes");
+    }
+
+    const data = await response.json();
+    console.log("Kviz", data);
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}
