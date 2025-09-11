@@ -37,6 +37,22 @@ namespace MyProjectBackend.Services
             return quizessDto;
         }
 
+        public List<BasicQuizzInfoDto> GetBasicQuizzes()
+        {
+            var quizzes = _dbContext.Quizzes
+                .Select(q => new BasicQuizzInfoDto
+                {
+                    Title = q.Title,
+                    Description = q.Description,
+                    QuestionCount = q.Themes.SelectMany(t => t.Questions).Count(),
+                    Difficulty = q.Difficulty,
+                    TimeLimit = q.TimeLimit
+                })
+                .ToList();
+
+            return quizzes;
+        }
+
         public QuizzDto GetQuizzById(int id)
         {
             throw new NotImplementedException();
@@ -65,5 +81,17 @@ namespace MyProjectBackend.Services
             int score = questions.Sum(q => q.Points);
             return score;
         }
+
+        public List<Question> GetQuestionsForQuizz(List<Theme> themes)
+        { 
+            List<Question> questions = new List<Question>();
+            foreach (Theme theme in themes)
+            {
+                questions.AddRange(theme.Questions);
+            }
+            return questions;
+        }
+
+
     }
 }

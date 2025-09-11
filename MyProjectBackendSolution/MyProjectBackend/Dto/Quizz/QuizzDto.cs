@@ -8,6 +8,7 @@ namespace MyProjectBackend.Dto.Quizz
 
         public string Title { get; set; }
 
+        public string Description { get; set; }
         public int TimeLimit { get; set; } // u sekundama
 
         public int MaxScore { get; set; }

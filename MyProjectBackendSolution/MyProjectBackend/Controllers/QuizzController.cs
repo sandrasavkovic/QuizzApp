@@ -25,6 +25,13 @@ namespace MyProjectBackend.Controllers
 
         }
 
+        [HttpGet("basic")]
+        public IActionResult GetBasicQuizzes()
+        {
+            var quizzes = _quizzService.GetBasicQuizzes();
+            return Ok(quizzes ?? new List<BasicQuizzInfoDto>());
+        }
+
 
         [HttpPost("create")]
         public IActionResult Create(CreateQuizzDto createdQuizz)
@@ -34,6 +41,7 @@ namespace MyProjectBackend.Controllers
             var quiz = new QuizzDto
             {
                 Title = createdQuizz.Title,
+                Description = createdQuizz.Description,
                 TimeLimit = createdQuizz.TimeLimit,
                 MaxScore = maxScore,
                 Difficulty = createdQuizz.Difficulty,

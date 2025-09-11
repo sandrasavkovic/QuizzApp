@@ -9,6 +9,8 @@ namespace MyProjectBackend.Dto.Quizz
 
         public int TimeLimit { get; set; } // u sekundama
 
+        public string Description { get; set; }
+
   
         public DifficultyLevel Difficulty { get; set; } // Easy, Medium, Hard
 

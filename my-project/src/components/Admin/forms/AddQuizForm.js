@@ -8,6 +8,7 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
   const [selectedThemes, setSelectedThemes] = useState([]);
   const [timeLimit, setTimeLimit] = useState(60); // default 60 sekundi
   const [difficulty, setDifficulty] = useState("Easy");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     async function fetchThemes() {
@@ -27,6 +28,7 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
     try {
       const quizData = {
         title,
+        description,
         themeIds: selectedThemes, // samo ID-jevi tema
         timeLimit,
         difficulty
@@ -59,6 +61,13 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
           required
         />
 
+     <label>Description:</label>
+        <input
+          type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
         <label>Select Themes:</label>
         <div className="themes-list">
         {themes.map((t) => (

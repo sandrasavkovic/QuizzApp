@@ -4,7 +4,7 @@ const token = localStorage.getItem("token");
 export async function getQuizzes() {
   try {
 
-    const response = await fetch(`${API_URL}/api/quizz/quizzes`, {
+    const response = await fetch(`${API_URL}/api/quizz/basic`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

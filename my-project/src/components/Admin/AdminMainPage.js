@@ -27,6 +27,7 @@ function AdminMainPage() {
         try{
             const data = await getQuizzes();
             setQuizess(data);   
+            console.log(data)
         }catch(error){
             console.error("Error fetching quizzes:", error);
         }
@@ -129,23 +130,26 @@ function AdminMainPage() {
       </div>
 
       <div className="quiz-grid">
-        {quizzes.length > 0 ? (
-          quizzes.map((quiz) => (
-            <div key={quiz.Id} className="quiz-card" onClick={() => handleOpenQuiz(quiz)}>
-              <h2>{quiz.Title}</h2>
-            <p>
-             Difficulty: <span className={`difficulty ${difficultyMap[quiz.Difficulty]?.toLowerCase() || ""}`}>
-             {difficultyMap[quiz.Difficulty] || "Unknown"}
-              </span>
-            </p>
-              <p>Time Limit: {quiz.TimeLimit} sec</p>
-              <p>Max Score: {quiz.MaxScore}</p>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-500 text-center col-span-full">Nema dostupnih kvizova.</p>
-        )}
+      {quizzes.length > 0 ? (
+      quizzes.map((quiz, idx) => (
+        <div key={idx} className="quiz-card" onClick={() => handleOpenQuiz(quiz)}>
+          <h2>{quiz.title}</h2>
+          <p>{quiz.description}</p>
+         <p>Questions: {quiz.questionCount}</p>
+          <p>
+        
+  Difficulty: <span className={`difficulty ${quiz.difficulty.toLowerCase()}`}>
+    {quiz.difficulty}
+  </span>
+</p>
+        <p>Time Limit: {quiz.timeLimit} sec</p>
       </div>
+    ))
+    ) : (
+    <p className="text-gray-500 text-center col-span-full">Nema dostupnih kvizova.</p>
+    )}
+  </div>
+
     </div>
   );
 
