@@ -143,6 +143,12 @@ function AdminMainPage() {
   </span>
 </p>
         <p>Time Limit: {quiz.timeLimit} sec</p>
+        <p>
+          Themes:{" "}
+          {quiz.themes && quiz.themes.length > 0
+            ? quiz.themes.map((t) => t.name).join(", ")
+            : "No themes"}
+        </p>
       </div>
     ))
     ) : (

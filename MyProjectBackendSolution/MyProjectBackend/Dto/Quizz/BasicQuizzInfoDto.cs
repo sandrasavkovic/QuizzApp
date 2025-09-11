@@ -7,6 +7,7 @@ namespace MyProjectBackend.Dto.Quizz
 
         public string Description { get; set; }
 
+        public List<MyProjectBackend.Models.Theme> Themes { get; set; }
         public int QuestionCount{ get; set; }    
         public DifficultyLevel Difficulty {get; set; }
 

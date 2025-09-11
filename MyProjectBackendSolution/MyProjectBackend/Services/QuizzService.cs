@@ -44,6 +44,7 @@ namespace MyProjectBackend.Services
                 {
                     Title = q.Title,
                     Description = q.Description,
+                    Themes = q.Themes,
                     QuestionCount = q.Themes.SelectMany(t => t.Questions).Count(),
                     Difficulty = q.Difficulty,
                     TimeLimit = q.TimeLimit
