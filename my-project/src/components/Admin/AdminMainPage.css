@@ -54,6 +54,13 @@
   box-shadow: 0 6px 10px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
   cursor: pointer;
+
+   width: 230px;   /* fiksna širina */
+  height: 230px;  /* fiksna visina */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* lepo rasporedi sadržaj unutra */
+  overflow: hidden; /* da tekst ne probije okvir */
 }
 
 .quiz-card:hover {
@@ -87,3 +94,45 @@
   margin: 0.3rem 0;
   font-size: 0.95rem;
 }
+
+/* Filteri */
+.filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* da se lepo spakuje na manjim ekranima */
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.filters input,
+.filters select {
+  padding: 0.6rem 1rem;
+  border-radius: 0.6rem;
+  border: 1px solid #cbd5e1; /* svetlo siva granica */
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: white;
+  color: #1f2937;
+  min-width: 180px;
+}
+
+.filters input::placeholder {
+  color: #9ca3af; /* svetlo siva placeholder boja */
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: #3b82f6; /* plava boja prilikom fokusa */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.filters select {
+  cursor: pointer;
+  appearance: none; /* uklanja default strelicu u nekim browserima */
+  background-image: url("data:image/svg+xml,%3Csvg fill='%239ca3af' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1rem;
+}
+

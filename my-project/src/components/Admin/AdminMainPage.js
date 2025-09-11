@@ -14,14 +14,13 @@ function AdminMainPage() {
     // samo prikazujemo
     const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
     const [themes, setThemes] = useState([]);
-    const [themeName, setThemeName] = useState("");
     const [themeForm, setThemeForm] = useState(false);
     const [quizzForm, setQuizzForm] = useState(false);
-    const difficultyMap = {
-      0: "Easy",
-      1: "Medium",
-      2: "Hard"
-    };
+    
+    // za filtriranje
+    const [themeFilter, setThemeFilter] = useState("");
+    const [difficultyFilter, setDifficultyFilter] = useState("");
+    const [keywordFilter, setKeywordFilter] = useState("");
 
     const fetchQuizzes = async () => {
         try{
@@ -44,12 +43,29 @@ function AdminMainPage() {
         {
             console.log(error);
         }
-    }
+      }
     
-        useEffect(() => {
+      useEffect(() => {
             fetchQuizzes();
             fetchThemes();
-        }, []);
+      }, []);
+
+    const filteredQuizzes = quizzes.filter((quiz) => {
+      const mathcesTheme = 
+        themeFilter ==="" ||
+        quiz.themes.some((t) =>
+         t.name.toLowerCase().includes(themeFilter.toLowerCase())
+      );
+      const mathesDifficulty = 
+        difficultyFilter === "" || quiz.difficulty == difficultyFilter;
+      const matchesKeyword =
+          keywordFilter === "" ||
+          quiz.title.toLowerCase().includes(keywordFilter.toLowerCase()) ||
+          quiz.description.toLowerCase().includes(keywordFilter.toLowerCase());
+        
+      return mathcesTheme && mathesDifficulty && matchesKeyword;
+    });
+
     const handleOpenQuiz = (quiz) => {
         // detalji kviza
         alert(`Open quiz: ${quiz.title}`);
@@ -128,20 +144,54 @@ function AdminMainPage() {
             )}
         </div>
       </div>
-
-      <div className="quiz-grid">
-      {quizzes.length > 0 ? (
-      quizzes.map((quiz, idx) => (
-        <div key={idx} className="quiz-card" onClick={() => handleOpenQuiz(quiz)}>
-          <h2>{quiz.title}</h2>
-          <p>{quiz.description}</p>
-         <p>Questions: {quiz.questionCount}</p>
-          <p>
+{/* 
+        filter */}
         
-  Difficulty: <span className={`difficulty ${quiz.difficulty.toLowerCase()}`}>
-    {quiz.difficulty}
-  </span>
-</p>
+      {/* Filter UI */}
+      <div className="filters flex gap-4 mb-4">
+        <input
+          type="text"
+          placeholder="Filter by theme..."
+          value={themeFilter}
+          onChange={(e) => setThemeFilter(e.target.value)}
+          className="border rounded p-2"
+        />
+         <input
+          type="text"
+          placeholder="Search by keyword..."
+          value={keywordFilter}
+          onChange={(e) => setKeywordFilter(e.target.value)}
+          className="border rounded p-2"
+        />
+        <select
+          value={difficultyFilter}
+          onChange={(e) => setDifficultyFilter(e.target.value)}
+          className="border rounded p-2"
+        >
+          <option value="">All Difficulties</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+
+      </div>
+
+         <div className="quiz-grid">
+        {filteredQuizzes.length > 0 ? (
+          filteredQuizzes.map((quiz) => (
+            <div
+              key={quiz.title}
+              className="quiz-card"
+              onClick={() => handleOpenQuiz(quiz)}
+            >
+          <h2>{quiz.title}</h2>
+        <p>{quiz.description}</p>
+       <p>Questions: {quiz.questionCount}</p>
+        <p>
+          Difficulty: <span className={`difficulty ${quiz.difficulty.toLowerCase()}`}>
+            {quiz.difficulty}
+          </span>
+        </p>
         <p>Time Limit: {quiz.timeLimit} sec</p>
         <p>
           Themes:{" "}
