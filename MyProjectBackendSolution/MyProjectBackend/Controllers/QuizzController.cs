@@ -36,8 +36,10 @@ namespace MyProjectBackend.Controllers
         [HttpPost("create")]
         public IActionResult Create(CreateQuizzDto createdQuizz)
         {
-            List<Theme> themes = _quizzService.GetThemesByIds(createdQuizz.ThemeIds);
-            int maxScore = _quizzService.GetMaxScore(createdQuizz.ThemeIds);
+            // mozda za teme prosledi listu questions i dodaj sve teme na osnovu id-eva tema u tim questionima
+            List<Theme> themes = _quizzService.GetThemesByIds(createdQuizz.ThemeIds); 
+            int maxScore = _quizzService.GetMaxScore(createdQuizz.Questions);
+
             var quiz = new QuizzDto
             {
                 Title = createdQuizz.Title,
@@ -45,11 +47,25 @@ namespace MyProjectBackend.Controllers
                 TimeLimit = createdQuizz.TimeLimit,
                 MaxScore = maxScore,
                 Difficulty = createdQuizz.Difficulty,
+                Questions = createdQuizz.Questions.Select(q => new Question
+                {
+                    Text = q.Text,
+                    ThemeId = q.ThemeId,
+                    Type = q.Type,
+                    Points = q.Points,
+                    CorrectAnswer = q.CorrectAnswer,
+                    Options = q.Options?.Select(o => new Option
+                    {
+                        Text = o.Text,
+                        IsCorrect = o.IsCorrect
+                    }).ToList()
+                }).ToList(),
                 Themes = themes
             };
             QuizzDto newQuizz = _quizzService.AddQuizz(quiz);
             return Ok(newQuizz);
         }
+
 
         [HttpGet("getById/{quizId}")]
         public IActionResult GetQuizById(int quizId)

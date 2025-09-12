@@ -1,5 +1,6 @@
 ﻿using MyProjectBackend.Dto.Question;
 using MyProjectBackend.Dto.Quizz;
+using MyProjectBackend.Models;
 
 namespace MyProjectBackend.Interfaces
 {
@@ -8,7 +9,7 @@ namespace MyProjectBackend.Interfaces
         List<QuestionDto> GetAllQuestions();
         QuestionDto GetQuestionById(int id);
 
-        QuestionDto AddQuestion(QuestionDto newQuestion);
+        Question AddQuestion(QuestionDto newQuestion);
 
         QuestionDto UpdateQuestion(int id, QuestionDto updatedQuestion);
 

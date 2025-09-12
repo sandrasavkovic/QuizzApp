@@ -1,4 +1,5 @@
-﻿using MyProjectBackend.Models;
+﻿using MyProjectBackend.Dto.Question;
+using MyProjectBackend.Models;
 
 namespace MyProjectBackend.Dto.Quizz
 {
@@ -16,5 +17,7 @@ namespace MyProjectBackend.Dto.Quizz
 
 
        public List<int> ThemeIds { get; set; } = new();
+
+       public List<MyProjectBackend.Models.Question> Questions { get; set; } = new();
     }
 }

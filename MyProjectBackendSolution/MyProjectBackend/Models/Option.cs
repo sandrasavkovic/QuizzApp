@@ -8,9 +8,9 @@
         public bool IsCorrect { get; set; }
 
         // pripada 1 pitanju
-        public int QuestionId { get; set; }
+       // public int QuestionId { get; set; }
 
-        public Question Question { get; set; }
+     //   public Question Question { get; set; }
 
         // npr koji je gl grad francuske Id=1, text:pariz, isCorrect=true
     }

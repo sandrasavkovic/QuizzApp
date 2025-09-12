@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { getThemes } from "../../../services/themeService";
 import { createQuiz } from "../../../services/quizServices";
 import "./AddQuizzForm.css";
+import AddQuestionForm from "./AddQuestionForm";
+
 export default function AddQuizForm({ onQuizAdded, onClose }) {
   const [title, setTitle] = useState("");
   const [themes, setThemes] = useState([]);
@@ -9,6 +11,8 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
   const [timeLimit, setTimeLimit] = useState(60); // default 60 sekundi
   const [difficulty, setDifficulty] = useState("Easy");
   const [description, setDescription] = useState("");
+  const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
+  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     async function fetchThemes() {
@@ -25,13 +29,29 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // uzimam ideve tema iz questions (bez dupl)
+    const themeIdsFromQuestions = [
+  ...new Set(questions.map(q => Number(q.themeId))) 
+    ];
+
+    const formattedQuestions = questions.map(q => ({
+  ...q,
+  ThemeId: Number(q.themeId), // backend očekuje ThemeId
+  Theme: { Id: Number(q.themeId) } // backend očekuje i Theme objekat
+}));
+
     try {
+      console.log("OVO su teme: ", themeIdsFromQuestions);
+      console.log("OVO SU PITANJA", questions);
       const quizData = {
         title,
         description,
-        themeIds: selectedThemes, // samo ID-jevi tema
+        // themeIds: selectedThemes, // samo ID-jevi tema
+        themeIds:themeIdsFromQuestions,
         timeLimit,
-        difficulty
+        difficulty,
+          questions: questions
+
       };
 
       const newQuiz = await createQuiz(quizData);
@@ -47,6 +67,23 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
     const value = Array.from(e.target.selectedOptions, (opt) => opt.value);
     setSelectedThemes(value);
   };
+
+   const handleAddQuestionClick = () =>
+    {
+        setShowAddQuestionForm(true);
+    }
+
+    const handleCloseQuestionForm = () => 
+    {
+        setShowAddQuestionForm(false);
+    }
+
+    const handleQuestionCreated = (newQuestion) =>
+    {
+        // mozda refresh liste 
+        setQuestions((prev) => [...prev, newQuestion]);
+        setShowAddQuestionForm(false);
+    }
 
   return (
     <div className="add-quiz-overlay">
@@ -68,7 +105,7 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
           onChange={(e) => setDescription(e.target.value)}
           required
         />
-        <label>Select Themes:</label>
+        {/* <label>Select Themes:</label>
         <div className="themes-list">
         {themes.map((t) => (
             <label key={t.id} className="theme-option">
@@ -87,7 +124,16 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
             {t.name}
             </label>
         ))}
-        </div>
+        </div> */}
+        <button className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button>
+
+        {showAddQuestionForm && (
+                <AddQuestionForm 
+                    themes={themes}
+                    onClose = {handleCloseQuestionForm}
+                    onQuestionCreated={handleQuestionCreated}
+                />
+                )}
 
 
         <label>Time Limit (seconds):</label>

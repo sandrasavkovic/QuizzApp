@@ -8,7 +8,7 @@
 
 
         // ima pitanja
-        public List<Question> Questions { get; set; } = new();
+      //  public List<Question> Questions { get; set; } = new();
 
         //public int QuizzId { get; set; }
 

@@ -12,7 +12,7 @@ function AdminMainPage() {
     const [quizzes, setQuizess] = useState([]);
     // forme za dodavanje su odvojene komponente, ovde ih
     // samo prikazujemo
-    const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
+   // const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
     const [themes, setThemes] = useState([]);
     const [themeForm, setThemeForm] = useState(false);
     const [quizzForm, setQuizzForm] = useState(false);
@@ -66,7 +66,7 @@ function AdminMainPage() {
       return mathcesTheme && mathesDifficulty && matchesKeyword;
     });
 
-  
+  /*
     const handleAddQuestionClick = () =>
     {
         setShowAddQuestionForm(true);
@@ -82,7 +82,7 @@ function AdminMainPage() {
         // mozda refresh liste 
         setShowAddQuestionForm(false);
     }
-
+*/
      const handleThemeAdded = (newTheme) => {
       setThemes((prev) => [...prev, newTheme]); // dodajemo u listu tema
     //  setThemeForm(false);
@@ -125,15 +125,16 @@ function AdminMainPage() {
         <h1>Admin Dashboard</h1>
         <div className="admin-buttons">
           <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
-          <button className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button>
+          {/* <button className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button> */}
           <button className="btn btn-green" onClick={openThemeForm}>Add Theme</button>
+{/*            
             {showAddQuestionForm && (
                 <AddQuestionForm 
                     themes={themes}
                     onClose = {handleCloseQuestionForm}
                     onQuestionCreated={handleQuestionCreated}
                 />
-                )}
+                )} */}
             {themeForm && (
               <AddThemeForm
                 onThemeAdded={handleThemeAdded}

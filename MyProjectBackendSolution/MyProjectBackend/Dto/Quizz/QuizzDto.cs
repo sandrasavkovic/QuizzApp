@@ -16,5 +16,7 @@ namespace MyProjectBackend.Dto.Quizz
         public DifficultyLevel Difficulty { get; set; } // Easy, Medium, Hard
 
         public List<MyProjectBackend.Models.Theme> Themes { get; set; } = new();
+
+        public List<MyProjectBackend.Models.Question> Questions { get; set; } = new();
     }
 }

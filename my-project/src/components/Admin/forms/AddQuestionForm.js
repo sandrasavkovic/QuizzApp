@@ -29,7 +29,7 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(selectedThemeId);
+    console.log("SELEKTOVANA TEMAAAA " , selectedThemeId);
      const newQuestion = {
       Text: text,
       ThemeId: Number(selectedThemeId),
@@ -38,7 +38,6 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
       Options: (type === "SingleChoice" || type === "MultipleChoice") ? options : [],
       CorrectAnswer: (type === "FillInTheBlank" || type === "TrueFalse") ? correctAnswer : null,
     };
-    // poziv API-ja za backend može ići ovde
     const data = await createQuestion(newQuestion);
     onQuestionCreated(data);
   };
@@ -48,7 +47,7 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
     <div className="add-question-overlay">
       <div className="add-question-form">
         <h2>Add New Question</h2>
-        <form onSubmit={handleSubmit}>
+        
           <label>Theme:</label>
           <select value={selectedThemeId} onChange={(e) => setSelectedThemeId(Number(e.target.value))}>
             {themes.map(theme => (
@@ -110,10 +109,9 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
           )}
 
           <div className="form-buttons">
-            <button type="submit" className="btn btn-blue">Save Question</button>
+            <button onClick={handleSubmit} className="btn btn-blue">Save Question</button>
             <button type="button" className="btn btn-gray" onClick={onClose}>Cancel</button>
           </div>
-        </form>
       </div>
     </div>
   );

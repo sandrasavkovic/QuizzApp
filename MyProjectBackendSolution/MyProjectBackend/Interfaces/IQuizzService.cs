@@ -1,4 +1,5 @@
-﻿using MyProjectBackend.Dto.Quizz;
+﻿using MyProjectBackend.Dto.Question;
+using MyProjectBackend.Dto.Quizz;
 using MyProjectBackend.Dto.User;
 using MyProjectBackend.Models;
 
@@ -19,8 +20,8 @@ namespace MyProjectBackend.Interfaces
 
         bool DeleteQuizz(int id);
         public List<Theme> GetThemesByIds(List<int> ids);
-        public int GetMaxScore(List<int> ids);
-        public List<Question> GetQuestionsForQuizz(List<Theme> themes);
+        public int GetMaxScore(List<Question> questions);
+      //  public List<Question> GetQuestionsForQuizz(List<Theme> themes);
 
 
     }

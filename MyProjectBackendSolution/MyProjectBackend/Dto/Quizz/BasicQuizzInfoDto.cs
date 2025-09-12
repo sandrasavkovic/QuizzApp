@@ -1,6 +1,7 @@
 ﻿using MyProjectBackend.Models;
 namespace MyProjectBackend.Dto.Quizz
 {
+    // samo za prikaz kviz kartica na Main page-u
     public class BasicQuizzInfoDto
     {
         public int Id{get; set; }
@@ -13,6 +14,8 @@ namespace MyProjectBackend.Dto.Quizz
         public DifficultyLevel Difficulty {get; set; }
 
         public int TimeLimit { get; set; } 
+
+ 
 
 
 
