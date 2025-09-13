@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getQuizById } from "../../services/quizServices"; // metoda za fetch kviza po id-u
+import "./StartQuiz.css";
 
 function StartQuizPage() {
   const location = useLocation();
@@ -73,6 +74,7 @@ function StartQuizPage() {
     }
   };
 
+
   const handleFinishQuiz = () => {
   if (!quiz) return;
   let score = 0;
@@ -81,24 +83,31 @@ function StartQuizPage() {
     const userAnswer = answers[q.id];
 
     if (q.type === "SingleChoice") {
-      const correctOption = q.options.find(o => o.IsCorrect)?.Text;
-      console.log("BR BODOVA OVOG PITANJA", q.Points)
-      if (userAnswer === correctOption) score += q.Points || 1;
-    } else if (q.type === "MultipleChoice") {
-      const correctOptions = q.options.filter(o => o.IsCorrect).map(o => o.Text).sort();
-      const userAnswers = Array.isArray(userAnswer) ? userAnswer.sort() : [];
-      if (JSON.stringify(correctOptions) === JSON.stringify(userAnswers)) score += q.Points || 1;
-    } else if (q.type === "TrueFalse" || q.type === "FillInTheBlank") {
+      const correctOption = q.options.find(o => o.isCorrect)?.text;
+      if (userAnswer === correctOption) score += q.points || 1;
+    } 
+    else if (q.type === "MultipleChoice") {
+      const correctOptions = q.options.filter(o => o.isCorrect).map(o => o.text);
+      const userAnswers = Array.isArray(userAnswer) ? userAnswer : [];
+      
+      // proveravamo da li korisnik odgovorio tacno, bez obzira na redosled
+      const allCorrect = correctOptions.length === userAnswers.length &&
+                         correctOptions.every(ans => userAnswers.includes(ans));
+      if (allCorrect) score += q.points || 1;
+    } 
+    else if (q.type === "TrueFalse" || q.type === "FillInTheBlank") {
       if (userAnswer?.toString().toLowerCase() === q.correctAnswer?.toLowerCase()) {
-        score += q.Points || 1;
+        score += q.points || 1;
       }
     }
   });
 
-  alert(`Kviz završen! Bodovi: ${score}/${quiz.questions.length}`);
+  alert(`Kviz završen! Bodovi: ${score}/${quiz.questions.reduce((acc, q) => acc + (q.points || 1), 0)}`);
   navigate("/admin");
 };
 
+
+ 
   if (!quiz) return <p>Loading quiz...</p>;
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
@@ -124,17 +133,18 @@ function StartQuizPage() {
       ))
     }
 
-        {currentQuestion.type === "MultipleChoice" &&
-              currentQuestion.options.map(opt => (
-              <label key={opt.id}>
-             <input
-                 type="checkbox"
-                 checked={answers[currentQuestion.id]?.includes(opt.text) || false}
-                 onChange={() => handleAnswerSelect(currentQuestion.id, opt.text, true)}
-             />
-             {opt.text}
-            </label>
-        ))}
+       {currentQuestion.type === "MultipleChoice" &&
+  currentQuestion.options.map((opt, index) => (
+    <label key={`${currentQuestion.id}-${index}`}>
+      <input
+        type="checkbox"
+        checked={answers[currentQuestion.id]?.includes(opt.text) || false}
+        onChange={() => handleAnswerSelect(currentQuestion.id, opt.text, true)}
+      />
+      {opt.text}
+    </label>
+))}
+
 
     {/* True/False */}
     {currentQuestion.type === "TrueFalse" && (
