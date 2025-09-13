@@ -18,6 +18,7 @@ namespace MyProjectBackend.Dto.Quizz
 
        public List<int> ThemeIds { get; set; } = new();
 
-       public List<MyProjectBackend.Models.Question> Questions { get; set; } = new();
+        // nema temu vec samo id-eve teme
+       public List<QuestionDto> Questions { get; set; } = new();
     }
 }

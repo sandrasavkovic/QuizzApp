@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyProjectBackend.Infrastructure;
 
@@ -10,9 +11,11 @@ using MyProjectBackend.Infrastructure;
 namespace MyProjectBackend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250913092047_updateOptionBase")]
+    partial class updateOptionBase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +127,12 @@ namespace MyProjectBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("QuizzId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("QuizzId");
 
                     b.ToTable("Themes");
                 });
@@ -158,30 +166,13 @@ namespace MyProjectBackend.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("QuizzTheme", b =>
-                {
-                    b.Property<int>("QuizzesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ThemesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("QuizzesId", "ThemesId");
-
-                    b.HasIndex("ThemesId");
-
-                    b.ToTable("QuizzTheme");
-                });
-
             modelBuilder.Entity("MyProjectBackend.Models.Option", b =>
                 {
-                    b.HasOne("MyProjectBackend.Models.Question", "Question")
+                    b.HasOne("MyProjectBackend.Models.Question", null)
                         .WithMany("Options")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("MyProjectBackend.Models.Question", b =>
@@ -191,7 +182,7 @@ namespace MyProjectBackend.Migrations
                         .HasForeignKey("QuizzId");
 
                     b.HasOne("MyProjectBackend.Models.Theme", "Theme")
-                        .WithMany("Questions")
+                        .WithMany()
                         .HasForeignKey("ThemeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -199,19 +190,11 @@ namespace MyProjectBackend.Migrations
                     b.Navigation("Theme");
                 });
 
-            modelBuilder.Entity("QuizzTheme", b =>
+            modelBuilder.Entity("MyProjectBackend.Models.Theme", b =>
                 {
                     b.HasOne("MyProjectBackend.Models.Quizz", null)
-                        .WithMany()
-                        .HasForeignKey("QuizzesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MyProjectBackend.Models.Theme", null)
-                        .WithMany()
-                        .HasForeignKey("ThemesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Themes")
+                        .HasForeignKey("QuizzId");
                 });
 
             modelBuilder.Entity("MyProjectBackend.Models.Question", b =>
@@ -222,11 +205,8 @@ namespace MyProjectBackend.Migrations
             modelBuilder.Entity("MyProjectBackend.Models.Quizz", b =>
                 {
                     b.Navigation("Questions");
-                });
 
-            modelBuilder.Entity("MyProjectBackend.Models.Theme", b =>
-                {
-                    b.Navigation("Questions");
+                    b.Navigation("Themes");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,7 +9,7 @@ namespace MyProjectBackend.Interfaces
         List<QuestionDto> GetAllQuestions();
         QuestionDto GetQuestionById(int id);
 
-        Question AddQuestion(QuestionDto newQuestion);
+        QuestionDto AddQuestion(QuestionDto newQuestion);
 
         QuestionDto UpdateQuestion(int id, QuestionDto updatedQuestion);
 

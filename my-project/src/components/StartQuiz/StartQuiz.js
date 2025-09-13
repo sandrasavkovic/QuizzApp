@@ -24,7 +24,7 @@ function StartQuizPage() {
     const fetchQuiz = async () => {
       try {
         const data = await getQuizById(quizId); // poziva backend API
-        const allQuestions = data.themes.flatMap(theme => theme.questions);
+        const allQuestions = data.questions;
         console.log("***********");
         console.log(data);
         console.log(allQuestions);
@@ -82,6 +82,7 @@ function StartQuizPage() {
 
     if (q.type === "SingleChoice") {
       const correctOption = q.options.find(o => o.IsCorrect)?.Text;
+      console.log("BR BODOVA OVOG PITANJA", q.Points)
       if (userAnswer === correctOption) score += q.Points || 1;
     } else if (q.type === "MultipleChoice") {
       const correctOptions = q.options.filter(o => o.IsCorrect).map(o => o.Text).sort();

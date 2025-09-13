@@ -3,7 +3,7 @@ import "./AddQuestionForm.css";
 import { createQuestion } from "../../../services/questionServices";
 import { createTheme } from "../../../services/themeService";
 function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
-  const [selectedThemeId, setSelectedThemeId] = useState(themes.length > 0 ? themes[0].Id : "");
+  const [selectedThemeId, setSelectedThemeId] = useState(themes.length > 0 ? themes[0].id : "");
   const [text, setText] = useState("");
   const [type, setType] = useState("SingleChoice");
   const [points, setPoints] = useState(0);
@@ -13,7 +13,7 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
 
     useEffect(() => {
     if (!selectedThemeId && themes && themes.length > 0) {
-      setSelectedThemeId(themes[0].Id);
+      setSelectedThemeId(themes[0].id);
     }
   }, [themes]);
 
@@ -30,14 +30,16 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("SELEKTOVANA TEMAAAA " , selectedThemeId);
+    console.log("OPTIONS:" , options);
      const newQuestion = {
       Text: text,
       ThemeId: Number(selectedThemeId),
       Type: type, 
-      Points:points,
+      Points:Number(points),
       Options: (type === "SingleChoice" || type === "MultipleChoice") ? options : [],
       CorrectAnswer: (type === "FillInTheBlank" || type === "TrueFalse") ? correctAnswer : null,
     };
+    console.log(newQuestion);
     const data = await createQuestion(newQuestion);
     onQuestionCreated(data);
   };
@@ -52,6 +54,7 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
           <select value={selectedThemeId} onChange={(e) => setSelectedThemeId(Number(e.target.value))}>
             {themes.map(theme => (
               console.log("Tema" , theme),
+              console.log("ID", theme.id),
               <option key={theme.id} value={theme.id}>{theme.name}</option>
             ))}
           </select>

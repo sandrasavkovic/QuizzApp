@@ -73,9 +73,10 @@ namespace MyProjectBackend.Services
                       .Include(q => q.Themes)
                       //.ThenInclude(t => t.Questions)
                       .Include(q => q.Questions)
+                      .ThenInclude(q => q.Options)
                       .FirstOrDefault(q => q.Id == id);
 
-            return _mapper.Map<QuizzDto>(_dbContext.Quizzes.Find(id));
+            return _mapper.Map<QuizzDto>(quizz);
         }
 
         public QuizzDto UpdateQuizz(int id, QuizzDto updatedQuizz)
@@ -89,7 +90,7 @@ namespace MyProjectBackend.Services
             return themes;
         }
 
-        public int GetMaxScore(List<Question> questions)
+        public int GetMaxScore(List<QuestionDto> questions)
         {
          
             int score = questions.Sum(q => q.Points);

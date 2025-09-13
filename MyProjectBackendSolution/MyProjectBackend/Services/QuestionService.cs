@@ -18,16 +18,16 @@ namespace MyProjectBackend.Services
             _dbContext = dbContext;
         }
 
-        public Question AddQuestion(QuestionDto newQuestion)
+        public QuestionDto AddQuestion(QuestionDto newQuestion)
         {
 
             Question question = _mapper.Map<Question>(newQuestion);
-            Theme theme = _dbContext.Themes.Where(t=>t.Id == question.ThemeId).FirstOrDefault();
-            question.Theme = theme;
+            //Theme theme = _dbContext.Themes.Where(t=>t.Id == question.ThemeId).FirstOrDefault();
+           // question.Theme = theme;
             _dbContext.Questions.Add(question);
             _dbContext.SaveChanges();
-          //  return _mapper.Map<QuestionDto>(question);
-          return question;
+            return _mapper.Map<QuestionDto>(question);
+         // return question;
         }
 
         public bool DeleteQuestion(int id)

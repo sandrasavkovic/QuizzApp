@@ -110,6 +110,7 @@ function AdminMainPage() {
       const handleQuizzAdded = (newQuizz) =>
       {
         setQuizess((prev) =>[...prev, newQuizz])
+        console.log("KVIZOVI", quizzes);
       }
 
       

@@ -1,4 +1,6 @@
-﻿namespace MyProjectBackend.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MyProjectBackend.Models
 {
     public enum QuestionType
     {
@@ -13,8 +15,20 @@
 
         public string Text { get; set; }
 
+        /*
+
+        // FK na kviz
+        public int QuizzId { get; set; }
+        [ForeignKey("QuizzId")]
+        public Quizz Quizz { get; set; }
+        */
+
+
+        // fk na temu
         public int ThemeId { get; set; }
 
+
+        [ForeignKey("ThemeId")]
         public Theme Theme { get; set; }
 
 

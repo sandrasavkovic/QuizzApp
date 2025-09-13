@@ -2,6 +2,7 @@ export async function createQuestion(question) {
   const token = localStorage.getItem("token");
 
   try {
+    console.log(question);
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/question/create`, {
       method: "POST",
       headers: {

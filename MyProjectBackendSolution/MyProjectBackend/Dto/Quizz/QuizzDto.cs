@@ -1,4 +1,6 @@
-﻿using MyProjectBackend.Models;
+﻿using MyProjectBackend.Dto.Question;
+using MyProjectBackend.Dto.Theme;
+using MyProjectBackend.Models;
 
 namespace MyProjectBackend.Dto.Quizz
 {
@@ -15,8 +17,11 @@ namespace MyProjectBackend.Dto.Quizz
 
         public DifficultyLevel Difficulty { get; set; } // Easy, Medium, Hard
 
-        public List<MyProjectBackend.Models.Theme> Themes { get; set; } = new();
+        //  public List<MyProjectBackend.Models.Theme> Themes { get; set; } = new();
 
-        public List<MyProjectBackend.Models.Question> Questions { get; set; } = new();
+        //public List<MyProjectBackend.Models.Question> Questions { get; set; } = new();
+        public List<ThemeDto> Themes { get; set; } = new();
+
+        public List<QuestionDto> Questions {get; set; } = new();
     }
 }
