@@ -17,6 +17,9 @@ namespace MyProjectBackend.Infrastructure
         public DbSet<Models.Option> Options { get; set; }
         public DbSet<Models.Quizz> Quizzes { get; set; }
 
+        public DbSet<Models.UserAnswer> UserAnswers { get; set; }
+
+        public DbSet<Models.UserQuizz> UserQuizzs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

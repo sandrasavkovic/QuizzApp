@@ -49,7 +49,9 @@ namespace MyProjectBackend.Controllers
             // claimovi, ako je username Admin, onda je i role Admin
             List<Claim> claims = new List<Claim>
             {
-        new Claim(ClaimTypes.Name, user.Username)
+                 new Claim(ClaimTypes.Name, user.Username),
+               //  new Claim("userId", user.Id.ToString())  // <-- dodaj ovo
+
             };
 
             if (user.Username.ToLower() == "admin")
@@ -71,7 +73,6 @@ namespace MyProjectBackend.Controllers
 
             string tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-            // vraćamo token frontend-u
             return Ok(new { Token = tokenString });
         }
 
