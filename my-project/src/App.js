@@ -4,7 +4,7 @@ import Login from './components/Login/Login';
 import Test from './components/Test/Test';
 import AdminMainPage from './components/Admin/AdminMainPage';
 import Register from './components/Register/Register';
-import StartQuizPage from './components/StartQuiz/StartQuiz';
+import StartQuizPage from './components/Quizz/StartQuiz';
 function App() {
   return (
     <div className="App">

@@ -77,7 +77,7 @@ namespace MyProjectBackend.Controllers
         [HttpGet("getById/{quizId}")]
         public IActionResult GetQuizById(int quizId)
         {
-            QuizzDto quizz = _quizzService.GetQuizzById(quizId);
+            DisplayQuizzDto quizz = _quizzService.GetQuizzById(quizId);
             return Ok(quizz);
 
         }

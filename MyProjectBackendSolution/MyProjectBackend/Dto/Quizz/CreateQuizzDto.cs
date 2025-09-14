@@ -6,6 +6,7 @@ namespace MyProjectBackend.Dto.Quizz
     public class CreateQuizzDto
     {
 
+ 
         public string Title { get; set; }
 
         public int TimeLimit { get; set; } // u sekundama

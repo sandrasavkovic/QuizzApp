@@ -14,7 +14,7 @@ namespace MyProjectBackend.Services
         private readonly AppDbContext _dbContext;
 
         public QuizzService(IMapper mapper, AppDbContext dbContext)
-        { 
+        {
             _mapper = mapper;
             _dbContext = dbContext;
         }
@@ -25,7 +25,7 @@ namespace MyProjectBackend.Services
             var themes = GetThemesByIds(newQuizz.Themes.Select(t => t.Id).ToList());
             quizz.Themes = themes;
             // pri dodavanju pitanja saljemo id-eve tema, pa ovde samo zapravo
-// pitanju dajemo objekat Theme na osnovu themeId
+            // pitanju dajemo objekat Theme na osnovu themeId
             foreach (var question in quizz.Questions)
             {
                 question.Theme = _dbContext.Themes.FirstOrDefault(t => t.Id == question.ThemeId);
@@ -57,8 +57,8 @@ namespace MyProjectBackend.Services
                     Title = q.Title,
                     Description = q.Description,
                     Themes = q.Themes,
-                  //  QuestionCount = q.Themes.SelectMany(t => t.Questions).Count(),
-                   QuestionCount = q.Questions.Count,
+                    //  QuestionCount = q.Themes.SelectMany(t => t.Questions).Count(),
+                    QuestionCount = q.Questions.Count,
                     Difficulty = q.Difficulty,
                     TimeLimit = q.TimeLimit
                 })
@@ -67,7 +67,7 @@ namespace MyProjectBackend.Services
             return quizzes;
         }
 
-        public QuizzDto GetQuizzById(int id)
+        public DisplayQuizzDto GetQuizzById(int id)
         {
             var quizz = _dbContext.Quizzes
                       .Include(q => q.Themes)
@@ -76,7 +76,7 @@ namespace MyProjectBackend.Services
                       .ThenInclude(q => q.Options)
                       .FirstOrDefault(q => q.Id == id);
 
-            return _mapper.Map<QuizzDto>(quizz);
+            return _mapper.Map<DisplayQuizzDto>(quizz);
         }
 
         public QuizzDto UpdateQuizz(int id, QuizzDto updatedQuizz)
@@ -85,17 +85,19 @@ namespace MyProjectBackend.Services
         }
 
         public List<Theme> GetThemesByIds(List<int> ids)
-        { 
-            List<Theme>themes = _dbContext.Themes.Where(t => ids.Contains(t.Id)).ToList();
+        {
+            List<Theme> themes = _dbContext.Themes.Where(t => ids.Contains(t.Id)).ToList();
             return themes;
         }
 
         public int GetMaxScore(List<QuestionDto> questions)
         {
-         
+
             int score = questions.Sum(q => q.Points);
             return score;
         }
+
+  
 
         /*
         public List<Question> GetQuestionsForQuizz(List<Theme> themes)

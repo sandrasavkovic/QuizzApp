@@ -15,6 +15,8 @@ namespace MyProjectBackend.Mapping
             CreateMap<Quizz, QuizzDto>().ReverseMap();
             CreateMap<Option, OptionDto>().ReverseMap();
             CreateMap<Question, QuestionDto>().ReverseMap();
+            CreateMap<Question, QuizzQuestionsDto>().ReverseMap();  
+            CreateMap<Quizz, DisplayQuizzDto>().ReverseMap();
             CreateMap<Theme, ThemeDto>().ReverseMap();
 
         }

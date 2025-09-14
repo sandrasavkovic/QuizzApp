@@ -2,9 +2,9 @@
 
 namespace MyProjectBackend.Dto.Question
 {
-    public class QuestionDto
+    public class QuizzQuestionsDto
     {
-
+        public int Id { get; set; }
         public string Text { get; set; }
 
         public int ThemeId { get; set; }  // Tema kojoj pitanje pripada
