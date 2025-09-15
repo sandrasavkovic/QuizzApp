@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getQuizById } from "../../services/quizServices"; 
 import "./StartQuiz.css";
 import ResultInfo from "./ResultInfo";
+import { saveQuizResult } from "../../services/quizServices";
 
 function StartQuizPage() {
   const location = useLocation();
@@ -61,75 +62,113 @@ function StartQuizPage() {
     }
   };
 
-  const handleFinishQuiz = () => {
-    if (!quiz) return;
-    let score = 0;
-    let correctAnswerCount = 0;
-    const detailedAnswers = {};
+  const handleFinishQuiz = async () => {
+  if (!quiz) return;
 
-    quiz.questions.forEach((q) => {
-      const userAnswer = answers[q.id];
-      console.log(q);
-      console.log("OVO JE KORISNIKOV ODGOVOR" ,userAnswer )
-      let isCorrect = false;
+  let userScore = 0;
+  let correctAnswerCount = 0;
+  const detailedAnswers = {};
 
-      if (q.type === "SingleChoice") {
-        const correctOption = q.options.find((o) => o.isCorrect)?.text;
-if (userAnswer?.toString().trim().toLowerCase() === correctOption?.toString().trim().toLowerCase()) {
-          score += q.points || 1;
-          correctAnswerCount++;
-          isCorrect = true;
-        }
-      } else if (q.type === "MultipleChoice") {
-        const correctOptions = q.options
-          .filter((o) => o.isCorrect)
-          .map((o) => o.text);
-        const userAnswers = Array.isArray(userAnswer) ? userAnswer : [];
-      const normalize = (s) => s?.toString().trim().toLowerCase();
-const allCorrect =
-  correctOptions.length === userAnswers.length &&
-  correctOptions.every((ans) => userAnswers.map(normalize).includes(normalize(ans)));
+  quiz.questions.forEach((q) => {
+    const userAnswer = answers[q.id];
+    let isCorrect = false;
 
-        if (allCorrect) {
-          score += q.points || 1;
-          correctAnswerCount++;
-          isCorrect = true;
-        }
-      } else if (q.type === "TrueFalse" || q.type === "FillInTheBlank") {
-        if (userAnswer?.toString().trim().toLowerCase() === q.correctAnswer?.toString().trim().toLowerCase())
- {
-          score += q.points || 1;
-          correctAnswerCount++;
-          isCorrect = true;
-        }
+    if (q.type === "SingleChoice") {
+      const correctOption = q.options.find((o) => o.isCorrect)?.text;
+      if (
+        userAnswer?.toString().trim().toLowerCase() ===
+        correctOption?.toString().trim().toLowerCase()
+      ) {
+        userScore += q.points || 1;
+        correctAnswerCount++;
+        isCorrect = true;
       }
+    } else if (q.type === "MultipleChoice") {
+      const correctOptions = q.options
+        .filter((o) => o.isCorrect)
+        .map((o) => o.text);
+      const userAnswers = Array.isArray(userAnswer) ? userAnswer : [];
+      const normalize = (s) => s?.toString().trim().toLowerCase();
+      const allCorrect =
+        correctOptions.length === userAnswers.length &&
+        correctOptions.every((ans) =>
+          userAnswers.map(normalize).includes(normalize(ans))
+        );
 
-      detailedAnswers[q.id] = { userAnswer, isCorrect };
-      console.log("DETAILED ANSWER", q.id, " : ", detailedAnswers[q.id]);
-    });
+      if (allCorrect) {
+        userScore += q.points || 1;
+        correctAnswerCount++;
+        isCorrect = true;
+      }
+    } else if (q.type === "TrueFalse" || q.type === "FillInTheBlank") {
+      if (
+        userAnswer?.toString().trim().toLowerCase() ===
+        q.correctAnswer?.toString().trim().toLowerCase()
+      ) {
+        userScore += q.points || 1;
+        correctAnswerCount++;
+        isCorrect = true;
+      }
+    }
 
-    const maxScore = quiz.questions.reduce(
-      (acc, q) => acc + (q.points || 1),
-      0
-    );
+    detailedAnswers[q.id] = { userAnswer, isCorrect };
+  });
 
-    setResults({
-      score,
-      correctAnswerCount,
-      totalQuestions: quiz.questions.length,
-      percentage: (
-        (correctAnswerCount / quiz.questions.length) *
-        100
-      ).toFixed(2),
-      answers: detailedAnswers,
-      maxScore,
-    });
+  const maxScore = quiz.questions.reduce(
+    (acc, q) => acc + (q.points || 1),
+    0
+  );
+
+  // DTO za backend
+  const dto = {
+    quizzId: quiz.id,
+    userId: localStorage.getItem("userId"),
+    attemptDate: new Date().toISOString(),
+    score: userScore,
+    timeTaken: quiz.timeLimit - timeLeft,
+    percentage: ((userScore / maxScore) * 100).toFixed(2),
+    answers: Object.entries(detailedAnswers).map(
+      ([questionId, answer]) => ({
+        questionId: Number(questionId),
+        answer: Array.isArray(answer.userAnswer)
+          ? answer.userAnswer.join(", ")
+          : answer.userAnswer,
+        isCorrect: answer.isCorrect,
+      })
+    ),
   };
 
-  // Ako postoje rezultati → prikaži ResultInfo
-  if (results) {
-    return <ResultInfo quiz={quiz} results={results} />;
+  try {
+    await saveQuizResult(dto);
+  } catch (err) {
+    console.error("Error saving quiz result:", err);
   }
+navigate("/quiz-result", {
+  state: {
+    quiz,
+    results: {
+      score: userScore,
+      correctAnswersCount: correctAnswerCount,
+      totalQuestions: quiz.questions.length,
+      maxScore,
+      percentage: ((userScore / maxScore) * 100).toFixed(2),
+      answers: detailedAnswers,
+    },
+  },
+});
+//   // Rezultati za prikaz
+//   setResults({
+//     score: userScore,
+//     correctAnswersCount: correctAnswerCount,
+//     totalQuestions: quiz.questions.length,
+//     maxScore,
+//     percentage: ((userScore / maxScore) * 100).toFixed(2),
+//     answers: detailedAnswers,
+//   });
+// };
+  };
+
+
 
   if (!quiz) return <p>Loading quiz...</p>;
 

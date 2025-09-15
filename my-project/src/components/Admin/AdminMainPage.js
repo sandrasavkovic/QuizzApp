@@ -184,7 +184,7 @@ function AdminMainPage() {
         {filteredQuizzes.length > 0 ? (
           filteredQuizzes.map((quiz) => (
             <div
-              key={quiz.title}
+              key={quiz.id}
               className="quiz-card"
               // onClick={() => handleOpenQuiz(quiz)}
             >

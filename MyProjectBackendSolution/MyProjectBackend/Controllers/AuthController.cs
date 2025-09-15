@@ -50,7 +50,7 @@ namespace MyProjectBackend.Controllers
             List<Claim> claims = new List<Claim>
             {
                  new Claim(ClaimTypes.Name, user.Username),
-               //  new Claim("userId", user.Id.ToString())  // <-- dodaj ovo
+                  new Claim("userId", user.Id.ToString())  
 
             };
 
@@ -126,7 +126,8 @@ namespace MyProjectBackend.Controllers
                 Image = imageUrl
             };
 
-            _userService.AddUser(userDto);
+            //_userService.AddUser(userDto);
+
 
             return Ok(_userService.AddUser(userDto));
         }

@@ -1,8 +1,15 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import "./ResultInfo.css";
 
-function ResultInfo({ quiz, results }) {
-    console.log(quiz);
-    console.log(results);
+function ResultInfo() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { quiz, results } = location.state || {};
+
+  if (!quiz || !results) {
+    return <p>Nema rezultata za prikaz.</p>;
+  }
+
   return (
     <div className="result-info">
       <h2>Rezultati kviza</h2>
@@ -17,13 +24,22 @@ function ResultInfo({ quiz, results }) {
           const userAns = results.answers[q.id]?.userAnswer;
           const isCorrect = results.answers[q.id]?.isCorrect;
 
-          const correctAns = 
-            q.type === "SingleChoice" || q.type === "MultipleChoice"
-              ? q.options.filter(o => o.isCorrect).map(o => o.text).join(", ")
-              : q.correctAnswer;
+         let correctAns = "";
+
+if (q.type === "SingleChoice" || q.type === "MultipleChoice") {
+  correctAns = q.options
+    .filter(o => o.isCorrect)
+    .map(o => o.text)
+    .join(", ");
+} else if (q.type === "TrueFalse" || q.type === "FillInTheBlank") {
+  correctAns = q.correctAnswer;
+}
 
           return (
-            <li key={`${q.id}-${index}`} className={isCorrect ? "correct" : "wrong"}>
+            <li
+              key={`${q.id}-${index}`}
+              className={isCorrect ? "correct" : "wrong"}
+            >
               <p><b>{index + 1}. {q.text}</b></p>
               <p>Tvoj odgovor: {Array.isArray(userAns) ? userAns.join(", ") : userAns || "Nema"}</p>
               <p>Tačan odgovor: {correctAns}</p>
@@ -31,6 +47,8 @@ function ResultInfo({ quiz, results }) {
           );
         })}
       </ul>
+
+      <button onClick={() => navigate("/main")}>Nazad</button>
     </div>
   );
 }

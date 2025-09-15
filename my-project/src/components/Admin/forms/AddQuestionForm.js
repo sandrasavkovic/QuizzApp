@@ -10,6 +10,13 @@ function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
   const [options, setOptions] = useState([{ text: "", isCorrect: false }]);
   const [correctAnswer, setCorrectAnswer] = useState("");
  
+useEffect(() => {
+  if (type === "TrueFalse") {
+    setCorrectAnswer("True"); 
+  } else if (type === "FillInTheBlank") {
+    setCorrectAnswer("");
+  }
+}, [type]);
 
     useEffect(() => {
     if (!selectedThemeId && themes && themes.length > 0) {

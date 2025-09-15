@@ -24,12 +24,14 @@ function Login() {
       const decodedToken = jwtDecode(data.token);
       console.log("Decoded token:", decodedToken);
       const roleClaim = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      const userId = decodedToken.userId; 
+      localStorage.setItem("userId", userId);
 
       if (roleClaim === "admin") {
         console.log("Navigating to admin page");
-        navigate("/admin");
+        navigate("/main");
       } else {
-        navigate("/user");
+        navigate("/main");
       }
     } catch (err) {
       setError(err.message);

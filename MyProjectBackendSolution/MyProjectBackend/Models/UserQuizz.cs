@@ -18,7 +18,8 @@ namespace MyProjectBackend.Models
         public DateTime AttempDate{ get; set; }
         
         public int Score{get; set; }
-        //public double Percentage{get; set; } quizz.MaxScore/Score * 100
+        
+       public double Percentage{get; set; } //quizz.MaxScore/Score * 100
 
         public int TimeTaken{get; set; }
 

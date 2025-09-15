@@ -67,3 +67,26 @@ export async function getQuizById(quizId) {
     throw err;
   }
 }
+
+
+export async function saveQuizResult(resultDto) {
+   try {
+    const response = await fetch(`${API_URL}/api/userQuizz/save`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(resultDto)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Failed to save results for quizz");
+    }
+
+    return await response.json();
+  } catch (err) {
+    throw err;
+  }
+}
