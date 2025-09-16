@@ -16,7 +16,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/main' element={<AdminMainPage />} />
         <Route path='/start-quiz' element={<StartQuizPage/>}/>
-        <Route path="/quiz-result" element={<ResultInfo />} />
+        <Route path="/quiz-result/:id" element={<ResultInfo />} />
         <Route path="/my-results" element={<UserResults/>}/>
 
       </Routes>

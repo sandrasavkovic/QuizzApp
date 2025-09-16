@@ -99,17 +99,8 @@ namespace MyProjectBackend.Services
 
   
 
-        /*
-        public List<Question> GetQuestionsForQuizz(List<Theme> themes)
-        { 
-            List<Question> questions = new List<Question>();
-            foreach (Theme theme in themes)
-            {
-                questions.AddRange(theme.Questions);
-            }
-            return questions;
-        }
-        */
+        
+     
 
 
     }

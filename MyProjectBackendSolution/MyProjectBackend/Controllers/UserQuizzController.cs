@@ -27,6 +27,8 @@ namespace MyProjectBackend.Controllers
             {
                 UserId = userResultDto.UserId,
                 QuizzId = userResultDto.QuizzId,
+                TotalQuestionsCount = userResultDto.TotalQuestionsCount,
+                CorrectAnswersCount = userResultDto.CorrectAnswersCount,
                 AttempDate = userResultDto.AttemptDate,
                 Score = userResultDto.Score,
                 Percentage = userResultDto.Percentage,
@@ -48,6 +50,23 @@ namespace MyProjectBackend.Controllers
         {
           
             return Ok(_userquizzservice.GetUserQuizzsById(userId));
+        }
+
+        [HttpGet("result/{id}")]
+        public IActionResult GetQuizzResult(int id)
+        {
+            var result = _userquizzservice.GetQuizResult(id);
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpGet("questions/{quizzId}")]
+        public IActionResult GetQuestionsForQuizz(int quizzId)
+        {
+            return Ok(_userquizzservice.GetQuestionsForQuizz(quizzId));
+            
         }
 
 

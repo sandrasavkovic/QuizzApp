@@ -19,6 +19,9 @@ namespace MyProjectBackend.Models
         
         public int Score{get; set; }
         
+        public int TotalQuestionsCount { get; set; }
+
+        public int CorrectAnswersCount { get; set; }    
        public double Percentage{get; set; } //quizz.MaxScore/Score * 100
 
         public int TimeTaken{get; set; }

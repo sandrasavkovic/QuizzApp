@@ -68,11 +68,9 @@ function StartQuizPage() {
   let userScore = 0;
   let correctAnswerCount = 0;
   const detailedAnswers = {};
-
   quiz.questions.forEach((q) => {
     const userAnswer = answers[q.id];
     let isCorrect = false;
-
     if (q.type === "SingleChoice") {
       const correctOption = q.options.find((o) => o.isCorrect)?.text;
       if (
@@ -127,6 +125,8 @@ function StartQuizPage() {
     score: userScore,
     timeTaken: quiz.timeLimit - timeLeft,
     percentage: ((userScore / maxScore) * 100).toFixed(2),
+    totalQuestionsCount: quiz.questions.length,
+    correctAnswersCount: correctAnswerCount,
     answers: Object.entries(detailedAnswers).map(
       ([questionId, answer]) => ({
         questionId: Number(questionId),
@@ -139,23 +139,24 @@ function StartQuizPage() {
   };
 
   try {
-    await saveQuizResult(dto);
+     const savedResult = await saveQuizResult(dto); // backend vraća DTO sa Id
+    navigate(`/quiz-result/${savedResult.id}`); // koristi ID za GET
   } catch (err) {
     console.error("Error saving quiz result:", err);
   }
-navigate("/quiz-result", {
-  state: {
-    quiz,
-    results: {
-      score: userScore,
-      correctAnswersCount: correctAnswerCount,
-      totalQuestions: quiz.questions.length,
-      maxScore,
-      percentage: ((userScore / maxScore) * 100).toFixed(2),
-      answers: detailedAnswers,
-    },
-  },
-});
+// navigate("/quiz-result", {
+//   state: {
+//     quiz,
+//     results: {
+//       score: userScore,
+//       correctAnswersCount: correctAnswerCount,
+//       totalQuestions: quiz.questions.length,
+//       maxScore,
+//       percentage: ((userScore / maxScore) * 100).toFixed(2),
+//       answers: detailedAnswers,
+//     },
+//   },
+// });
 //   // Rezultati za prikaz
 //   setResults({
 //     score: userScore,

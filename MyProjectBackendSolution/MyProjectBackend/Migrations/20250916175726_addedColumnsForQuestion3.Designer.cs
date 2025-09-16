@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyProjectBackend.Infrastructure;
 
@@ -11,9 +12,11 @@ using MyProjectBackend.Infrastructure;
 namespace MyProjectBackend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250916175726_addedColumnsForQuestion3")]
+    partial class addedColumnsForQuestion3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,7 +64,7 @@ namespace MyProjectBackend.Migrations
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QuizzId")
+                    b.Property<int>("QuizzId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -257,15 +260,19 @@ namespace MyProjectBackend.Migrations
 
             modelBuilder.Entity("MyProjectBackend.Models.Question", b =>
                 {
-                    b.HasOne("MyProjectBackend.Models.Quizz", null)
+                    b.HasOne("MyProjectBackend.Models.Quizz", "Quizz")
                         .WithMany("Questions")
-                        .HasForeignKey("QuizzId");
+                        .HasForeignKey("QuizzId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MyProjectBackend.Models.Theme", "Theme")
                         .WithMany("Questions")
                         .HasForeignKey("ThemeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Quizz");
 
                     b.Navigation("Theme");
                 });

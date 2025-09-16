@@ -1,47 +1,81 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getQuizResultById, getQuestionsForQuizz } from "../../services/userQuizzService";
 import "./ResultInfo.css";
 
 function ResultInfo() {
-  const location = useLocation();
+  const { id } = useParams(); // id pokušaja kviza iz URL-a
   const navigate = useNavigate();
-  const { quiz, results } = location.state || {};
+  const [data, setData] = useState(null);
+  const [questions, setQuestions] = useState([]);
 
-  if (!quiz || !results) {
-    return <p>Nema rezultata za prikaz.</p>;
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Dobavljanje rezultata
+        const result = await getQuizResultById(id);
+        console.log("Rezultati: ", result);
+        setData(result);
+
+        // Dobavljanje pitanja kviza
+        const questionsList = await getQuestionsForQuizz(result.quizzId);
+        console.log("Dobavljena pitanja: ", questionsList);
+        setQuestions(questionsList);
+      } catch (err) {
+        console.error("Greška pri učitavanju rezultata:", err);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  if (!data) return <p>Učitavanje rezultata...</p>;
+
+  // Destrukturiranje iz flat objekta
+  const {
+    quizzId,
+    score,
+    percentage,
+    answers,
+    correctAnswersCount,
+    totalQuestionsCount,
+  } = data;
+
+  const maxScore = questions.reduce((acc, q) => acc + (q.points || 1), 0);
 
   return (
     <div className="result-info">
-      <h2>Rezultati kviza {quiz.title}</h2>
-      <p>Ukupan broj pitanja: {results.totalQuestions}</p>
-      <p>Tačnih odgovora: {results.correctAnswersCount}</p>
-      <p>Osvojeni bodovi: {results.score}/{results.maxScore}</p>
-      <p>Procenat uspešnosti: {results.percentage}%</p>
+      <h2>Rezultati kviza (ID: {quizzId})</h2>
+      <p>Ukupan broj pitanja: {totalQuestionsCount}</p>
+      <p>Tačnih odgovora: {correctAnswersCount}</p>
+      <p>Osvojeni bodovi: {score}/{maxScore}</p>
+      <p>Procenat uspešnosti: {percentage}%</p>
 
       <h3>Detalji po pitanjima:</h3>
       <ul>
-        {quiz.questions.map((q, index) => {
-          const userAns = results.answers[q.id]?.userAnswer;
-          const isCorrect = results.answers[q.id]?.isCorrect;
+        {questions.map((q, index) => {
+          questions.forEach(q => console.log("q.id:", q.id, "answers IDs:", answers.map(a => a.questionId)));
 
-         let correctAns = "";
+          const userAnsObj = answers.find(a => Number(a.questionId) === q.id);
+          console.log(answers);
+          console.log(",,,", userAnsObj);
+          const userAns = userAnsObj?.answer;
+                    console.log("!,,", userAns);
+          const isCorrect = userAnsObj?.isCorrect;
 
-if (q.type === "SingleChoice" || q.type === "MultipleChoice") {
-  correctAns = q.options
-    .filter(o => o.isCorrect)
-    .map(o => o.text)
-    .join(", ");
-} else if (q.type === "TrueFalse" || q.type === "FillInTheBlank") {
-  correctAns = q.correctAnswer;
-}
+          let correctAns = "";
+          if (q.type === "SingleChoice" || q.type === "MultipleChoice") {
+            correctAns = q.options
+              .filter(o => o.isCorrect)
+              .map(o => o.text)
+              .join(", ");
+          } else if (q.type === "TrueFalse" || q.type === "FillInTheBlank") {
+            correctAns = q.correctAnswer;
+          }
 
           return (
-            <li
-              key={`${q.id}-${index}`}
-              className={isCorrect ? "correct" : "wrong"}
-            >
+            <li key={`${q.id}-${index}`} className={isCorrect ? "correct" : "wrong"}>
               <p><b>{index + 1}. {q.text}</b></p>
-              <p>Tvoj odgovor: {Array.isArray(userAns) ? userAns.join(", ") : userAns || "Nema"}</p>
+              <p>Tvoj odgovor: {userAns || "Nema"}</p>
               <p>Tačan odgovor: {correctAns}</p>
             </li>
           );

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using MyProjectBackend.Dto.Question;
 using MyProjectBackend.Dto.Quizz;
 using MyProjectBackend.Dto.User;
 using MyProjectBackend.Infrastructure;
@@ -40,6 +41,39 @@ namespace MyProjectBackend.Services
         {
             var userQuizzs = _dbContext.UserQuizzs.Where(q => q.UserId == id).ToList();
             return _mapper.Map<List<UserQuizzDto>>(userQuizzs);
+        }
+
+        /*
+        public UserQuizzDto GetUserQuizById(int id)
+        {
+            var result = _dbContext.UserQuizzs
+                 .Include(q => q.Answers) 
+                 .FirstOrDefault(q => q.Id == id);
+            return _mapper.Map<UserQuizzDto>(result);
+        }
+        */
+        public UserQuizzDto GetQuizResult(int userQuizzId)
+        {
+            var userQuizz = _dbContext.UserQuizzs
+                .Include(u => u.Answers)       // da učita sve odgovore
+                .Include(u => u.Quizz)         // da učita kviz
+                    .ThenInclude(q => q.Questions) // pitanja
+                        .ThenInclude(q => q.Options) // opcije za pitanja
+                .FirstOrDefault(u => u.Id == userQuizzId);
+            return _mapper.Map<UserQuizzDto>(userQuizz);
+        }
+
+        public List<QuizzQuestionsDto> GetQuestionsForQuizz(int quizId)
+        {
+            var quizz = _dbContext.Quizzes
+                         .Include(q => q.Questions) // obavezno učitava pitanja
+                         .ThenInclude(q=>q.Options)
+                         .FirstOrDefault(q => q.Id == quizId);
+
+            if (quizz == null)
+                return new List<QuizzQuestionsDto>();
+
+            return _mapper.Map<List<QuizzQuestionsDto>>(quizz.Questions);
         }
     }
 }

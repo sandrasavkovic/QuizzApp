@@ -2,6 +2,8 @@ const API_URL = process.env.REACT_APP_API_URL;
 const token = localStorage.getItem("token");
 
 
+
+
 export async function saveQuizResult(resultDto) {
    try {
     const response = await fetch(`${API_URL}/api/userQuizz/save`, {
@@ -25,6 +27,29 @@ export async function saveQuizResult(resultDto) {
 }
 
 
+
+
+export async function getQuizResultById(quizId) {
+     try {
+
+    const response = await fetch(`${API_URL}/api/userQuizz/result/${quizId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Failed to fetch result");
+    }
+
+    return await response.json();
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function getUserResults(userId) {
   try {
 
@@ -38,6 +63,27 @@ export async function getUserResults(userId) {
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Failed to fetch results");
+    }
+
+    return await response.json();
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getQuestionsForQuizz(quizzId) {
+  try {
+
+    const response = await fetch(`${API_URL}/api/userQuizz/questions/${quizzId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Failed to fetch questions");
     }
 
     return await response.json();
