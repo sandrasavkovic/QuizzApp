@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getQuizById } from "../../services/quizServices"; 
 import "./StartQuiz.css";
 import ResultInfo from "./ResultInfo";
-import { saveQuizResult } from "../../services/quizServices";
+import { saveQuizResult } from "../../services/userQuizzService";
 
 function StartQuizPage() {
   const location = useLocation();

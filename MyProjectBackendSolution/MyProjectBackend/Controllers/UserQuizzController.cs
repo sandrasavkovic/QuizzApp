@@ -43,5 +43,13 @@ namespace MyProjectBackend.Controllers
 
         }
 
+        [HttpGet("results/{userId}")]
+        public IActionResult GetAllUserResults(int userId)
+        {
+          
+            return Ok(_userquizzservice.GetUserQuizzsById(userId));
+        }
+
+
     }
 }

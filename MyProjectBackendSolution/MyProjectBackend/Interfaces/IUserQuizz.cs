@@ -10,6 +10,6 @@ namespace MyProjectBackend.Interfaces
 
         List<UserQuizzDto> GetAllUserQuizzes();
 
-        UserQuizzDto GetUserQuizzById(int id);
+        List<UserQuizzDto> GetUserQuizzsById(int id);
     }
 }

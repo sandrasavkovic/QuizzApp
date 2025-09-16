@@ -18,6 +18,7 @@ function Login() {
 
       const data = await login(username, password);
 
+      localStorage.setItem("user", JSON.stringify(data));
       console.log("Login successful:", data);
       localStorage.setItem("token", data.token);  
 
@@ -26,6 +27,7 @@ function Login() {
       const roleClaim = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
       const userId = decodedToken.userId; 
       localStorage.setItem("userId", userId);
+
 
       if (roleClaim === "admin") {
         console.log("Navigating to admin page");

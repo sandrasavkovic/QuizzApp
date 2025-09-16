@@ -12,7 +12,7 @@ function ResultInfo() {
 
   return (
     <div className="result-info">
-      <h2>Rezultati kviza</h2>
+      <h2>Rezultati kviza {quiz.title}</h2>
       <p>Ukupan broj pitanja: {results.totalQuestions}</p>
       <p>Tačnih odgovora: {results.correctAnswersCount}</p>
       <p>Osvojeni bodovi: {results.score}/{results.maxScore}</p>

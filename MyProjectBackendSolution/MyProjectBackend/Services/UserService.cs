@@ -41,7 +41,8 @@ namespace MyProjectBackend.Services
 
         public UserDto GetUserById(int id)
         {
-            throw new NotImplementedException();
+            User user = _dbContext.Users.Where(u => u.Id == id).FirstOrDefault();
+            return _mapper.Map<UserDto>(user);
         }
 
         public UserDto GetUserByUsername(string username)

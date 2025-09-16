@@ -6,6 +6,7 @@ import AdminMainPage from './components/Admin/AdminMainPage';
 import Register from './components/Register/Register';
 import StartQuizPage from './components/Quizz/StartQuiz';
 import ResultInfo from './components/Quizz/ResultInfo';
+import UserResults from './components/UserResults/UserResults';
 function App() {
   return (
     <div className="App">
@@ -16,6 +17,7 @@ function App() {
         <Route path='/main' element={<AdminMainPage />} />
         <Route path='/start-quiz' element={<StartQuizPage/>}/>
         <Route path="/quiz-result" element={<ResultInfo />} />
+        <Route path="/my-results" element={<UserResults/>}/>
 
       </Routes>
     </div>

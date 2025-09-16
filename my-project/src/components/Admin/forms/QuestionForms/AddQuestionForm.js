@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import "./AddQuestionForm.css";
-import { createQuestion } from "../../../services/questionServices";
-import { createTheme } from "../../../services/themeService";
+import { createQuestion } from "../../../../services/questionServices";
+import { createTheme } from "../../../../services/themeService";
+
 function AddQuestionForm({ themes, onClose, onQuestionCreated }) {
   const [selectedThemeId, setSelectedThemeId] = useState(themes.length > 0 ? themes[0].id : "");
   const [text, setText] = useState("");

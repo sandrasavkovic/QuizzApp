@@ -36,10 +36,10 @@ namespace MyProjectBackend.Services
         }
 
 
-        public UserQuizzDto GetUserQuizzById(int id)
+        public List<UserQuizzDto> GetUserQuizzsById(int id)
         {
-            UserQuizz userQuizz = _dbContext.UserQuizzs.Where(q => q.Id == id).FirstOrDefault();
-            return _mapper.Map<UserQuizzDto>(userQuizz);
+            var userQuizzs = _dbContext.UserQuizzs.Where(q => q.UserId == id).ToList();
+            return _mapper.Map<List<UserQuizzDto>>(userQuizzs);
         }
     }
 }

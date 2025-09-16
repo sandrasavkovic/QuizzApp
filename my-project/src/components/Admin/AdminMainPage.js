@@ -2,11 +2,11 @@ import {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminMainPage.css";  
 import { getQuizzes } from "../../services/quizServices";
-import AddQuestionForm from "./forms/AddQuestionForm";
+import AddQuestionForm from "./forms/QuestionForms/AddQuestionForm";
 import { getThemes } from "../../services/themeService";
 import AddThemeForm from "./forms/AddThemeForm";
 import AddQuizForm from "./forms/AddQuizForm";
-
+import { getUser } from "../../services/authServices";
 
 function AdminMainPage() {
     const [quizzes, setQuizess] = useState([]);
@@ -21,6 +21,26 @@ function AdminMainPage() {
     const [themeFilter, setThemeFilter] = useState("");
     const [difficultyFilter, setDifficultyFilter] = useState("");
     const [keywordFilter, setKeywordFilter] = useState("");
+    const [user, setUser] = useState(null);
+    // const user = JSON.parse(localStorage.getItem("user") || "{}");
+    // console.log("USER", user);
+    const [showDropdown, setShowDropdown] = useState(false);
+    
+
+    useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const userData = await getUser(localStorage.getItem("userId"));
+      setUser(userData);
+      console.log(userData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchUser();
+}, []);
+
 
     const fetchQuizzes = async () => {
         try{
@@ -66,23 +86,7 @@ function AdminMainPage() {
       return mathcesTheme && mathesDifficulty && matchesKeyword;
     });
 
-  /*
-    const handleAddQuestionClick = () =>
-    {
-        setShowAddQuestionForm(true);
-    }
-
-    const handleCloseQuestionForm = () => 
-    {
-        setShowAddQuestionForm(false);
-    }
-
-    const handleQuestionCreated = (newQuestion) =>
-    {
-        // mozda refresh liste 
-        setShowAddQuestionForm(false);
-    }
-*/
+ 
      const handleThemeAdded = (newTheme) => {
       setThemes((prev) => [...prev, newTheme]); // dodajemo u listu tema
     //  setThemeForm(false);
@@ -120,10 +124,36 @@ function AdminMainPage() {
         navigate("/start-quiz", {state :  { quizId } })
       }
 
+      const handleLogout = () =>
+      {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");  
+      localStorage.removeItem("userId");
+        navigate("/login");
+      }
  return (
     <div className="admin-container">
       <div className="admin-header">
         <h1>Admin Dashboard</h1>
+       <div className="user-profile">
+  <img
+    src={user?.image || "/default-user.png"}
+    alt={user?.username || "User"}
+    className="user-image"
+    onClick={() => setShowDropdown(prev => !prev)}
+  />
+  {showDropdown && (
+    <div className="user-dropdown">
+      <button className="btn btn-blue" onClick={() => navigate("/my-results")}>
+        My Results
+      </button>
+      <button className="btn btn-red" onClick={handleLogout}>
+        Logout
+      </button>
+    </div>
+  )}
+</div>
+
         <div className="admin-buttons">
           <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
           {/* <button className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button> */}

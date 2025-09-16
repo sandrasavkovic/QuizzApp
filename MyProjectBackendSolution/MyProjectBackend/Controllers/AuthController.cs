@@ -50,7 +50,7 @@ namespace MyProjectBackend.Controllers
             List<Claim> claims = new List<Claim>
             {
                  new Claim(ClaimTypes.Name, user.Username),
-                  new Claim("userId", user.Id.ToString())  
+                  new Claim("userId", user.Id.ToString())
 
             };
 
@@ -115,7 +115,9 @@ namespace MyProjectBackend.Controllers
                     registerDto.ImageFile.CopyTo(stream);
                 }
 
-                imageUrl = $"/images/{fileName}";
+                var baseUrl = $"{Request.Scheme}://{Request.Host}";
+                imageUrl = $"{baseUrl}/images/{fileName}";
+
             }
 
             var userDto = new UserDto
@@ -132,6 +134,12 @@ namespace MyProjectBackend.Controllers
             return Ok(_userService.AddUser(userDto));
         }
 
+
+        [HttpGet("getById/{userId}")]
+        public IActionResult GetUserById(int userId)
+        { 
+            return Ok(_userService.GetUserById(userId));
+        }
 
     }
 }

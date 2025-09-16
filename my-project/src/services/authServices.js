@@ -11,7 +11,6 @@ export async function login(username, password) {
     });
 
     if (!response.ok) {
-      // pokušavamo da dobijemo poruku sa backend-a
       const errorText = await response.text();
       throw new Error(errorText || "Login failed");
     }
@@ -48,3 +47,26 @@ export async function register(formData) {
   }
 }
 
+
+export async function getUser(userId) {
+   try {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/api/auth/getById/${userId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Failed to fetch user");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}
