@@ -43,3 +43,27 @@
 .btn-blue:hover {
   background-color: #2563eb;
 }
+.quiz-progress-chart {
+  width: 500px;
+  height: 300px;
+  margin-bottom: 20px;
+}
+.quiz-progress-chart canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.progress-charts-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 kolone */
+  gap: 20px; /* razmak između grafikona */
+  margin-top: 20px;
+}
+.quiz-progress-chart {
+  width: 450px;   /* zauzima kolonu */
+  height: 250px; /* visina grafika */
+}
+.quiz-progress-chart canvas {
+  width: 100% !important;
+  height: 100% !important;
+}

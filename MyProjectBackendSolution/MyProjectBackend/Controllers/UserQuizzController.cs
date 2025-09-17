@@ -69,6 +69,11 @@ namespace MyProjectBackend.Controllers
             
         }
 
+        [HttpGet("quizz/{quizzId}")]
+        public IActionResult GetQuizzById(int quizzId)
+        {
+            return Ok(_userquizzservice.GetQuizzById(quizzId));
 
+        }
     }
 }

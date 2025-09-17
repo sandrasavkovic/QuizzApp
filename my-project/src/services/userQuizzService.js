@@ -91,3 +91,25 @@ export async function getQuestionsForQuizz(quizzId) {
     throw err;
   }
 }
+
+
+export async function getQuizzById(quizzId) {
+  try {
+
+    const response = await fetch(`${API_URL}/api/userQuizz/quizz/${quizzId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Failed to fetch quizz");
+    }
+
+    return await response.json();
+  } catch (err) {
+    throw err;
+  }
+}

@@ -18,5 +18,7 @@ namespace MyProjectBackend.Interfaces
 
         List<QuizzQuestionsDto> GetQuestionsForQuizz(int quizzId);
 
+        QuizzDto GetQuizzById(int quizzId);
+
     }
 }

@@ -75,5 +75,11 @@ namespace MyProjectBackend.Services
 
             return _mapper.Map<List<QuizzQuestionsDto>>(quizz.Questions);
         }
+
+        public QuizzDto GetQuizzById(int quizzId)
+        { 
+            var quizz = _dbContext.Quizzes.Where(q=>q.Id == quizzId).FirstOrDefault();
+            return _mapper.Map<QuizzDto>(quizz);
+        }
     }
 }

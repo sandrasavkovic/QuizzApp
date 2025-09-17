@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { getUserResults } from "../../services/userQuizzService";
 import { useNavigate } from "react-router-dom";
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
 import "./UserResults.css";
 import { getQuizById } from "../../services/quizServices";
+
+ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
+
 
 function UserResults() {
   const [results, setResults] = useState([]);
@@ -27,6 +32,13 @@ function UserResults() {
  
   if (loading) return <p>Loading...</p>;
 
+  // grupisanje rez po kvizu -> za graff
+  const resultsByQuiz = results.reduce((acc, r) => {
+    if(!acc[r.quizzId]) acc[r.quizzId] = [];
+    acc[r.quizzId].push(r);
+    return acc;
+  }, {})
+
   return (
     <div className="results-container">
       <h2>Moji rezultati</h2>
@@ -36,7 +48,7 @@ function UserResults() {
         <table className="results-table">
           <thead>
             <tr>
-              <th>Naziv kviza</th>
+              <th></th>
               <th>Datum</th>
               <th>Poeni</th>
               <th>Procenat</th>
@@ -47,7 +59,7 @@ function UserResults() {
           <tbody>
             {results.map((r, i) => (
               <tr key={i}>
-                <td>{r.quizzTitle || `Kviz #${r.Title}`}</td>
+                <td>{r.quizzTitle || `Pokusaj #${r.id}`}</td>
                 <td>{new Date(r.attemptDate).toLocaleString()}</td>
                 <td>{r.score}</td>
                 <td>{r.percentage}%</td>
@@ -66,7 +78,41 @@ function UserResults() {
             ))}
           </tbody>
         </table>
+
+        
       )}
+      {/* Grafikon napretka po kvizovima */}
+      <div className="progress-charts-container">
+
+{Object.entries(resultsByQuiz)
+.filter(([quizzId, quizResults]) => quizResults.length > 1)
+.map(([quizzId, quizResults]) => {
+  const sortedResults = quizResults.sort(
+    (a, b) => new Date(a.attemptDate) - new Date(b.attemptDate)
+  );
+
+  const data = {
+    labels: sortedResults.map((r, idx) => `Pokusaj ${idx + 1}`),
+    datasets: [
+      {
+        label: quizResults[0].quizzTitle || `Kviz #${quizzId}`,
+        data: sortedResults.map(r => r.percentage),
+        borderColor: "blue",
+        backgroundColor: "lightblue",
+        tension: 0.3,
+      },
+    ],
+  };
+
+  return (
+    <div key={quizzId} className="quiz-progress-chart">
+      <h3>{quizResults[0].quizzTitle || `Kviz #${quizzId}`}</h3>
+      <Line data={data} />
+    </div>
+  );
+})}
+</div>
+
     </div>
   );
 }

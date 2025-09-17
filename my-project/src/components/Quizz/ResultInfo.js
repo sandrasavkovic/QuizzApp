@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getQuizResultById, getQuestionsForQuizz } from "../../services/userQuizzService";
+import { getQuizResultById, getQuestionsForQuizz, getQuizzById } from "../../services/userQuizzService";
+
 import "./ResultInfo.css";
 
 function ResultInfo() {
@@ -8,7 +9,7 @@ function ResultInfo() {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [questions, setQuestions] = useState([]);
-
+  const [quizz, setQuizz] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -16,6 +17,10 @@ function ResultInfo() {
         const result = await getQuizResultById(id);
         console.log("Rezultati: ", result);
         setData(result);
+
+        const quizRes = await getQuizzById(result.quizzId);
+        setQuizz(quizRes);
+        console.log(quizRes);
 
         // Dobavljanje pitanja kviza
         const questionsList = await getQuestionsForQuizz(result.quizzId);
@@ -44,7 +49,7 @@ function ResultInfo() {
 
   return (
     <div className="result-info">
-      <h2>Rezultati kviza (ID: {quizzId})</h2>
+      <h2>Rezultati kviza (ID: {quizz.title})</h2>
       <p>Ukupan broj pitanja: {totalQuestionsCount}</p>
       <p>Tačnih odgovora: {correctAnswersCount}</p>
       <p>Osvojeni bodovi: {score}/{maxScore}</p>
