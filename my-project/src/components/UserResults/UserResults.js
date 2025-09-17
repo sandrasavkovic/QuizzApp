@@ -56,7 +56,7 @@ function UserResults() {
                   <button
                     className="btn btn-blue"
                     onClick={() =>
-                      navigate("/result-details", { state: { result: r } })
+                       navigate(`/quiz-result/${r.id}`)
                     }
                   >
                     Pregled

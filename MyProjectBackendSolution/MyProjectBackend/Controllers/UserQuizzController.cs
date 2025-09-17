@@ -29,7 +29,7 @@ namespace MyProjectBackend.Controllers
                 QuizzId = userResultDto.QuizzId,
                 TotalQuestionsCount = userResultDto.TotalQuestionsCount,
                 CorrectAnswersCount = userResultDto.CorrectAnswersCount,
-                AttempDate = userResultDto.AttemptDate,
+                AttemptDate = userResultDto.AttemptDate,
                 Score = userResultDto.Score,
                 Percentage = userResultDto.Percentage,
                 TimeTaken = userResultDto.TimeTaken,

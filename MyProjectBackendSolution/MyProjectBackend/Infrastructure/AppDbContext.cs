@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyProjectBackend.Models;
 
 namespace MyProjectBackend.Infrastructure
 {
@@ -25,6 +26,12 @@ namespace MyProjectBackend.Infrastructure
             base.OnModelCreating(modelBuilder);
             //Kazemo mu da pronadje sve konfiguracije u Assembliju i da ih primeni nad bazom
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+            modelBuilder.Entity<Question>()
+             .HasOne(q => q.Theme)
+             .WithMany(t => t.Questions)
+             .HasForeignKey(q => q.ThemeId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

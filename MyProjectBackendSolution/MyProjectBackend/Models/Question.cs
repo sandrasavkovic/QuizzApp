@@ -14,18 +14,6 @@ namespace MyProjectBackend.Models
         public int Id { get; set; }
 
         public string Text { get; set; }
-
-
-        
-        // FK na kviz
-        /*
-        public int QuizzId { get; set; }
-        [ForeignKey("QuizzId")]
-        public Quizz Quizz { get; set; }
-        
-        **/
-
-        // fk na temu
         public int ThemeId { get; set; }
 
 

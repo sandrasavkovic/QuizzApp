@@ -70,7 +70,7 @@ namespace MyProjectBackend.Services
         public DisplayQuizzDto GetQuizzById(int id)
         {
             var quizz = _dbContext.Quizzes
-                      .Include(q => q.Themes)
+                 //     .Include(q => q.Themes)
                       //.ThenInclude(t => t.Questions)
                       .Include(q => q.Questions)
                       .ThenInclude(q => q.Options)

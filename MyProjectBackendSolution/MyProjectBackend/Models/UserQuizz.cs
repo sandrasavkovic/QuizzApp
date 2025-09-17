@@ -15,7 +15,7 @@ namespace MyProjectBackend.Models
         [ForeignKey("QuizzId")]
         public Quizz Quizz { get; set; }
 
-        public DateTime AttempDate{ get; set; }
+        public DateTime AttemptDate{ get; set; }
         
         public int Score{get; set; }
         

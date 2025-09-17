@@ -125,7 +125,12 @@ namespace MyProjectBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("QuizzId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("QuizzId");
 
                     b.ToTable("Themes");
                 });
@@ -196,7 +201,7 @@ namespace MyProjectBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("AttempDate")
+                    b.Property<DateTime>("AttemptDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CorrectAnswersCount")
@@ -229,21 +234,6 @@ namespace MyProjectBackend.Migrations
                     b.ToTable("UserQuizzs");
                 });
 
-            modelBuilder.Entity("QuizzTheme", b =>
-                {
-                    b.Property<int>("QuizzesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ThemesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("QuizzesId", "ThemesId");
-
-                    b.HasIndex("ThemesId");
-
-                    b.ToTable("QuizzTheme");
-                });
-
             modelBuilder.Entity("MyProjectBackend.Models.Option", b =>
                 {
                     b.HasOne("MyProjectBackend.Models.Question", "Question")
@@ -264,10 +254,17 @@ namespace MyProjectBackend.Migrations
                     b.HasOne("MyProjectBackend.Models.Theme", "Theme")
                         .WithMany("Questions")
                         .HasForeignKey("ThemeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Theme");
+                });
+
+            modelBuilder.Entity("MyProjectBackend.Models.Theme", b =>
+                {
+                    b.HasOne("MyProjectBackend.Models.Quizz", null)
+                        .WithMany("Themes")
+                        .HasForeignKey("QuizzId");
                 });
 
             modelBuilder.Entity("MyProjectBackend.Models.UserAnswer", b =>
@@ -308,21 +305,6 @@ namespace MyProjectBackend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QuizzTheme", b =>
-                {
-                    b.HasOne("MyProjectBackend.Models.Quizz", null)
-                        .WithMany()
-                        .HasForeignKey("QuizzesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MyProjectBackend.Models.Theme", null)
-                        .WithMany()
-                        .HasForeignKey("ThemesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MyProjectBackend.Models.Question", b =>
                 {
                     b.Navigation("Options");
@@ -331,6 +313,8 @@ namespace MyProjectBackend.Migrations
             modelBuilder.Entity("MyProjectBackend.Models.Quizz", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("Themes");
                 });
 
             modelBuilder.Entity("MyProjectBackend.Models.Theme", b =>

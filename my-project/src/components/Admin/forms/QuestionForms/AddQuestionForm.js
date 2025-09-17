@@ -34,6 +34,15 @@ useEffect(() => {
     newOptions[index][field] = value;
     setOptions(newOptions);
   };
+  
+  const handleSingleChoice = (selectedIdx) => {
+  const newOptions = options.map((opt, idx) => ({
+    ...opt,
+    isCorrect: idx === selectedIdx  // samo selektovana opcija ostaje true
+  }));
+  setOptions(newOptions);
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,12 +101,20 @@ useEffect(() => {
                     placeholder={`Option ${idx + 1}`} 
                   />
                   <label>
-                    Correct:
-                    <input 
-                      type="checkbox" 
-                      checked={option.isCorrect} 
-                      onChange={e => handleOptionChange(idx, "isCorrect", e.target.checked)} 
-                    />
+                    Correct:{type === "SingleChoice" ? (
+                   <input
+                   type="radio"
+                    name="singleCorrect"  // sve opcije istog pitanja imaju isti name
+                    checked={option.isCorrect}
+                   onChange={() => handleSingleChoice(idx)}
+                 />
+              ) : (
+               <input
+                  type="checkbox"
+                 checked={option.isCorrect}
+                 onChange={e => handleOptionChange(idx, "isCorrect", e.target.checked)}
+             />
+            )}
                   </label>
                 </div>
               ))}

@@ -14,7 +14,7 @@
 
         public string Title { get; set; }
 
-        public string Description { get; set; } 
+        public string Description { get; set; }
 
         // ima teme
         public List<Theme> Themes { get; set; } = new();
@@ -26,7 +26,7 @@
 
         public int MaxScore { get; set; }
 
-        public DifficultyLevel Difficulty {get; set; }
+        public DifficultyLevel Difficulty { get; set; }
 
     }
 }
