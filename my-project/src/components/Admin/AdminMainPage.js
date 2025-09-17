@@ -25,7 +25,8 @@ function AdminMainPage() {
     // const user = JSON.parse(localStorage.getItem("user") || "{}");
     // console.log("USER", user);
     const [showDropdown, setShowDropdown] = useState(false);
-    
+
+    const roleClaim = localStorage.getItem("roleClaim");
 
     useEffect(() => {
   const fetchUser = async () => {
@@ -154,6 +155,7 @@ function AdminMainPage() {
   )}
 </div>
 
+        {roleClaim === "admin" && (
         <div className="admin-buttons">
           <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
           {/* <button className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button> */}
@@ -177,7 +179,7 @@ function AdminMainPage() {
                 onClose={handleCloseQuizzForm}/>
             )}
         </div>
-      </div>
+         )} </div>
 {/* 
         filter */}
         

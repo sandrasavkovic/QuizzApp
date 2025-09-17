@@ -25,6 +25,7 @@ function Login() {
       const decodedToken = jwtDecode(data.token);
       console.log("Decoded token:", decodedToken);
       const roleClaim = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      localStorage.setItem("roleClaim", roleClaim);
       const userId = decodedToken.userId; 
       localStorage.setItem("userId", userId);
 
