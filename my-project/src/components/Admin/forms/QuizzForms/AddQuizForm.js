@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getThemes } from "../../../services/themeService";
-import { createQuiz } from "../../../services/quizServices";
+import { getThemes } from "../../../../services/themeService";
+import { createQuiz } from "../../../../services/quizServices";
 import "./AddQuizzForm.css";
-import AddQuestionForm from "./QuestionForms/AddQuestionForm";
+import AddQuestionForm from ".././QuestionForms/AddQuestionForm";
 
 export default function AddQuizForm({ onQuizAdded, onClose }) {
   const [title, setTitle] = useState("");

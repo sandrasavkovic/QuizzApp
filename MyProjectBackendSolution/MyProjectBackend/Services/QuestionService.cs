@@ -47,7 +47,25 @@ namespace MyProjectBackend.Services
 
         public QuestionDto UpdateQuestion(int id, QuestionDto updatedQuestion)
         {
-            throw new NotImplementedException();
+            Question question = _dbContext.Questions.Find(id);
+            question.Text = updatedQuestion.Text;
+            Theme theme = _dbContext.Themes.Where(t=>t.Id == updatedQuestion.ThemeId).FirstOrDefault();
+            question.Theme = theme;
+            question.Options = _mapper.Map<List<Option>>(updatedQuestion.Options);
+            question.Points = updatedQuestion.Points;
+            question.Type = updatedQuestion.Type;
+            question.CorrectAnswer = updatedQuestion.CorrectAnswer;
+
+            return _mapper.Map<QuestionDto>(question);
         }
+        /*
+           public ThemeDto UpdateTheme(int id, ThemeDto updatedTheme)
+        {
+            Theme theme = _dbContext.Themes.Find(id);
+            theme.Name = updatedTheme.Name;
+            _dbContext.SaveChanges();
+            return _mapper.Map<ThemeDto>(theme);
+        }
+         */
     }
 }

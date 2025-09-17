@@ -27,7 +27,13 @@ namespace MyProjectBackend.Services
 
         public bool DeleteTheme(int id)
         {
-            throw new NotImplementedException();
+            
+            Theme theme = _dbContext.Themes.Find(id);
+
+            _dbContext.Themes.Remove(theme);
+
+            _dbContext.SaveChanges(); 
+            return true;
         }
 
         public List<ThemeDto> GetAllThemes()
@@ -44,7 +50,14 @@ namespace MyProjectBackend.Services
 
         public ThemeDto UpdateTheme(int id, ThemeDto updatedTheme)
         {
-            throw new NotImplementedException();
+            Theme theme = _dbContext.Themes.Find(id);
+            theme.Name = updatedTheme.Name;
+            _dbContext.SaveChanges();
+            return _mapper.Map<ThemeDto>(theme);
         }
+
+
+    
+
     }
 }

@@ -7,6 +7,8 @@ import Register from './components/Register/Register';
 import StartQuizPage from './components/Quizz/StartQuiz';
 import ResultInfo from './components/Quizz/ResultInfo';
 import UserResults from './components/UserResults/UserResults';
+import AdminThemesPage from './components/Admin/Themes/AdminThemes';
+
 function App() {
   return (
     <div className="App">
@@ -18,6 +20,9 @@ function App() {
         <Route path='/start-quiz' element={<StartQuizPage/>}/>
         <Route path="/quiz-result/:id" element={<ResultInfo />} />
         <Route path="/my-results" element={<UserResults/>}/>
+        <Route path="/admin/themes" element={<AdminThemesPage />} />
+        {/* //<Route path="/admin/questions" element={<AdminQuestionsPage />} /> */}
+
 
       </Routes>
     </div>

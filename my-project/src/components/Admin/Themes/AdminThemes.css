@@ -1,0 +1,76 @@
+/* AdminThemes.css */
+
+.admin-themes-page {
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.admin-themes-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #1f2937; /* tamno siva */
+}
+
+.admin-themes-page button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 0.5rem;
+}
+
+.admin-themes-page button:hover {
+  opacity: 0.9;
+}
+
+.admin-themes-page button.btn-blue {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.admin-themes-page button.btn-gray {
+  background-color: #9ca3af;
+  color: white;
+}
+
+.admin-themes-page ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.admin-themes-page li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #f3f4f6;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: transform 0.1s;
+}
+
+.admin-themes-page li:hover {
+  transform: translateY(-2px);
+}
+
+.admin-themes-page li button {
+  margin-left: 1rem;
+}
+
+/* Overlay za forme */
+.admin-themes-page .add-theme-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(31, 41, 55, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}

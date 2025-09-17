@@ -35,5 +35,19 @@ namespace MyProjectBackend.Controllers
             return Ok(theme); // Theme, a ne theme dto
         }
 
+
+
+        [HttpPut("update/{id}")]
+        public IActionResult UpdateTheme(int id, [FromBody] ThemeDto theme)
+        {
+            return Ok(_themeService.UpdateTheme(id, theme));
+        }
+
+
+        [HttpDelete("delete/{id}")]
+        public IActionResult DeleteTheme(int id)
+        {
+            return Ok(_themeService.DeleteTheme(id));
+        }
     }
 }

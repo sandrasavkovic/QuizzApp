@@ -4,8 +4,8 @@ import "./AdminMainPage.css";
 import { getQuizzes } from "../../services/quizServices";
 import AddQuestionForm from "./forms/QuestionForms/AddQuestionForm";
 import { getThemes } from "../../services/themeService";
-import AddThemeForm from "./forms/AddThemeForm";
-import AddQuizForm from "./forms/AddQuizForm";
+import AddThemeForm from "./forms/ThemeForms/AddThemeForm";
+import AddQuizForm from "./forms/QuizzForms/AddQuizForm";
 import { getUser } from "../../services/authServices";
 
 function AdminMainPage() {
@@ -22,8 +22,7 @@ function AdminMainPage() {
     const [difficultyFilter, setDifficultyFilter] = useState("");
     const [keywordFilter, setKeywordFilter] = useState("");
     const [user, setUser] = useState(null);
-    // const user = JSON.parse(localStorage.getItem("user") || "{}");
-    // console.log("USER", user);
+   
     const [showDropdown, setShowDropdown] = useState(false);
 
     const roleClaim = localStorage.getItem("roleClaim");
@@ -157,17 +156,9 @@ function AdminMainPage() {
 
         {roleClaim === "admin" && (
         <div className="admin-buttons">
-          <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
-          {/* <button className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button> */}
+          {/* <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
           <button className="btn btn-green" onClick={openThemeForm}>Add Theme</button>
-{/*            
-            {showAddQuestionForm && (
-                <AddQuestionForm 
-                    themes={themes}
-                    onClose = {handleCloseQuestionForm}
-                    onQuestionCreated={handleQuestionCreated}
-                />
-                )} */}
+
             {themeForm && (
               <AddThemeForm
                 onThemeAdded={handleThemeAdded}
@@ -177,13 +168,14 @@ function AdminMainPage() {
               <AddQuizForm 
                 onQuizAdded={handleQuizzAdded}
                 onClose={handleCloseQuizzForm}/>
-            )}
+            )} */}
+              <button className="btn btn-blue" onClick={() => navigate("/admin/themes")}>Themes</button>
+              <button className="btn btn-green" onClick={() => navigate("/admin/questions")}>Questions</button>
         </div>
-         )} </div>
-{/* 
-        filter */}
-        
-      {/* Filter UI */}
+         )}
+   </div>
+
+
       <div className="filters flex gap-4 mb-4">
         <input
           type="text"
