@@ -21,8 +21,8 @@ namespace MyProjectBackend.Interfaces
         bool DeleteQuizz(int id);
         public List<Theme> GetThemesByIds(List<int> ids);
         public int GetMaxScore(List<QuestionDto> questions);
-        
 
+        List<QuestionDto> GetQuestionsForIds(List<int> ids);
 
 
     }

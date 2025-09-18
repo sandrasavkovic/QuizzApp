@@ -87,20 +87,8 @@ function AdminMainPage() {
     });
 
  
-     const handleThemeAdded = (newTheme) => {
-      setThemes((prev) => [...prev, newTheme]); // dodajemo u listu tema
-    //  setThemeForm(false);
-    };
 
-      const openThemeForm = () =>
-      {
-        setThemeForm(true);
-      }
-      const handleCloseThemeForm = () =>
-      {
-        setThemeForm(false);
-      }
-
+   
       const openQuizzForm = () =>
       {
         setQuizzForm(true);
@@ -156,6 +144,12 @@ function AdminMainPage() {
 
         {roleClaim === "admin" && (
         <div className="admin-buttons">
+          <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
+          {quizzForm && (
+              <AddQuizForm 
+                onQuizAdded={handleQuizzAdded}
+                onClose={handleCloseQuizzForm}/>
+            )}
           {/* <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
           <button className="btn btn-green" onClick={openThemeForm}>Add Theme</button>
 

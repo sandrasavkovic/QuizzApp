@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MyProjectBackend.Dto.Question;
 using MyProjectBackend.Infrastructure;
 using MyProjectBackend.Interfaces;
@@ -30,14 +31,49 @@ namespace MyProjectBackend.Services
          // return question;
         }
 
+
+        // pitanje cemo brisati samo ako se ne sadrzi ni u jednom vec radjenom kvizu
+        // ideja : uzmi kvizove koji se nalaze u UserQuizzs (po id-u), to su radjeni kvizovi
+        // prodji kroz te kvizove i ukoliko oni imaju pitanje sa id-em prosledjenom delete funkciji, ne mozes ih obrisati
         public bool DeleteQuestion(int id)
         {
-            throw new NotImplementedException();
+            // ucitaj sve kvizove koje su korisnici radili, zajedno sa njihovim pitanjima
+            var quizzes = _dbContext.UserQuizzs
+                .Select(uq => uq.QuizzId)
+                .Distinct()
+                .ToList();
+
+            var usedQuizzes = _dbContext.Quizzes
+                .Where(q => quizzes.Contains(q.Id))
+                .Include(q => q.Questions) // obavezno!
+                .ToList();
+
+            // Proveri da li pitanje postoji u nekom od tih kvizova
+            bool existsInQuizzes = usedQuizzes
+                .Any(q => q.Questions.Any(qq => qq.Id == id));
+
+            if (existsInQuizzes)
+            {
+                return false; // ne dozvoli brisanje
+            }
+
+            var question = _dbContext.Questions.FirstOrDefault(q => q.Id == id);
+            if (question == null) return false;
+
+            _dbContext.Questions.Remove(question);
+            _dbContext.SaveChanges();
+            return true;
         }
 
-        public List<QuestionDto> GetAllQuestions()
+
+
+        public List<QuizzQuestionsDto> GetAllQuestions()
         {
-            throw new NotImplementedException();
+            var questions = _dbContext.Questions
+              .Include(q => q.Options)   // uključujemo Options
+              .Include(q => q.Theme)     // uključujemo Theme
+                .ToList();
+            return _mapper.Map<List<QuizzQuestionsDto>>(questions);
         }
 
         public QuestionDto GetQuestionById(int id)
@@ -45,7 +81,7 @@ namespace MyProjectBackend.Services
             throw new NotImplementedException();
         }
 
-        public QuestionDto UpdateQuestion(int id, QuestionDto updatedQuestion)
+        public QuizzQuestionsDto UpdateQuestion(int id, QuizzQuestionsDto updatedQuestion)
         {
             Question question = _dbContext.Questions.Find(id);
             question.Text = updatedQuestion.Text;
@@ -55,8 +91,9 @@ namespace MyProjectBackend.Services
             question.Points = updatedQuestion.Points;
             question.Type = updatedQuestion.Type;
             question.CorrectAnswer = updatedQuestion.CorrectAnswer;
+            _dbContext.SaveChanges();
 
-            return _mapper.Map<QuestionDto>(question);
+            return _mapper.Map<QuizzQuestionsDto>(question);
         }
         /*
            public ThemeDto UpdateTheme(int id, ThemeDto updatedTheme)

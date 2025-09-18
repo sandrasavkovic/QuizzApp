@@ -25,5 +25,25 @@ namespace MyProjectBackend.Controllers
             var createdQuestion = _questionService.AddQuestion(questionDto);
             return Ok(createdQuestion);
         }
+
+
+        [HttpGet("questions")]
+        public IActionResult GetQuestions()
+        {
+           return Ok(_questionService.GetAllQuestions());
+        }
+
+        [HttpPut("update/{id}")]
+        public IActionResult UpdateQuestion(int id, [FromBody] QuizzQuestionsDto questionDto)
+        {
+            return Ok(_questionService.UpdateQuestion(id, questionDto));
+        }
+
+
+        [HttpDelete("delete/{id}")]
+        public IActionResult DeleteQuestion(int id)
+        {
+            return Ok(_questionService.DeleteQuestion(id));
+        }
     }
 }

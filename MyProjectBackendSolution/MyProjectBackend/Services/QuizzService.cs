@@ -97,11 +97,15 @@ namespace MyProjectBackend.Services
             return score;
         }
 
-  
 
-        
-     
 
+
+
+        public List<QuestionDto> GetQuestionsForIds(List<int> ids)
+        {
+           var questions =  _dbContext.Questions.Where(q => ids.Contains(q.Id));
+            return _mapper.Map<List<QuestionDto>>(questions);
+        }
 
     }
 }
