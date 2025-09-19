@@ -20,9 +20,9 @@ namespace MyProjectBackend.Dto.Quizz
        public List<int> ThemeIds { get; set; } = new();
 
         // nema temu vec samo id-eve teme
-       public List<QuestionDto> Questions { get; set; } = new();
+      // public List<QuestionDto> Questions { get; set; } = new();
     
         // kreiracemo questions odvojeno  a u kvizu cemo ih samo dodavti, znaci samo idevi
-       // public List<int> Questions { get; set;  } = new();
+        public List<int> QuestionIds { get; set;  } = new();
     }
 }

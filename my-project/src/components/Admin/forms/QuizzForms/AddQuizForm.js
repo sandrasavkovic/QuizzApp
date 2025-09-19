@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getThemes } from "../../../../services/themeService";
 import { createQuiz } from "../../../../services/quizServices";
+import { getQuestions } from "../../../../services/questionServices";
 import "./AddQuizzForm.css";
 import AddQuestionForm from ".././QuestionForms/AddQuestionForm";
 
@@ -13,6 +14,7 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
   const [description, setDescription] = useState("");
   const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [selectedQuestions, setSelectedQuestions] = useState([]);
 
   useEffect(() => {
     async function fetchThemes() {
@@ -22,6 +24,16 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
       } catch (err) {
         console.error("Failed to fetch themes", err);
       }
+
+      try{
+       const questionsData = await getQuestions();
+        setQuestions(questionsData);
+        console.log(questions);
+      }
+      catch(err)
+      {
+        console.error("Failed to fetch questions", err);
+      }
     }
     fetchThemes();
   }, []);
@@ -29,10 +41,22 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    /*
     // uzimam ideve tema iz questions (bez dupl)
     const themeIdsFromQuestions = [
   ...new Set(questions.map(q => Number(q.themeId))) 
     ];
+    */
+     // themeIds na osnovu odabranih pitanja
+
+    const themeIdsFromQuestions = [
+      ...new Set(
+        selectedQuestions.map((qId) => {
+          const q = questions.find((qq) => qq.id === qId);
+          return q?.themeId;
+        })
+      ),
+    ].filter(Boolean);
 
     const formattedQuestions = questions.map(q => ({
   ...q,
@@ -43,6 +67,7 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
     try {
       console.log("OVO su teme: ", themeIdsFromQuestions);
       console.log("OVO SU PITANJA", questions);
+      console.log("Selektovani idevi : ", selectedQuestions);
       const quizData = {
         title,
         description,
@@ -50,7 +75,8 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
         themeIds:themeIdsFromQuestions,
         timeLimit,
         difficulty,
-          questions: questions
+          //questions: questions
+        questionIds:selectedQuestions
 
       };
 
@@ -84,6 +110,13 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
         setQuestions((prev) => [...prev, newQuestion]);
         setShowAddQuestionForm(false);
     }
+
+      const toggleQuestion = (id) => {
+        console.log(id);
+    setSelectedQuestions((prev) =>
+      prev.includes(id) ? prev.filter((q) => q !== id) : [...prev, id]
+    );
+  };
 
   return (
     <div className="add-quiz-overlay">
@@ -125,14 +158,33 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
             </label>
         ))}
         </div> */}
-        <button className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button>
+        <button type="button" className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button>
+
 
         {showAddQuestionForm && (
+          /*
                 <AddQuestionForm 
                     themes={themes}
                     onClose = {handleCloseQuestionForm}
                     onQuestionCreated={handleQuestionCreated}
                 />
+                */
+               <>
+                <label>Select Questions:</label>
+        <div className="questions-list">
+          {questions.map((q) => (
+            <label key={q.id} className="question-option">
+              <input
+                type="checkbox"
+                value={q.id}
+                checked={selectedQuestions.includes(q.id)}
+                onChange={() => toggleQuestion(q.id)}
+              />
+              {q.text}
+            </label>
+          ))}
+        </div>
+        </>
                 )}
 
 

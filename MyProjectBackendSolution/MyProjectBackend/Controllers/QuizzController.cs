@@ -40,7 +40,10 @@ namespace MyProjectBackend.Controllers
         {
             // mozda za teme prosledi listu questions i dodaj sve teme na osnovu id-eva tema u tim questionima
             List<Theme> themes = _quizzService.GetThemesByIds(createdQuizz.ThemeIds); 
-            int maxScore = _quizzService.GetMaxScore(createdQuizz.Questions);
+
+            List<QuestionDto> questions = _quizzService.GetQuestionsForIds(createdQuizz.QuestionIds);
+            int maxScore = _quizzService.GetMaxScore(questions);
+
 
             var quiz = new QuizzDto
             {
@@ -49,7 +52,7 @@ namespace MyProjectBackend.Controllers
                 TimeLimit = createdQuizz.TimeLimit,
                 MaxScore = maxScore,
                 Difficulty = createdQuizz.Difficulty,
-                Questions = createdQuizz.Questions,
+                Questions = questions,
                 //Questions = createdQuizz.Questions.Select(q => new QuestionDto
                 //{
                 //    Text = q.Text,

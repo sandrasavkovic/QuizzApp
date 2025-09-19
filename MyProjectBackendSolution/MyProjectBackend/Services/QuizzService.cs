@@ -103,7 +103,12 @@ namespace MyProjectBackend.Services
 
         public List<QuestionDto> GetQuestionsForIds(List<int> ids)
         {
-           var questions =  _dbContext.Questions.Where(q => ids.Contains(q.Id));
+            //  var questions =  _dbContext.Questions.Where(q => ids.Contains(q.Id));
+            var questions = _dbContext.Questions
+      .Where(q => ids.Contains(q.Id))
+      .Include(q => q.Options) 
+      .ToList();
+            // ako bude trebalo i za themes
             return _mapper.Map<List<QuestionDto>>(questions);
         }
 
