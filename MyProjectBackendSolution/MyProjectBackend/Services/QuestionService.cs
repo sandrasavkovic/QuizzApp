@@ -23,8 +23,10 @@ namespace MyProjectBackend.Services
         {
 
             Question question = _mapper.Map<Question>(newQuestion);
-            //Theme theme = _dbContext.Themes.Where(t=>t.Id == question.ThemeId).FirstOrDefault();
-           // question.Theme = theme;
+            //?? nzm je l trebaju ove 2 linije za temu
+            Theme theme = _dbContext.Themes.Where(t=>t.Id == question.ThemeId).FirstOrDefault();
+            question.Theme = theme;
+            //
             _dbContext.Questions.Add(question);
             _dbContext.SaveChanges();
             return _mapper.Map<QuestionDto>(question);

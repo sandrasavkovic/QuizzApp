@@ -22,14 +22,22 @@ namespace MyProjectBackend.Services
         public QuizzDto AddQuizz(QuizzDto newQuizz)
         {
             Quizz quizz = _mapper.Map<Quizz>(newQuizz);
-            var themes = GetThemesByIds(newQuizz.Themes.Select(t => t.Id).ToList());
-            quizz.Themes = themes;
+            // var themes = GetThemesByIds(newQuizz.Themes.Select(t => t.Id).ToList());
+            // quizz.Themes = themes;
             // pri dodavanju pitanja saljemo id-eve tema, pa ovde samo zapravo
             // pitanju dajemo objekat Theme na osnovu themeId
-            foreach (var question in quizz.Questions)
-            {
-                question.Theme = _dbContext.Themes.FirstOrDefault(t => t.Id == question.ThemeId);
-            }
+            //foreach (var question in quizz.Questions)
+            //{
+            //    question.Theme = _dbContext.Themes.FirstOrDefault(t => t.Id == question.ThemeId);
+            //}
+            quizz.Questions = _dbContext.Questions
+            .Where(q => newQuizz.QuestionIds.Contains(q.Id))
+            .ToList();
+
+            // Poveži teme
+            quizz.Themes = _dbContext.Themes
+                .Where(t => newQuizz.ThemeIds.Contains(t.Id))
+                .ToList();
 
             _dbContext.Quizzes.Add(quizz);
             _dbContext.SaveChanges();

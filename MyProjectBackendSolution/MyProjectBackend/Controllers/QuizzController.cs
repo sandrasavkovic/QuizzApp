@@ -52,7 +52,7 @@ namespace MyProjectBackend.Controllers
                 TimeLimit = createdQuizz.TimeLimit,
                 MaxScore = maxScore,
                 Difficulty = createdQuizz.Difficulty,
-                Questions = questions,
+                QuestionIds = createdQuizz.QuestionIds,
                 //Questions = createdQuizz.Questions.Select(q => new QuestionDto
                 //{
                 //    Text = q.Text,
@@ -66,11 +66,7 @@ namespace MyProjectBackend.Controllers
                 //        IsCorrect = o.IsCorrect
                 //    }).ToList()
                 //}).ToList(),
-                Themes = themes.Select(t => new ThemeDto
-                {
-                    Id = t.Id,
-                    Name = t.Name
-                }).ToList()
+                ThemeIds = createdQuizz.ThemeIds,
             };
             QuizzDto newQuizz = _quizzService.AddQuizz(quiz);
             return Ok(newQuizz);

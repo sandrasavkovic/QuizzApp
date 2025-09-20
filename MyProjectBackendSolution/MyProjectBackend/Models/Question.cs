@@ -28,6 +28,8 @@ namespace MyProjectBackend.Models
         // opcije
         public List<Option> Options { get; set; } = new();
 
+        public List<Quizz> Quizzes { get; set; } = new();   
+
         public string? CorrectAnswer { get; set; } // za FillInTheBlank ili true/false
     }
 }

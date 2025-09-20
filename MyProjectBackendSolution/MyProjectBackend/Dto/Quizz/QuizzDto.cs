@@ -20,8 +20,11 @@ namespace MyProjectBackend.Dto.Quizz
         //  public List<MyProjectBackend.Models.Theme> Themes { get; set; } = new();
 
         //public List<MyProjectBackend.Models.Question> Questions { get; set; } = new();
-        public List<ThemeDto> Themes { get; set; } = new();
+   //     public List<ThemeDto> Themes { get; set; } = new();
 
-        public List<QuestionDto> Questions {get; set; } = new();
+        // public List<QuestionDto> Questions {get; set; } = new();
+        public List<int> QuestionIds { get; set; }
+        public List<int> ThemeIds { get; set; }
+
     }
 }
