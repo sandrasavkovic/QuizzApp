@@ -9,5 +9,7 @@
 
         public List<Question> Questions { get; set; } = new();
 
+        public List<Quizz> Quizzes { get; set; } = new();
+
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyProjectBackend.Infrastructure;
 
@@ -11,9 +12,11 @@ using MyProjectBackend.Infrastructure;
 namespace MyProjectBackend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250920161504_brisanjeKviza")]
+    partial class brisanjeKviza
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,7 +123,12 @@ namespace MyProjectBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("QuizzId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("QuizzId");
 
                     b.ToTable("Themes");
                 });
@@ -239,21 +247,6 @@ namespace MyProjectBackend.Migrations
                     b.ToTable("QuestionQuizz");
                 });
 
-            modelBuilder.Entity("QuizzTheme", b =>
-                {
-                    b.Property<int>("QuizzesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ThemesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("QuizzesId", "ThemesId");
-
-                    b.HasIndex("ThemesId");
-
-                    b.ToTable("QuizzTheme");
-                });
-
             modelBuilder.Entity("MyProjectBackend.Models.Option", b =>
                 {
                     b.HasOne("MyProjectBackend.Models.Question", "Question")
@@ -274,6 +267,13 @@ namespace MyProjectBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("Theme");
+                });
+
+            modelBuilder.Entity("MyProjectBackend.Models.Theme", b =>
+                {
+                    b.HasOne("MyProjectBackend.Models.Quizz", null)
+                        .WithMany("Themes")
+                        .HasForeignKey("QuizzId");
                 });
 
             modelBuilder.Entity("MyProjectBackend.Models.UserAnswer", b =>
@@ -329,24 +329,14 @@ namespace MyProjectBackend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuizzTheme", b =>
-                {
-                    b.HasOne("MyProjectBackend.Models.Quizz", null)
-                        .WithMany()
-                        .HasForeignKey("QuizzesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MyProjectBackend.Models.Theme", null)
-                        .WithMany()
-                        .HasForeignKey("ThemesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MyProjectBackend.Models.Question", b =>
                 {
                     b.Navigation("Options");
+                });
+
+            modelBuilder.Entity("MyProjectBackend.Models.Quizz", b =>
+                {
+                    b.Navigation("Themes");
                 });
 
             modelBuilder.Entity("MyProjectBackend.Models.Theme", b =>
