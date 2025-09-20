@@ -43,9 +43,10 @@ namespace MyProjectBackend.Services
             bool existsInQuizzes = usedQuizzes
                 .Any(q => q.Themes.Any(qt => qt.Id == id));
 
-            bool hasQuestion = _dbContext.Questions.Where(q=>q.ThemeId == id).Any();
+            
+          //  bool hasQuestion = _dbContext.Questions.Where(q=>q.ThemeId == id).Any();
 
-            if (existsInQuizzes || hasQuestion)
+            if (existsInQuizzes)
             {
                 return false; // ne dozvoli brisanje
             }

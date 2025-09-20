@@ -26,11 +26,18 @@ namespace MyProjectBackend.Infrastructure
             base.OnModelCreating(modelBuilder);
             //Kazemo mu da pronadje sve konfiguracije u Assembliju i da ih primeni nad bazom
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+            //modelBuilder.Entity<Question>()
+            // .HasOne(q => q.Theme)
+            // .WithMany(t => t.Questions)
+            // .HasForeignKey(q => q.ThemeId)
+            //.OnDelete(DeleteBehavior.Restrict);
+
+            // kad brisem temu brisu se i pitanja
             modelBuilder.Entity<Question>()
-             .HasOne(q => q.Theme)
-             .WithMany(t => t.Questions)
-             .HasForeignKey(q => q.ThemeId)
-            .OnDelete(DeleteBehavior.Restrict);
+                 .HasOne(q => q.Theme)
+                   .WithMany(t => t.Questions)
+                     .HasForeignKey(q => q.ThemeId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
         }
     }
