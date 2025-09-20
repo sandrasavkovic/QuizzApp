@@ -36,14 +36,27 @@ namespace MyProjectBackend.Controllers
         [HttpPut("update/{id}")]
         public IActionResult UpdateQuestion(int id, [FromBody] QuizzQuestionsDto questionDto)
         {
-            return Ok(_questionService.UpdateQuestion(id, questionDto));
+
+            var result = _questionService.UpdateQuestion(id, questionDto);
+
+            if (result == null)
+            {
+                return Conflict("This question cannot be updated because it is part of a quiz that has already been attempted.");
+            }
+
+            return Ok(result);
         }
 
 
         [HttpDelete("delete/{id}")]
         public IActionResult DeleteQuestion(int id)
         {
-            return Ok(_questionService.DeleteQuestion(id));
+            bool isDeleted = _questionService.DeleteQuestion(id);
+            if (!isDeleted)
+            {
+                return Conflict("This question cannot be deleted because it is used in a quiz.");
+            }
+            return Ok();
         }
     }
 }

@@ -61,9 +61,10 @@ export async function updateQuestion(id, newQuestion) {
     body: JSON.stringify(newQuestion)
     });
 
+    console.log(response);
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(errorText || "Failed to update question");
+      throw new Error(`${response.status}:${errorText || "Failed to update question"}`);
     }
 
     return await response.json();

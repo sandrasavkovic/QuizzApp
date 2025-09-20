@@ -85,6 +85,26 @@ namespace MyProjectBackend.Services
 
         public QuizzQuestionsDto UpdateQuestion(int id, QuizzQuestionsDto updatedQuestion)
         {
+            // prvo provera je li ovo pitanje unutar vec odradjenog kviza
+            var quizzes = _dbContext.UserQuizzs
+               .Select(uq => uq.QuizzId)
+               .Distinct()
+               .ToList();
+
+            var usedQuizzes = _dbContext.Quizzes
+                .Where(q => quizzes.Contains(q.Id))
+                .Include(q => q.Questions) // obavezno!
+                .ToList();
+
+            // Proveri da li pitanje postoji u nekom od tih kvizova
+            bool existsInQuizzes = usedQuizzes
+                .Any(q => q.Questions.Any(qq => qq.Id == id));
+
+            if (existsInQuizzes)
+            {
+                return null; // ne dozvoli brisanje
+            }
+
             Question question = _dbContext.Questions.Find(id);
             question.Text = updatedQuestion.Text;
             Theme theme = _dbContext.Themes.Where(t=>t.Id == updatedQuestion.ThemeId).FirstOrDefault();
@@ -97,14 +117,6 @@ namespace MyProjectBackend.Services
 
             return _mapper.Map<QuizzQuestionsDto>(question);
         }
-        /*
-           public ThemeDto UpdateTheme(int id, ThemeDto updatedTheme)
-        {
-            Theme theme = _dbContext.Themes.Find(id);
-            theme.Name = updatedTheme.Name;
-            _dbContext.SaveChanges();
-            return _mapper.Map<ThemeDto>(theme);
-        }
-         */
+       
     }
 }

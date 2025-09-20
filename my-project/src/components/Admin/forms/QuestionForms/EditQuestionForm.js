@@ -9,7 +9,7 @@ function EditQuestionForm({ question, themes, onClose, onQuestionUpdated }) {
   const [points, setPoints] = useState(question.points || 0);
   const [options, setOptions] = useState(question.options || [{ text: "", isCorrect: false }]);
   const [correctAnswer, setCorrectAnswer] = useState(question.correctAnswer || "");
-
+  const [error, setError] = useState(null);
   useEffect(() => {
     if (type === "TrueFalse" && !correctAnswer) {
       setCorrectAnswer("True");
@@ -49,18 +49,24 @@ function EditQuestionForm({ question, themes, onClose, onQuestionUpdated }) {
 
     try {
       const data = await updateQuestion(question.id, updatedQuestion);
+      console.log(data);
       onQuestionUpdated(data);
       onClose();
-    } catch (err) {
-      console.error("Error updating question:", err);
-      alert("Failed to update question");
-    }
+     } catch (err) {
+      console.error("Update error:", err.message);
+      if (err.message.includes("409")) {
+         setError("This question cannot be updated because it is part of a quiz that has already been attempted.");
+     }  else {
+    setError("Failed to update question. Please try again.");
+  }
+}
   };
 
   return (
     <div className="add-question-overlay">
       <div className="add-question-form">
         <h2>Edit Question</h2>
+      {error && <div className="error-message">{error}</div>}
 
         <label>Theme:</label>
         <select value={selectedThemeId} onChange={(e) => setSelectedThemeId(Number(e.target.value))}>

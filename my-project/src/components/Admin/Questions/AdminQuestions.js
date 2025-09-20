@@ -29,19 +29,31 @@ function AdminQuestionsPage() {
 
   
 
-
-  const handleQuestionAdded = (question) => setQuestions(prev => [...prev, question]);
+const handleQuestionAdded = async () => {
+  await refreshQuestions(); // getQuestions() poziva backend i sada sva pitanja imaju Id
+};
+const refreshQuestions = async () => {
+  const data = await getQuestions();
+  setQuestions(data);
+};
+  //const handleQuestionAdded = (question) => setQuestions(prev => [...prev, question]);
 
   const handleQuestionUpdated = (updatedQuestion) =>
+   
     setQuestions(prev => prev.map(q => q.id === updatedQuestion.id ? updatedQuestion : q));
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this question?")) return;
 
      try {
-       await deleteQuestion(id);
-       setQuestions(prev => prev.filter(q => q.id !== id));
-       alert("Question deleted successfully!");
+       const success = await deleteQuestion(id);
+       console.log(success);
+      if (success) {
+      setQuestions(prev => prev.filter(q => q.id !== id));
+      alert("Question deleted successfully!");
+    } else {
+      alert("This question cannot be deleted because it is used in a quiz.");
+    }
      } catch (err) {
        console.error("Error deleting question:", err);
        alert("Failed to delete question");
