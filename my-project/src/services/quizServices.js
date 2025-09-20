@@ -68,3 +68,49 @@ export async function getQuizById(quizId) {
   }
 }
 
+
+export async function updateQuizz(id, newQuizz) {
+   try {
+    console.log(newQuizz);
+    console.log(JSON.stringify( newQuizz));
+    const response = await fetch(`${API_URL}/api/quizz/update/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+    body: JSON.stringify(newQuizz)
+    });
+
+    console.log(response);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`${response.status}:${errorText || "Failed to update quizz"}`);
+    }
+
+    return await response.json();
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function deleteQuizz(id) {
+  try {
+    const response = await fetch(`${API_URL}/api/quizz/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Failed to delete quizz");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}

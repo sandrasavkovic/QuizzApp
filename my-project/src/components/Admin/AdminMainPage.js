@@ -1,13 +1,12 @@
 import {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import "./AdminMainPage.css";  
-import { getQuizzes } from "../../services/quizServices";
-import AddQuestionForm from "./forms/QuestionForms/AddQuestionForm";
+import "./AdminMainPage.css"; 
+import EditQuizForm from "./forms/QuizzForms/EditQuizForm"; 
+import { getQuizzes, deleteQuizz, getQuizById } from "../../services/quizServices";
 import { getThemes } from "../../services/themeService";
-import AddThemeForm from "./forms/ThemeForms/AddThemeForm";
 import AddQuizForm from "./forms/QuizzForms/AddQuizForm";
 import { getUser } from "../../services/authServices";
-
+import { toast } from "react-toastify";
 function AdminMainPage() {
     const [quizzes, setQuizess] = useState([]);
     // forme za dodavanje su odvojene komponente, ovde ih
@@ -22,8 +21,9 @@ function AdminMainPage() {
     const [difficultyFilter, setDifficultyFilter] = useState("");
     const [keywordFilter, setKeywordFilter] = useState("");
     const [user, setUser] = useState(null);
-   
     const [showDropdown, setShowDropdown] = useState(false);
+    const [editingQuiz, setEditingQuizz] = useState(null);
+   
 
     const roleClaim = localStorage.getItem("roleClaim");
 
@@ -112,6 +112,41 @@ function AdminMainPage() {
         navigate("/start-quiz", {state :  { quizId } })
       }
 
+     
+      const openEditQuizForm = async (quizId) => {
+        try {
+        const data = await getQuizById(quizId); // backend endpoint koji vraća QuizzDto sa listom pitanja
+         setEditingQuizz(data);
+      } catch (err) {
+         console.error(err);
+  }     
+    };
+
+
+     const closeEditQuizForm = () => setEditingQuizz(null);
+
+    const handleQuizUpdated = (updatedQuiz) => {
+        setQuizess(prev => prev.map(q => q.id === updatedQuiz.id ? updatedQuiz : q));
+        closeEditQuizForm();
+  };
+
+const handleDeleteQuiz = async (quizId) => {
+  if (!window.confirm("Are you sure you want to delete this quiz?")) return;
+  try {
+    const result = await deleteQuizz(quizId);
+    if(result.success) {
+      setQuizess(prev => prev.filter(q => q.id !== quizId));
+      toast.success("Quiz deleted successfully!");
+    } else {
+      toast.error("This quiz cannot be deleted because it was alredy attempted to solve!");
+    }
+  } catch(err) {
+    console.error(err);
+    toast.error("Failed to delete quiz!");
+  }
+};
+
+
       const handleLogout = () =>
       {
       localStorage.removeItem("user");
@@ -150,6 +185,15 @@ function AdminMainPage() {
                 onQuizAdded={handleQuizzAdded}
                 onClose={handleCloseQuizzForm}/>
             )}
+            {editingQuiz && (
+         <EditQuizForm
+            quiz={editingQuiz}
+            
+            onClose={closeEditQuizForm}
+          onQuizUpdated={handleQuizUpdated}
+         />
+        )}
+
           {/* <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
           <button className="btn btn-green" onClick={openThemeForm}>Add Theme</button>
 
@@ -221,7 +265,11 @@ function AdminMainPage() {
             ? quiz.themes.map((t) => t.name).join(", ")
             : "No themes"}
         </p>
+          <div className="quiz-card-buttons">
         <button className="btn btn-blue" onClick={() => handleStartQuizz(quiz.id)}>Start quizz</button>
+        <button className="btn btn-yellow" onClick={() => openEditQuizForm(quiz.id)}>Edit</button>
+        <button className="btn btn-red" onClick={() => handleDeleteQuiz(quiz.id)}>Delete</button>
+        </div>
       </div>
     ))
     ) : (

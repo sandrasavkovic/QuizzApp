@@ -5,6 +5,7 @@ using MyProjectBackend.Dto.Quizz;
 using MyProjectBackend.Dto.Theme;
 using MyProjectBackend.Interfaces;
 using MyProjectBackend.Models;
+using MyProjectBackend.Services;
 
 namespace MyProjectBackend.Controllers
 {
@@ -80,5 +81,37 @@ namespace MyProjectBackend.Controllers
             return Ok(quizz);
 
         }
+
+        [HttpPut("update/{id}")]
+        public IActionResult UpdateQuizz(int id, [FromBody] QuizzDto quizzDto)
+        {
+
+            var updatedQuizz= _quizzService.UpdateQuizz(id, quizzDto);
+            if (updatedQuizz == null)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "This quizz cannot be updated because it is part of a quiz that has already been attempted."
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                quizz = updatedQuizz
+            });
+        }
+
+
+        [HttpDelete("delete/{id}")]
+        public IActionResult DeleteQuizz(int id)
+        {
+            bool result = _quizzService.DeleteQuizz(id);
+
+            return Ok(new { success = result });
+
+        }
+
     }
 }
