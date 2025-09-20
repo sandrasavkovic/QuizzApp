@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MyProjectBackend.Dto.Question;
 using MyProjectBackend.Dto.Theme;
 using MyProjectBackend.Interfaces;
 using MyProjectBackend.Models;
+using MyProjectBackend.Services;
 
 namespace MyProjectBackend.Controllers
 {
@@ -40,14 +42,31 @@ namespace MyProjectBackend.Controllers
         [HttpPut("update/{id}")]
         public IActionResult UpdateTheme(int id, [FromBody] ThemeDto theme)
         {
-            return Ok(_themeService.UpdateTheme(id, theme));
+            var res = _themeService.UpdateTheme(id, theme);
+            if (res == null)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "This theme cannot be updated because it is part of a quiz that has already been attempted."
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                updatedTheme = res
+            });
         }
 
 
         [HttpDelete("delete/{id}")]
         public IActionResult DeleteTheme(int id)
         {
-            return Ok(_themeService.DeleteTheme(id));
+            bool result = _themeService.DeleteTheme(id);
+
+            return Ok(new { success = result });
+
         }
     }
 }

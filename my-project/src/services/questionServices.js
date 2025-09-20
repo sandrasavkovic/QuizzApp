@@ -87,7 +87,8 @@ export async function deleteQuestion(id) {
       throw new Error(errorText || "Failed to delete question");
     }
 
-    return true; 
+    const data = await response.json();
+    return data;
   } catch (err) {
     throw err;
   }

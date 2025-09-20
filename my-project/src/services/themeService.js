@@ -77,12 +77,15 @@ export async function deleteTheme(id) {
       },
     });
 
+    console.log(response);
+    
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Failed to delete theme");
     }
-
-    return true; 
+    const data = await response.json();
+    return data; // { success: true/false }
+    
   } catch (err) {
     throw err;
   }

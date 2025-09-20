@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyProjectBackend.Dto.Question;
 using MyProjectBackend.Interfaces;
+using MyProjectBackend.Services;
 
 namespace MyProjectBackend.Controllers
 {
@@ -37,26 +38,32 @@ namespace MyProjectBackend.Controllers
         public IActionResult UpdateQuestion(int id, [FromBody] QuizzQuestionsDto questionDto)
         {
 
-            var result = _questionService.UpdateQuestion(id, questionDto);
-
-            if (result == null)
+            var updatedQuestion = _questionService.UpdateQuestion(id, questionDto);
+            if (updatedQuestion == null)
             {
-                return Conflict("This question cannot be updated because it is part of a quiz that has already been attempted.");
+                return Ok(new
+                {
+                    success = false,
+                    message = "This question cannot be updated because it is part of a quiz that has already been attempted."
+                });
             }
 
-            return Ok(result);
+            return Ok(new
+            {
+                success = true,
+                question = updatedQuestion
+            });
         }
 
 
         [HttpDelete("delete/{id}")]
         public IActionResult DeleteQuestion(int id)
         {
-            bool isDeleted = _questionService.DeleteQuestion(id);
-            if (!isDeleted)
-            {
-                return Conflict("This question cannot be deleted because it is used in a quiz.");
-            }
-            return Ok();
+            bool result = _questionService.DeleteQuestion(id);
+
+            return Ok(new { success = result });
+            
+           
         }
     }
 }

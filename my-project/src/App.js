@@ -9,7 +9,10 @@ import ResultInfo from './components/Quizz/ResultInfo';
 import UserResults from './components/UserResults/UserResults';
 import AdminThemesPage from './components/Admin/Themes/AdminThemes';
 import AdminQuestionsPage from './components/Admin/Questions/AdminQuestions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
+  
   return (
     <div className="App">
       <Routes>
@@ -25,6 +28,17 @@ function App() {
 
 
       </Routes>
+        <ToastContainer
+        position="top-center" // ovo centrira toaste na vrhu
+        autoClose={3000}      // trajanje u ms
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

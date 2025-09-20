@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createTheme } from "../../../../services/themeService";
 import "./AddThemeForm.css"
+import { toast } from "react-toastify";
 function AddThemeForm({ onThemeAdded, onClose }) {
   const [themeName, setThemeName] = useState("");
 
@@ -12,10 +13,10 @@ function AddThemeForm({ onThemeAdded, onClose }) {
       const newTheme = await createTheme(themeName);
       setThemeName("");           // reset inputa
       onThemeAdded(newTheme);     // callback za parent komponentu
-      alert("New theme added successfully!")
+      toast.success("New theme added successfully!")
     } catch (err) {
       console.error("Error creating theme:", err);
-      alert("Failed to add theme");
+      toast.error("Failed to add theme");
     }
   };
 

@@ -4,6 +4,7 @@ import { getThemes } from "../../../services/themeService";
 import AddQuestionForm from "../forms/QuestionForms/AddQuestionForm";
 import EditQuestionForm from "../forms/QuestionForms/EditQuestionForm";
 import "./AdminQuestions.css";
+import { toast } from "react-toastify";
 
 function AdminQuestionsPage() {
   const [questions, setQuestions] = useState([]);
@@ -30,6 +31,7 @@ function AdminQuestionsPage() {
   
 
 const handleQuestionAdded = async () => {
+  toast.success("New question added successfully!");
   await refreshQuestions(); // getQuestions() poziva backend i sada sva pitanja imaju Id
 };
 const refreshQuestions = async () => {
@@ -46,17 +48,17 @@ const refreshQuestions = async () => {
     if (!window.confirm("Are you sure you want to delete this question?")) return;
 
      try {
-       const success = await deleteQuestion(id);
-       console.log(success);
-      if (success) {
+       const data = await deleteQuestion(id);
+       console.log(data);
+      if (data.success) {
       setQuestions(prev => prev.filter(q => q.id !== id));
-      alert("Question deleted successfully!");
+      toast.success("Question deleted successfully!");
     } else {
-      alert("This question cannot be deleted because it is used in a quiz.");
+      toast.error("This question cannot be deleted because it is used in a quiz.");
     }
      } catch (err) {
        console.error("Error deleting question:", err);
-       alert("Failed to delete question");
+       toast.error("Failed to delete question");
      }
   };
 

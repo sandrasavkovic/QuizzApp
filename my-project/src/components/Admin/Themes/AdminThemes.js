@@ -4,7 +4,7 @@ import AddThemeForm from ".././forms/ThemeForms/AddThemeForm";
 import EditThemeForm from "../forms/ThemeForms/EditThemeForm";
 import { deleteTheme } from "../../../services/themeService";
 import "./AdminThemes.css";
-
+import { toast } from 'react-toastify';
 function AdminThemesPage() {
   const [themes, setThemes] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -18,7 +18,14 @@ function AdminThemesPage() {
     fetchData();
   }, []);
 
-  const handleThemeAdded = (theme) => setThemes(prev => [...prev, theme]);
+  const handleThemeAdded = async () => {
+    await refreshThemes(); // getQuestions() poziva backend i sada sva pitanja imaju Id
+  };
+  const refreshThemes = async () => {
+    const data = await getThemes();
+    setThemes(data);
+  };
+  //const handleThemeAdded = (theme) => setThemes(prev => [...prev, theme]);
 
   const handleThemeUpdated = (updatedTheme) => setThemes(prev => prev.map(t=>t.id === updatedTheme.id ? updatedTheme : t));
 
@@ -26,12 +33,19 @@ function AdminThemesPage() {
   if (!window.confirm("Are you sure you want to delete this theme?")) return;
 
   try {
-    await deleteTheme(id);
+  const data = await deleteTheme(id);
+   
+   console.log(data);
+    if(data.success){
     setThemes(prev => prev.filter(t => t.id !== id));
-    alert("Theme deleted successfully!");
+    toast.success("Theme deleted successfully!");
+    }
+    else{
+      toast.error("This theme can't be deleted because it is used in quiz or there are questions on this theme!");
+    }
   } catch (err) {
     console.error("Error deleting theme:", err);
-    alert("Failed to delete theme");
+    toast.error("Failed to delete theme");
      }
     };
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { login } from "../../services/authServices"; 
 import "./Login.css"
+import { toast } from "react-toastify";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -20,6 +21,7 @@ function Login() {
 
       localStorage.setItem("user", JSON.stringify(data));
       console.log("Login successful:", data);
+      toast.success("Login successfull!");
       localStorage.setItem("token", data.token);  
 
       const decodedToken = jwtDecode(data.token);

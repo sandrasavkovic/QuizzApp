@@ -1,6 +1,7 @@
 import "./AddThemeForm.css";
 import { useState } from "react";
 import { updateTheme } from "../../../../services/themeService";
+import { toast } from "react-toastify";
 
 function EditThemeForm({ theme, onThemeUpdated, onClose }) {
   const [themeName, setThemeName] = useState(theme.name);
@@ -10,12 +11,19 @@ function EditThemeForm({ theme, onThemeUpdated, onClose }) {
     if (!themeName.trim()) return;
 
     try {
-      const updatedTheme = await updateTheme(theme.id, { name: themeName });
-      onThemeUpdated(updatedTheme); // obavesti parent da je tema izmenjena
+      const data = await updateTheme(theme.id, { name: themeName });
+      console.log(data);
+      if(data.success){
+      onThemeUpdated(data.updatedTheme); // obavesti parent da je tema izmenjena
       onClose();
+      toast.success("Theme updated successfully!")
+      }
+      else{
+        toast.error(data.message);
+      }
     } catch (err) {
       console.error("Error updating theme:", err);
-      alert("Failed to update theme");
+      toast.error("Failed to update theme");
     }
   };
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./AddQuestionForm.css"; // isti CSS kao za AddQuestionForm
 import { updateQuestion } from "../../../../services/questionServices";
+import { toast } from "react-toastify";
 
 function EditQuestionForm({ question, themes, onClose, onQuestionUpdated }) {
   const [selectedThemeId, setSelectedThemeId] = useState(question.themeId || "");
@@ -49,17 +50,20 @@ function EditQuestionForm({ question, themes, onClose, onQuestionUpdated }) {
 
     try {
       const data = await updateQuestion(question.id, updatedQuestion);
-      console.log(data);
-      onQuestionUpdated(data);
+      if(data.success){
+      onQuestionUpdated(data.question);
       onClose();
+      toast.success("Question updated successfully!")
+      }else{
+         toast.error(data.message);
+      }
      } catch (err) {
       console.error("Update error:", err.message);
-      if (err.message.includes("409")) {
-         setError("This question cannot be updated because it is part of a quiz that has already been attempted.");
-     }  else {
-    setError("Failed to update question. Please try again.");
-  }
-}
+      
+        toast.error("Failed to update question. Please try again.");
+  
+     }
+      
   };
 
   return (
