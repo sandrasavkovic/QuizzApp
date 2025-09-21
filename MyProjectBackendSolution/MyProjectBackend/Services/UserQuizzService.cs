@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyProjectBackend.Dto.Question;
 using MyProjectBackend.Dto.Quizz;
+using MyProjectBackend.Dto.Results;
 using MyProjectBackend.Dto.User;
 using MyProjectBackend.Infrastructure;
 using MyProjectBackend.Interfaces;
@@ -37,10 +38,14 @@ namespace MyProjectBackend.Services
         }
 
 
-        public List<UserQuizzDto> GetUserQuizzsById(int id)
+        public List<UserResultsDto> GetUserQuizzsById(int id)
         {
-            var userQuizzs = _dbContext.UserQuizzs.Where(q => q.UserId == id).ToList();
-            return _mapper.Map<List<UserQuizzDto>>(userQuizzs);
+            var userQuizzs = _dbContext.UserQuizzs
+                .Where(uq => uq.UserId == id)
+                .Include(uq => uq.Quizz)       // da popuni QuizzName
+                .Include(uq => uq.Answers)     // da popuni listu odgovora
+                .ToList();
+            return _mapper.Map<List<UserResultsDto>>(userQuizzs);
         }
 
         /*
@@ -80,6 +85,48 @@ namespace MyProjectBackend.Services
         { 
             var quizz = _dbContext.Quizzes.Where(q=>q.Id == quizzId).FirstOrDefault();
             return _mapper.Map<QuizzDto>(quizz);
+        }
+
+
+        public List<GlobalboardDto> GetGlobalboardUsers(int quizzId) {
+
+
+            bool exists = _dbContext.UserQuizzs.Any(uq => uq.QuizzId == quizzId);
+            if (!exists)
+            {
+                return null;
+            }
+
+            //var results = _dbContext.UserQuizzs
+            //    .Where(uq => uq.QuizzId == quizzId)
+            //    .Include(uq=>uq.Quizz)
+            //    .Include(uq => uq.User) // da dohvati username
+            //    .OrderByDescending(uq => uq.Score)
+            //    .ThenBy(uq => uq.TimeTaken)
+            //    .Select(uq => new GlobalboardDto
+            //{
+            //    Id = uq.Id,
+            //    UserId = uq.UserId,
+            //    Username = uq.User.Username,
+            //    QuizzId = uq.QuizzId,
+            //    QuizzName = uq.Quizz.Title,
+            //    AttemptDate = uq.AttemptDate,
+            //    Score = uq.Score,
+            //    TimeTaken = uq.TimeTaken
+            //})
+            //.ToList();
+
+            var results = _dbContext.UserQuizzs
+             .Where(uq => uq.QuizzId == quizzId)
+             .Include(uq => uq.User)
+             .Include(uq => uq.Quizz)
+                .OrderByDescending(uq => uq.Score)
+              .ThenBy(uq => uq.TimeTaken)
+              .ToList();
+
+            return _mapper.Map<List<GlobalboardDto>>(results);
+
+        
         }
     }
 }

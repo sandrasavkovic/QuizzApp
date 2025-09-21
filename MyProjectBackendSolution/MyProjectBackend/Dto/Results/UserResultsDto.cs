@@ -1,16 +1,15 @@
-﻿using MyProjectBackend.Models;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using MyProjectBackend.Dto.Quizz;
 
-namespace MyProjectBackend.Dto.Quizz
+namespace MyProjectBackend.Dto.Results
 {
-    public class UserQuizzDto
+    public class UserResultsDto
     {
-    
         public int Id { get; set; }
         public int UserId { get; set; }
 
         public int QuizzId { get; set; }
-        
+
+        public string QuizzName { get; set; }
 
         public DateTime AttemptDate { get; set; }
 
@@ -21,7 +20,7 @@ namespace MyProjectBackend.Dto.Quizz
 
         public int CorrectAnswersCount { get; set; }
 
-        public double Percentage { get; set; } 
+        public double Percentage { get; set; }
 
         public int TimeTaken { get; set; }
 

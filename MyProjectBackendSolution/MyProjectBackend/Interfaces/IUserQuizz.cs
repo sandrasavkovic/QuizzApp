@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyProjectBackend.Dto.Question;
 using MyProjectBackend.Dto.Quizz;
+using MyProjectBackend.Dto.Results;
 using MyProjectBackend.Models;
 
 namespace MyProjectBackend.Interfaces
@@ -11,7 +12,7 @@ namespace MyProjectBackend.Interfaces
 
         List<UserQuizzDto> GetAllUserQuizzes();
 
-        List<UserQuizzDto> GetUserQuizzsById(int id);
+        List<UserResultsDto> GetUserQuizzsById(int id);
 
         //UserQuizzDto GetUserQuizById(int id);
         UserQuizzDto GetQuizResult(int userQuizzId);
@@ -19,6 +20,8 @@ namespace MyProjectBackend.Interfaces
         List<QuizzQuestionsDto> GetQuestionsForQuizz(int quizzId);
 
         QuizzDto GetQuizzById(int quizzId);
+
+        List<GlobalboardDto> GetGlobalboardUsers(int quizzId);
 
     }
 }

@@ -75,5 +75,25 @@ namespace MyProjectBackend.Controllers
             return Ok(_userquizzservice.GetQuizzById(quizzId));
 
         }
+
+        [HttpGet("globalboard/{quizzId}")]
+        public IActionResult GetGlobalboardResults(int quizzId)
+        { 
+            var results = _userquizzservice.GetGlobalboardUsers(quizzId);
+            if (results == null)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "No one attempted to solve this quizz!"
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                globalResults = results
+            });
+        }
     }
 }

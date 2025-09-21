@@ -95,7 +95,7 @@ function UserResults() {
     labels: sortedResults.map((r, idx) => `Pokusaj ${idx + 1}`),
     datasets: [
       {
-        label: quizResults[0].quizzTitle || `Kviz #${quizzId}`,
+        label: quizResults[0].quizzName || `Kviz #${quizzId}`,
         data: sortedResults.map(r => r.percentage),
         borderColor: "blue",
         backgroundColor: "lightblue",
@@ -106,7 +106,7 @@ function UserResults() {
 
   return (
     <div key={quizzId} className="quiz-progress-chart">
-      <h3>{quizResults[0].quizzTitle || `Kviz #${quizzId}`}</h3>
+      <h3>{quizResults[0].quizzName || `Kviz #${quizzId}`}</h3>
       <Line data={data} />
     </div>
   );

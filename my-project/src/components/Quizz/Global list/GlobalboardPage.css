@@ -1,0 +1,70 @@
+.globalboard-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  font-family: "Inter", sans-serif;
+}
+
+.globalboard-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #4c1d95; /* tamno ljubičasta */
+}
+
+.globalboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.globalboard-table thead {
+  background: #7c3aed; /* ljubičasta */
+  color: white;
+  font-weight: 600;
+}
+
+.globalboard-table th,
+.globalboard-table td {
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+}
+
+.globalboard-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.2s ease;
+}
+
+.globalboard-table tbody tr:hover {
+  background: #ede9fe; /* svetlo ljubičasta */
+}
+
+.globalboard-table tbody tr:nth-child(1) {
+  background: #fef08a; /* zlatno */
+  font-weight: bold;
+}
+
+.globalboard-table tbody tr:nth-child(2) {
+  background: #e5e7eb; /* srebrno */
+  font-weight: bold;
+}
+
+.globalboard-table tbody tr:nth-child(3) {
+  background: #fcd34d; /* bronzano */
+  font-weight: bold;
+}
+
+.globalboard-table td {
+  color: #374151;
+}
+
+.globalboard-table td:nth-child(1) {
+  font-weight: 700;
+  color: #4c1d95;
+}

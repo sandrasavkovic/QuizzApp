@@ -113,3 +113,26 @@ export async function getQuizzById(quizzId) {
     throw err;
   }
 }
+
+
+// za globalnu listuu
+export async function getGlobalboard(quizzId) {
+  try{
+    console.log("OVDE!", quizzId);
+   const response = await fetch(`${API_URL}/api/userQuizz/globalboard/${quizzId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+  });
+
+  console.log(response);
+  if (!response.ok) {
+    throw new Error("Failed to fetch globalboard");
+  }
+  return await response.json();
+  }
+  catch (err) {
+    throw err;
+  }
+}
