@@ -209,6 +209,7 @@ const handleDeleteQuiz = async (quizId) => {
             )} */}
               <button className="btn btn-blue" onClick={() => navigate("/admin/themes")}>Themes</button>
               <button className="btn btn-green" onClick={() => navigate("/admin/questions")}>Questions</button>
+              <button className="btn btn-purple" onClick={() => navigate("/globalboard")} > Global board</button>
         </div>
          )}
    </div>
@@ -269,7 +270,8 @@ const handleDeleteQuiz = async (quizId) => {
         <button className="btn btn-blue" onClick={() => handleStartQuizz(quiz.id)}>Start quizz</button>
         <button className="btn btn-yellow" onClick={() => openEditQuizForm(quiz.id)}>Edit</button>
         <button className="btn btn-red" onClick={() => handleDeleteQuiz(quiz.id)}>Delete</button>
-        <button className="btn btn-purple" onClick={() => navigate(`/globalboard/${quiz.id}`)}>Global Rank </button>
+        <button className="btn btn-purple" onClick={() => navigate(`/leaderboard/${quiz.id}`)}>Leader Rank </button>
+        
 
         </div>
       </div>

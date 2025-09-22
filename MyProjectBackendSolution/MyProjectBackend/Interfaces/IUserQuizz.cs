@@ -21,7 +21,9 @@ namespace MyProjectBackend.Interfaces
 
         QuizzDto GetQuizzById(int quizzId);
 
-        List<GlobalboardDto> GetGlobalboardUsers(int quizzId);
+        List<GlobalboardDto> GetLeaderboard(int quizzId);
+
+        List<GlobalboardRankDto> GetGlobalboard();
 
     }
 }

@@ -115,11 +115,33 @@ export async function getQuizzById(quizzId) {
 }
 
 
-// za globalnu listuu
-export async function getGlobalboard(quizzId) {
+
+export async function getLeaderboard(quizzId) {
   try{
     console.log("OVDE!", quizzId);
-   const response = await fetch(`${API_URL}/api/userQuizz/globalboard/${quizzId}`, {
+   const response = await fetch(`${API_URL}/api/userQuizz/leaderboard/${quizzId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+  });
+
+  console.log(response);
+  if (!response.ok) {
+    throw new Error("Failed to fetch leaderboard");
+  }
+  return await response.json();
+  }
+  catch (err) {
+    throw err;
+  }
+}
+
+
+
+export async function getGlobalboard() {
+  try{
+   const response = await fetch(`${API_URL}/api/userQuizz/globalboard`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`

@@ -13,7 +13,7 @@ namespace MyProjectBackend.Controllers
         private readonly IUserQuizz _userquizzservice;
 
         public UserQuizzController(IUserQuizz userquizzservice)
-        { 
+        {
             _userquizzservice = userquizzservice;
         }
 
@@ -48,7 +48,7 @@ namespace MyProjectBackend.Controllers
         [HttpGet("results/{userId}")]
         public IActionResult GetAllUserResults(int userId)
         {
-          
+
             return Ok(_userquizzservice.GetUserQuizzsById(userId));
         }
 
@@ -66,7 +66,7 @@ namespace MyProjectBackend.Controllers
         public IActionResult GetQuestionsForQuizz(int quizzId)
         {
             return Ok(_userquizzservice.GetQuestionsForQuizz(quizzId));
-            
+
         }
 
         [HttpGet("quizz/{quizzId}")]
@@ -76,16 +76,36 @@ namespace MyProjectBackend.Controllers
 
         }
 
-        [HttpGet("globalboard/{quizzId}")]
-        public IActionResult GetGlobalboardResults(int quizzId)
-        { 
-            var results = _userquizzservice.GetGlobalboardUsers(quizzId);
+        [HttpGet("leaderboard/{quizzId}")]
+        public IActionResult GetLeaderboardResults(int quizzId)
+        {
+            var results = _userquizzservice.GetLeaderboard(quizzId);
             if (results == null)
             {
                 return Ok(new
                 {
                     success = false,
                     message = "No one attempted to solve this quizz!"
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                globalResults = results
+            });
+        }
+
+        [HttpGet("globalboard")]
+        public IActionResult GetGlobalboard()
+        {
+            var results = _userquizzservice.GetGlobalboard();
+            if (results == null)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "No one attempted quizzess!"
                 });
             }
 

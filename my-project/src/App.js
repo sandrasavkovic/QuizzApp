@@ -10,6 +10,7 @@ import UserResults from './components/UserResults/UserResults';
 import AdminThemesPage from './components/Admin/Themes/AdminThemes';
 import AdminQuestionsPage from './components/Admin/Questions/AdminQuestions';
 import { ToastContainer, toast } from 'react-toastify';
+import LeaderboardPage from './components/Quizz/Global list/LeaderboardPage';
 import GlobalboardPage from './components/Quizz/Global list/GlobalboardPage';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
@@ -26,7 +27,8 @@ function App() {
         <Route path="/my-results" element={<UserResults/>}/>
         <Route path="/admin/themes" element={<AdminThemesPage />} />
         <Route path="/admin/questions" element={<AdminQuestionsPage />} /> 
-        <Route path="/globalboard/:quizzId" element={<GlobalboardPage />} />
+        <Route path="/leaderboard/:quizzId" element={<LeaderboardPage />} />
+        <Route path="/globalboard" element={<GlobalboardPage />} />
 
 
       </Routes>

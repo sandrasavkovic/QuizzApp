@@ -88,7 +88,7 @@ namespace MyProjectBackend.Services
         }
 
 
-        public List<GlobalboardDto> GetGlobalboardUsers(int quizzId) {
+        public List<GlobalboardDto> GetLeaderboard(int quizzId) {
 
 
             bool exists = _dbContext.UserQuizzs.Any(uq => uq.QuizzId == quizzId);
@@ -97,25 +97,7 @@ namespace MyProjectBackend.Services
                 return null;
             }
 
-            //var results = _dbContext.UserQuizzs
-            //    .Where(uq => uq.QuizzId == quizzId)
-            //    .Include(uq=>uq.Quizz)
-            //    .Include(uq => uq.User) // da dohvati username
-            //    .OrderByDescending(uq => uq.Score)
-            //    .ThenBy(uq => uq.TimeTaken)
-            //    .Select(uq => new GlobalboardDto
-            //{
-            //    Id = uq.Id,
-            //    UserId = uq.UserId,
-            //    Username = uq.User.Username,
-            //    QuizzId = uq.QuizzId,
-            //    QuizzName = uq.Quizz.Title,
-            //    AttemptDate = uq.AttemptDate,
-            //    Score = uq.Score,
-            //    TimeTaken = uq.TimeTaken
-            //})
-            //.ToList();
-
+       
             var results = _dbContext.UserQuizzs
              .Where(uq => uq.QuizzId == quizzId)
              .Include(uq => uq.User)
@@ -128,5 +110,36 @@ namespace MyProjectBackend.Services
 
         
         }
+
+
+        public List<GlobalboardRankDto> GetGlobalboard()
+        {
+            // uzimamo za svaki kviz najbolji rezultat
+         
+
+            var results = _dbContext.UserQuizzs
+                .Include(uq => uq.User)
+                .Include(uq => uq.Quizz)
+                .GroupBy(uq => uq.QuizzId)
+                .Select(g => g
+               .OrderByDescending(uq => uq.Score)
+               .ThenBy(uq => uq.TimeTaken)
+               .FirstOrDefault())
+                 .AsEnumerable()
+                .OrderByDescending(uq => uq.Score)   
+        .ThenBy(uq => uq.TimeTaken)          
+        .ToList();
+
+
+            var dtos =   _mapper.Map<List<GlobalboardRankDto>>(results);
+            foreach (var dto in dtos)
+            {
+                dto.TotalAttempts = _dbContext.UserQuizzs
+                    .Count(uq => uq.User.Username == dto.Username && uq.Quizz.Title == dto.QuizzName);
+            }
+            
+            return dtos;
+        }
+
     }
 }
