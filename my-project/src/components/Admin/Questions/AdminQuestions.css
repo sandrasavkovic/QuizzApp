@@ -1,0 +1,99 @@
+.admin-questions-page {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Naslov */
+.admin-questions-page h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #222;
+  font-size: 2rem;
+}
+
+/* Dugme za dodavanje pitanja */
+.admin-questions-page > button {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.admin-questions-page > button:hover {
+  background-color: #4338ca;
+}
+
+/* Lista pitanja */
+.admin-questions-page ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.admin-questions-page li {
+  background: #fff;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.1s ease;
+}
+
+.admin-questions-page li:hover {
+  transform: translateY(-2px);
+}
+
+/* Tekst pitanja */
+.admin-questions-page li strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+/* Tema i bodovi */
+.admin-questions-page li span {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Dugmad za Edit/Delete */
+.admin-questions-page li button {
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s ease;
+}
+
+.admin-questions-page li button:first-of-type {
+  background-color: #10b981;
+  color: white;
+}
+
+.admin-questions-page li button:first-of-type:hover {
+  background-color: #059669;
+}
+
+.admin-questions-page li button:last-of-type {
+  background-color: #ef4444;
+  color: white;
+}
+
+.admin-questions-page li button:last-of-type:hover {
+  background-color: #b91c1c;
+}

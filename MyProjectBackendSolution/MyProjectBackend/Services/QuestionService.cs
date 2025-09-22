@@ -69,13 +69,13 @@ namespace MyProjectBackend.Services
 
 
 
-        public List<QuizzQuestionsDto> GetAllQuestions()
+        public List<QuestionDisplayDto> GetAllQuestions()
         {
             var questions = _dbContext.Questions
               .Include(q => q.Options)   // uključujemo Options
               .Include(q => q.Theme)     // uključujemo Theme
                 .ToList();
-            return _mapper.Map<List<QuizzQuestionsDto>>(questions);
+            return _mapper.Map<List<QuestionDisplayDto>>(questions);
         }
 
         public QuestionDto GetQuestionById(int id)

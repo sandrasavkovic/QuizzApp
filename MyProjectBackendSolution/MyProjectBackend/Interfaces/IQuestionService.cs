@@ -6,7 +6,7 @@ namespace MyProjectBackend.Interfaces
 {
     public interface IQuestionService
     {
-        List<QuizzQuestionsDto> GetAllQuestions();
+        List<QuestionDisplayDto> GetAllQuestions();
         QuestionDto GetQuestionById(int id);
 
         QuestionDto AddQuestion(QuestionDto newQuestion);

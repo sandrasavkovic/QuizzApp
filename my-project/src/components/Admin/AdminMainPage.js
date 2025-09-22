@@ -99,10 +99,12 @@ function AdminMainPage() {
         setQuizzForm(false);
       }
 
-      const handleQuizzAdded = (newQuizz) =>
+      const handleQuizzAdded =async (newQuizz) =>
       {
-        setQuizess((prev) =>[...prev, newQuizz])
-        console.log("KVIZOVI", quizzes);
+       // setQuizess((prev) =>[...prev, newQuizz])
+       // console.log("KVIZOVI", quizzes);
+       const data = await getQuizzes();
+            setQuizess(data);   
       }
 
       

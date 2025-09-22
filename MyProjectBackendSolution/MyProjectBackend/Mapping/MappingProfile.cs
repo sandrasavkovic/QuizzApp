@@ -36,6 +36,9 @@ namespace MyProjectBackend.Mapping
                  .ForMember(dest => dest.BestScore, opt => opt.MapFrom(src => src.Score))
                  .ForMember(dest => dest.TotalAttempts, opt => opt.Ignore());
 
+
+            CreateMap<Question, QuestionDisplayDto>()
+               .ForMember(dest => dest.ThemeName, opt => opt.MapFrom(src => src.Theme.Name));
         }
 
     }

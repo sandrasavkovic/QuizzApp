@@ -4,7 +4,7 @@ import { createQuiz } from "../../../../services/quizServices";
 import { getQuestions } from "../../../../services/questionServices";
 import "./AddQuizzForm.css";
 import AddQuestionForm from ".././QuestionForms/AddQuestionForm";
-
+import SelectQuestionsModal from "./SelectQuestionsModal";
 export default function AddQuizForm({ onQuizAdded, onClose }) {
   const [title, setTitle] = useState("");
   const [themes, setThemes] = useState([]);
@@ -15,6 +15,7 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
   const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [selectedQuestions, setSelectedQuestions] = useState([]);
+const [showSelectQuestionsModal, setShowSelectQuestionsModal] = useState(false);
 
   useEffect(() => {
     async function fetchThemes() {
@@ -89,34 +90,16 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
     }
   };
 
-  const handleThemeChange = (e) => {
-    const value = Array.from(e.target.selectedOptions, (opt) => opt.value);
-    setSelectedThemes(value);
-  };
+const handleAddQuestionClick = () => setShowSelectQuestionsModal(true);
+const handleCloseSelectQuestions = () => setShowSelectQuestionsModal(false);
 
-   const handleAddQuestionClick = () =>
-    {
-        setShowAddQuestionForm(true);
-    }
-
-    const handleCloseQuestionForm = () => 
-    {
-        setShowAddQuestionForm(false);
-    }
-
-    const handleQuestionCreated = (newQuestion) =>
-    {
-        // mozda refresh liste 
-        setQuestions((prev) => [...prev, newQuestion]);
-        setShowAddQuestionForm(false);
-    }
-
-      const toggleQuestion = (id) => {
-        console.log(id);
-    setSelectedQuestions((prev) =>
-      prev.includes(id) ? prev.filter((q) => q !== id) : [...prev, id]
-    );
-  };
+const toggleQuestion = (id) => {
+  setSelectedQuestions((prev) =>
+    prev.includes(id) ? prev.filter((q) => q !== id) : [...prev, id]
+  );
+};
+    
+  
 
   return (
     <div className="add-quiz-overlay">
@@ -138,54 +121,23 @@ export default function AddQuizForm({ onQuizAdded, onClose }) {
           onChange={(e) => setDescription(e.target.value)}
           required
         />
-        {/* <label>Select Themes:</label>
-        <div className="themes-list">
-        {themes.map((t) => (
-            <label key={t.id} className="theme-option">
-        <input
-             type="checkbox"
-             value={t.id}
-             checked={selectedThemes.includes(String(t.id))}
-            onChange={(e) => {
-          if (e.target.checked) {
-            setSelectedThemes([...selectedThemes, String(t.id)]);
-          } else {
-            setSelectedThemes(selectedThemes.filter(id => id !== String(t.id)));
-            }
-                }}
-             />
-            {t.name}
-            </label>
-        ))}
-        </div> */}
+      
         <button type="button" className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button>
 
 
-        {showAddQuestionForm && (
-          /*
-                <AddQuestionForm 
-                    themes={themes}
-                    onClose = {handleCloseQuestionForm}
-                    onQuestionCreated={handleQuestionCreated}
-                />
-                */
-               <>
-                <label>Select Questions:</label>
-        <div className="questions-list">
-          {questions.map((q) => (
-            <label key={q.id} className="question-option">
-              <input
-                type="checkbox"
-                value={q.id}
-                checked={selectedQuestions.includes(q.id)}
-                onChange={() => toggleQuestion(q.id)}
-              />
-              {q.text}
-            </label>
-          ))}
-        </div>
-        </>
-                )}
+      
+        
+        {showSelectQuestionsModal && (
+  <SelectQuestionsModal
+    questions={questions}
+    selectedQuestions={selectedQuestions}
+    onToggle={toggleQuestion}
+    onClose={handleCloseSelectQuestions}
+  />
+)}
+
+        
+              
 
 
         <label>Time Limit (seconds):</label>

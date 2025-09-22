@@ -250,13 +250,13 @@ function StartQuizPage() {
           )}
 
           {currentQuestionIndex < quiz.questions.length - 1 && (
-            <button onClick={handleNextQuestion}>Next</button>
+            <button className="btn btn-next"  onClick={handleNextQuestion}>Next</button>
           )}
         </div>
       )}
 
       <button className="btn btn-red" onClick={handleFinishQuiz}>
-        Završi
+        Finish
       </button>
     </div>
   );

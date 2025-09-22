@@ -86,7 +86,7 @@ const refreshQuestions = async () => {
       <ul>
         {questions.map(q => (
           <li key={q.id}>
-            <strong>{q.text}</strong> (Theme: {q.theme}, Points: {q.points})
+            <strong>{q.text}</strong> (Theme: {q.themeName}, Points: {q.points})
             <button onClick={() => setEditingQuestion(q)}>Edit</button>
             <button onClick={() => handleDelete(q.id)}>Delete</button>
           </li>

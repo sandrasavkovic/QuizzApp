@@ -3,6 +3,7 @@ import { getThemes } from "../../../../services/themeService";
 import { getQuestions } from "../../../../services/questionServices";
 import { updateQuizz } from "../../../../services/quizServices";
 import "./AddQuizzForm.css";
+import SelectQuestionsModal from "./SelectQuestionsModal";
 import { toast } from "react-toastify";
 export default function EditQuizForm({ quiz, onClose, onQuizUpdated }) {
   const [title, setTitle] = useState(quiz.title);
@@ -12,7 +13,7 @@ export default function EditQuizForm({ quiz, onClose, onQuizUpdated }) {
   const [themes, setThemes] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [selectedQuestions, setSelectedQuestions] = useState([]);
-
+  const [showSelectQuestionsModal, setShowSelectQuestionsModal] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,9 +36,6 @@ export default function EditQuizForm({ quiz, onClose, onQuizUpdated }) {
     }
     }, [quiz.questions]);
 
-  const toggleQuestion = (id) => {
-    setSelectedQuestions(prev => prev.includes(id) ? prev.filter(q => q !== id) : [...prev, id]);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +72,19 @@ export default function EditQuizForm({ quiz, onClose, onQuizUpdated }) {
     }
   };
 
+
+  
+const hadnleEditQuestionsClick = () => setShowSelectQuestionsModal(true);
+const handleCloseSelectQuestions = () => setShowSelectQuestionsModal(false);
+
+const toggleQuestion = (id) => {
+  setSelectedQuestions((prev) =>
+    prev.includes(id) ? prev.filter((q) => q !== id) : [...prev, id]
+  );
+};
+    
+  
+
   return (
     <div className="add-quiz-overlay">
       <form onSubmit={handleSubmit} className="add-quiz-form">
@@ -84,7 +95,7 @@ export default function EditQuizForm({ quiz, onClose, onQuizUpdated }) {
 
         <label>Description:</label>
         <input type="text" value={description} onChange={e => setDescription(e.target.value)} required />
-
+{/* 
         <label>Select Questions:</label>
         <div className="questions-list">
           {questions.map(q => (
@@ -96,7 +107,34 @@ export default function EditQuizForm({ quiz, onClose, onQuizUpdated }) {
               {q.text}
             </label>
           ))}
-        </div>
+        </div> */}
+        
+        {/* <label>Select Questions:</label>
+        <div className="questions-list">
+          {questions.map(q => (
+            <label key={q.id} className="question-option">
+              <input type="checkbox"
+                     checked={selectedQuestions.includes(q.id)}
+                     onChange={() => toggleQuestion(q.id)}
+              />
+              {q.text}
+            </label>
+          ))}
+        </div> */}
+<button type="button" className="btn btn-green" onClick={hadnleEditQuestionsClick}>Edit questions</button>
+
+
+      
+        
+        {showSelectQuestionsModal && (
+    <SelectQuestionsModal
+      questions={questions}
+      selectedQuestions={selectedQuestions}
+      onToggle={toggleQuestion}
+      onClose={handleCloseSelectQuestions}
+    />
+  )}
+
 
         <label>Time Limit (seconds):</label>
         <input type="number" min="30" step="30" value={timeLimit} onChange={e => setTimeLimit(Number(e.target.value))} />
