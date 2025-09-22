@@ -49,22 +49,46 @@
   gap: 1.5rem;
 }
 
-/* Kviz kartica */
 .quiz-card {
+  position: relative; /* da možemo apsolutno pozicionirati ikone */
   background: white;
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow: 0 6px 10px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-  cursor: pointer;
-
-   width: 230px;   /* fiksna širina */
-  height: 250px;  /* fiksna visina */
+  width: 230px;
+  height: 250px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* lepo rasporedi sadržaj unutra */
-  overflow: hidden; /* da tekst ne probije okvir */
+  justify-content: space-between;
 }
+
+.quiz-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.quiz-card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-icon {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-yellow { background-color: #fbbf24; color: white; }
+.btn-yellow:hover { background-color: #f59e0b; }
+
+.btn-red { background-color: #ef4444; color: white; }
+.btn-red:hover { background-color: #dc2626; }
+
 
 .quiz-card:hover {
   transform: translateY(-5px) scale(1.03);

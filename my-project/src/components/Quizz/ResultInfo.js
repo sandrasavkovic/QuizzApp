@@ -49,46 +49,48 @@ function ResultInfo() {
 
   return (
     <div className="result-info">
-      <h2>Rezultati kviza :  {quizz.title}</h2>
-      <p>Ukupan broj pitanja: {totalQuestionsCount}</p>
-      <p>Tačnih odgovora: {correctAnswersCount}</p>
-      <p>Osvojeni bodovi: {score}/{maxScore}</p>
-      <p>Procenat uspešnosti: {percentage}%</p>
+  <h2>Rezultati kviza : {quizz.title}</h2>
 
-      <h3>Detalji po pitanjima:</h3>
-      <ul>
-        {questions.map((q, index) => {
-          questions.forEach(q => console.log("q.id:", q.id, "answers IDs:", answers.map(a => a.questionId)));
+  <div className="result-summary">
+    <p>Ukupan broj pitanja: {totalQuestionsCount}</p>
+    <p>Tačnih odgovora: {correctAnswersCount}</p>
+    <p>Osvojeni bodovi: {score}/{maxScore}</p>
+    <p>Procenat uspešnosti: {percentage}%</p>
+  </div>
 
-          const userAnsObj = answers.find(a => Number(a.questionId) === q.id);
-          console.log(answers);
-          console.log(",,,", userAnsObj);
-          const userAns = userAnsObj?.answer;
-                    console.log("!,,", userAns);
-          const isCorrect = userAnsObj?.isCorrect;
+  <h3>Detalji po pitanjima:</h3>
+  <div className="result-questions">
+    {questions.map((q, index) => {
+      const userAnsObj = answers.find(a => Number(a.questionId) === q.id);
+      const userAns = userAnsObj?.answer || "Nema";
+      const isCorrect = userAnsObj?.isCorrect;
 
-          let correctAns = "";
-          if (q.type === "SingleChoice" || q.type === "MultipleChoice") {
-            correctAns = q.options
-              .filter(o => o.isCorrect)
-              .map(o => o.text)
-              .join(", ");
-          } else if (q.type === "TrueFalse" || q.type === "FillInTheBlank") {
-            correctAns = q.correctAnswer;
-          }
+      let correctAns = "";
+      if (q.type === "SingleChoice" || q.type === "MultipleChoice") {
+        correctAns = q.options
+          .filter(o => o.isCorrect)
+          .map(o => o.text)
+          .join(", ");
+      } else if (q.type === "TrueFalse" || q.type === "FillInTheBlank") {
+        correctAns = q.correctAnswer;
+      }
 
-          return (
-            <li key={`${q.id}-${index}`} className={isCorrect ? "correct" : "wrong"}>
-              <p><b>{index + 1}. {q.text}</b></p>
-              <p>Tvoj odgovor: {userAns || "Nema"}</p>
-              <p>Tačan odgovor: {correctAns}</p>
-            </li>
-          );
-        })}
-      </ul>
+      return (
+        <div
+          key={q.id}
+          className={`result-question-card ${isCorrect ? "correct" : "wrong"}`}
+        >
+          <p><b>{index + 1}. {q.text}</b></p>
+          <p>Tvoj odgovor: {userAns}</p>
+          <p>Tačan odgovor: {correctAns}</p>
+        </div>
+      );
+    })}
+  </div>
 
-      <button onClick={() => navigate("/main")}>Nazad</button>
-    </div>
+  <button onClick={() => navigate("/main")}>Nazad</button>
+</div>
+
   );
 }
 

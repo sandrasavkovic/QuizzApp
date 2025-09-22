@@ -1,26 +1,91 @@
+/* Pozadina i centriranje */
 .result-info {
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #a5f3fc, #c084fc);
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
 }
 
-.result-info ul {
-  list-style: none;
-  padding: 0;
-}
-
-.result-info li {
+/* Naslov kviza */
+.result-info h2 {
+  font-size: 2rem;
+  font-weight: 800;
   margin-bottom: 1rem;
-  padding: 0.5rem;
-  border-radius: 6px;
+  text-align: center;
 }
 
-.result-info li.correct {
+/* Kartica za informacije o rezultatu */
+.result-summary {
+  background: transparent;
+  padding: 1.5rem 2rem;
+ border-radius: 2rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  /* background: linear-gradient(to right, #6acce8, #9b3ded); */
+
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Detalji po pitanjima */
+.result-questions {
+  width: 100%;
+  max-width: 600px;
+}
+
+.result-question-card {
+  background: #ffffff; /* default */
+  padding: 1.5rem;
+  border-radius: 2rem;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Tačan odgovor: cela kartica zelena */
+.result-question-card.correct {
   background: #d4edda;
   border: 1px solid #28a745;
+  color: #1e3d2e; /* kontrast za tekst */
 }
 
-.result-info li.wrong {
+/* Netačan odgovor: cela kartica crvena */
+.result-question-card.wrong {
   background: #f8d7da;
   border: 1px solid #dc3545;
+  color: #58151f; /* kontrast za tekst */
+}
+
+.result-question-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* Tekst pitanja i odgovora */
+.result-question-card p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+/* Dugme nazad */
+.result-info button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  font-weight: 600;
+  background: linear-gradient(to right, #3b82f6, #9333ea);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.result-info button:hover {
+  background: linear-gradient(to right, #2563eb, #7e22ce);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
 }

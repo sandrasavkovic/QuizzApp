@@ -253,7 +253,17 @@ const handleDeleteQuiz = async (quizId) => {
               className="quiz-card"
               // onClick={() => handleOpenQuiz(quiz)}
             >
-          <h2>{quiz.title}</h2>
+           <div className="quiz-card-header">
+    <h2>{quiz.title}</h2>
+    <div className="quiz-card-actions">
+      <button className="btn btn-icon btn-yellow" onClick={() => openEditQuizForm(quiz.id)}>
+        <i className="bi bi-pencil-square"></i>
+      </button>
+      <button className="btn btn-icon btn-red" onClick={() => handleDeleteQuiz(quiz.id)}>
+        <i className="bi bi-trash"></i>
+      </button>
+    </div>
+  </div>
         <p>{quiz.description}</p>
        <p>Questions: {quiz.questionCount}</p>
         <p>
@@ -270,8 +280,8 @@ const handleDeleteQuiz = async (quizId) => {
         </p>
           <div className="quiz-card-buttons">
         <button className="btn btn-blue" onClick={() => handleStartQuizz(quiz.id)}>Start quizz</button>
-        <button className="btn btn-yellow" onClick={() => openEditQuizForm(quiz.id)}>Edit</button>
-        <button className="btn btn-red" onClick={() => handleDeleteQuiz(quiz.id)}>Delete</button>
+        {/* <button className="btn btn-yellow" onClick={() => openEditQuizForm(quiz.id)}>Edit</button>
+        <button className="btn btn-red" onClick={() => handleDeleteQuiz(quiz.id)}>Delete</button> */}
         <button className="btn btn-purple" onClick={() => navigate(`/leaderboard/${quiz.id}`)}>Leader Rank </button>
         
 

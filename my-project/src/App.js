@@ -13,6 +13,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import LeaderboardPage from './components/Quizz/Global list/LeaderboardPage';
 import GlobalboardPage from './components/Quizz/Global list/GlobalboardPage';
 import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 function App() {
   
   return (
