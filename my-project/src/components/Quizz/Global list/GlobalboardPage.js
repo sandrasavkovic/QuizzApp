@@ -59,6 +59,7 @@ export default function GlobalboardPage() {
 
   const uniqueQuizzes = [...new Set(results.map(r => r.quizzName))];
   return (
+    <div className="globalboard-page">
     <div className="globalboard-container">
       <h2>🌍 Global board</h2>
 
@@ -110,6 +111,7 @@ export default function GlobalboardPage() {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 }

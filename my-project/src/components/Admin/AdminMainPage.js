@@ -125,24 +125,25 @@ function AdminMainPage() {
     };
 
 
-     const closeEditQuizForm = () => setEditingQuizz(null);
+    const closeEditQuizForm = () => setEditingQuizz(null);
 
     const handleQuizUpdated = (updatedQuiz) => {
         setQuizess(prev => prev.map(q => q.id === updatedQuiz.id ? updatedQuiz : q));
         closeEditQuizForm();
   };
 
-const handleDeleteQuiz = async (quizId) => {
-  if (!window.confirm("Are you sure you want to delete this quiz?")) return;
-  try {
-    const result = await deleteQuizz(quizId);
-    if(result.success) {
+  const handleDeleteQuiz = async (quizId) => {
+      if (!window.confirm("Are you sure you want to delete this quiz?")) return;
+      try {
+      const result = await deleteQuizz(quizId);
+      if(result.success) {
       setQuizess(prev => prev.filter(q => q.id !== quizId));
       toast.success("Quiz deleted successfully!");
     } else {
       toast.error("This quiz cannot be deleted because it was alredy attempted to solve!");
     }
-  } catch(err) {
+  } 
+  catch(err) {
     console.error(err);
     toast.error("Failed to delete quiz!");
   }
@@ -180,37 +181,24 @@ const handleDeleteQuiz = async (quizId) => {
 
         {roleClaim === "admin" && (
         <div className="admin-buttons">
-          <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
           {quizzForm && (
               <AddQuizForm 
                 onQuizAdded={handleQuizzAdded}
                 onClose={handleCloseQuizzForm}/>
             )}
             {editingQuiz && (
-         <EditQuizForm
-            quiz={editingQuiz}
-            
-            onClose={closeEditQuizForm}
-          onQuizUpdated={handleQuizUpdated}
-         />
-        )}
-
-          {/* <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
-          <button className="btn btn-green" onClick={openThemeForm}>Add Theme</button>
-
-            {themeForm && (
-              <AddThemeForm
-                onThemeAdded={handleThemeAdded}
-                onClose = {handleCloseThemeForm}/>
-            )}
-            {quizzForm && (
-              <AddQuizForm 
-                onQuizAdded={handleQuizzAdded}
-                onClose={handleCloseQuizzForm}/>
-            )} */}
+            <EditQuizForm
+                quiz={editingQuiz}
+                onClose={closeEditQuizForm}
+                onQuizUpdated={handleQuizUpdated}
+            />
+           )}
+            <div className="admin-navbar">
+              <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
               <button className="btn btn-blue" onClick={() => navigate("/admin/themes")}>Themes</button>
-              <button className="btn btn-green" onClick={() => navigate("/admin/questions")}>Questions</button>
-              <button className="btn btn-purple" onClick={() => navigate("/globalboard")} > Global board</button>
+              <button className="btn btn-blue" onClick={() => navigate("/admin/questions")}>Questions</button>
+              <button className="btn btn-blue" onClick={() => navigate("/globalboard")} > Global board</button>
+            </div>
         </div>
          )}
    </div>
@@ -245,55 +233,51 @@ const handleDeleteQuiz = async (quizId) => {
       </div>
 
          <div className="quiz-grid">
-        {filteredQuizzes.length > 0 ? (
-          filteredQuizzes.map((quiz) => (
-            <div
-              key={quiz.id}
-              className="quiz-card"
-              // onClick={() => handleOpenQuiz(quiz)}
-            >
-           <div className="quiz-card-header">
-    <h2>{quiz.title}</h2>
-    <div className="quiz-card-actions">
-      <button className="btn btn-icon btn-yellow" onClick={() => openEditQuizForm(quiz.id)}>
-        <i className="bi bi-pencil-square"></i>
-      </button>
-      <button className="btn btn-icon btn-red" onClick={() => handleDeleteQuiz(quiz.id)}>
-        <i className="bi bi-trash"></i>
-      </button>
-    </div>
-  </div>
-        <p>{quiz.description}</p>
-       <p>Questions: {quiz.questionCount}</p>
-        <p>
-          Difficulty: <span className={`difficulty ${quiz.difficulty.toLowerCase()}`}>
-            {quiz.difficulty}
-          </span>
-        </p>
-        <p>Time Limit: {quiz.timeLimit} sec</p>
-        <p>
-          Themes:{" "}
-          {quiz.themes && quiz.themes.length > 0
-            ? quiz.themes.map((t) => t.name).join(", ")
-            : "No themes"}
-        </p>
-          <div className="quiz-card-buttons">
-        <button className="btn btn-blue" onClick={() => handleStartQuizz(quiz.id)}>Start quizz</button>
-        {/* <button className="btn btn-yellow" onClick={() => openEditQuizForm(quiz.id)}>Edit</button>
-        <button className="btn btn-red" onClick={() => handleDeleteQuiz(quiz.id)}>Delete</button> */}
-        <button className="btn btn-purple" onClick={() => navigate(`/leaderboard/${quiz.id}`)}>Leader Rank </button>
-        
-
+            {filteredQuizzes.length > 0 ? (
+               filteredQuizzes.map((quiz) => (
+               <div
+                  key={quiz.id}
+                  className="quiz-card"
+                 >
+              <div className="quiz-card-header">
+                <h2>{quiz.title}</h2>
+                {roleClaim === "admin" && (
+                <div className="quiz-card-actions">
+                <button className="btn btn-icon-btn-yellow" onClick={() => openEditQuizForm(quiz.id)}>
+                  <i className="bi bi-pen-fill"></i>
+                </button>
+                <button className="btn btn-icon-btn-red" onClick={() => handleDeleteQuiz(quiz.id)}>
+                  <i className="bi bi-trash-fill"></i>
+                </button>
+               </div>
+                )}
+          </div>
+          <p>{quiz.description}</p>
+            <p>Questions: {quiz.questionCount}</p>
+            <p>
+                Difficulty: <span className={`difficulty ${quiz.difficulty.toLowerCase()}`}>
+               {quiz.difficulty}
+            </span>
+            </p>
+            <p>Time Limit: {quiz.timeLimit} sec</p>
+            <p>
+              Themes:{" "}
+              {quiz.themes && quiz.themes.length > 0
+                ? quiz.themes.map((t) => t.name).join(", ")
+                : "No themes"}
+            </p>
+            <div className="quiz-card-footer">
+            <button className="btn btn-blue" onClick={() => handleStartQuizz(quiz.id)}>Start</button>
+            <button className="btn btn-red" onClick={() => navigate(`/leaderboard/${quiz.id}`)}>Leader Rank </button>
+          </div>
         </div>
+       ))
+      ) 
+      : (
+        <p className="text-gray-500 text-center col-span-full">Nema dostupnih kvizova.</p>
+        )}
       </div>
-    ))
-    ) : (
-    <p className="text-gray-500 text-center col-span-full">Nema dostupnih kvizova.</p>
-    )}
-  </div>
-
     </div>
-  );
-
+   );
 }
-    export default AdminMainPage;
+export default AdminMainPage;

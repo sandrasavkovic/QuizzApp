@@ -1,7 +1,9 @@
 /* AdminThemes.css */
 
 .admin-themes-page {
+  min-height: 100vh;
   padding: 2rem;
+  background: linear-gradient(135deg, #a5f3fc, #c084fc);
   font-family: 'Inter', sans-serif;
 }
 
@@ -21,18 +23,14 @@
   margin-left: 0.5rem;
 }
 
-.admin-themes-page button:hover {
-  opacity: 0.9;
-}
-
-.admin-themes-page button.btn-blue {
+.btn-blue {
   background-color: #3b82f6;
-  color: white;
 }
 
-.admin-themes-page button.btn-gray {
-  background-color: #9ca3af;
-  color: white;
+.btn-blue:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .admin-themes-page ul {
@@ -44,22 +42,45 @@
 .admin-themes-page li {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between;  /* Razdvaja elemente i stavlja ih na krajeve */
   padding: 0.8rem 1rem;
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
-  background-color: #f3f4f6;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  background-color: transparent;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: transform 0.1s;
 }
 
+/* Hover efekat na listu */
 .admin-themes-page li:hover {
   transform: translateY(-2px);
 }
 
+/* Dugmadi unutar li */
 .admin-themes-page li button {
-  margin-left: 1rem;
+  margin-left: 1rem; /* Razmak između dugmadi */
+  background: transparent; /* Bez pozadinske boje */
+  border: 2px solid transparent; /* Bez okvira osim na hover */
+  border-radius: 6px;
+  padding: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
+
+/* Dugmadi - Hover efekat */
+.admin-themes-page li button:hover {
+  background: linear-gradient(135deg, #a5f3fc, #c084fc); /* Pozadinska boja na hover */
+  border-color: #3b82f6; /* Plavi border na hover */
+}
+
+/* Flex container za dugmadi (edit i delete) */
+.admin-themes-page li .button-container {
+  display: flex;
+  gap: 0.5rem; /* Razmak između dugmadi */
+  justify-content: flex-end;  /* Poravnaj dugmadi desno */
+  align-items: center;
+}
+
 
 /* Overlay za forme */
 .admin-themes-page .add-theme-overlay {

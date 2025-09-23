@@ -53,7 +53,7 @@ function AdminThemesPage() {
   return (
     <div className="admin-themes-page">
       <h1>Themes</h1>
-      <button onClick={() => setShowForm(true)}>Add Theme</button>
+      <button className="btn btn-blue" onClick={() => setShowForm(true)}>Add Theme</button>
       {showForm && <AddThemeForm onThemeAdded={handleThemeAdded} onClose={() => setShowForm(false)} />}
        {editingTheme &&
         <EditThemeForm
@@ -65,9 +65,15 @@ function AdminThemesPage() {
       <ul>
         {themes.map(t => (
           <li key={t.id}>
-            {t.name}
-                       <button onClick={() => setEditingTheme(t)}>Edit</button>
-                        <button onClick={() => handleDelete(t.id)}>Delete</button>
+            {t.name}          
+              <div className="button-container">
+                  <button onClick={() => setEditingTheme(t)}>
+                     <i className="bi bi-pen-fill"></i>
+                  </button>
+                  <button onClick={() => handleDelete(t.id)}>
+                     <i className="bi bi-trash-fill"></i>
+                  </button>
+                    </div>
           </li>
         ))}
       </ul>

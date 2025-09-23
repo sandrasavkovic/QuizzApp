@@ -1,11 +1,16 @@
+.globalboard-page{
+    min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #a5f3fc, #c084fc);
+  font-family: 'Inter', sans-serif;
+  position: relative;
+}
 .globalboard-container {
   max-width: 900px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #f8f9fa;
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  font-family: "Inter", sans-serif;
 }
 
 .globalboard-container h2 {

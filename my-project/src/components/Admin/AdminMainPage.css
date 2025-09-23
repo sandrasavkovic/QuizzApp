@@ -1,23 +1,111 @@
 /* Osnovna pozadina i font */
+/* Osnovna pozadina i font */
 .admin-container {
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+  background: linear-gradient(135deg, #a5f3fc, #c084fc);
   font-family: 'Inter', sans-serif;
+  position: relative; /* Ensures the absolute positioning inside this container */
+}
+
+/* User Profile in top-right corner */
+.user-profile {
+  position: absolute;
+  top: 2rem;  /* Adjust as necessary */
+  right: 2rem; /* Adjust as necessary */
+  display: inline-block;
+}
+
+.user-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  border: 2px solid #007bff;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 50px; /* ispod slike */
+  right: 0;
+  background-color: transparent;
+  margin: 5px;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  display: flex;
+  flex-direction: column; /* Vertikalni raspored dugmadi */
+  gap: 0.5rem; /* Razmak između dugmadi */
+}
+
+.user-dropdown button {
+  width: 100%; /* Širina dugmadi postavljena na 100% širine kontejnera */
+  padding: 0.6rem 1rem; /* Dodajemo padding za bolji izgled dugmadi */
+  border-radius: 0.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Dugme plave boje */
+.user-dropdown .btn-blue {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.user-dropdown .btn-blue:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dugme crvene boje */
+.user-dropdown .btn-red {
+  background-color: #ef4444;
+  color: white;
+}
+
+.user-dropdown .btn-red:hover {
+  background-color: #eb2581;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Header sa dugmadima */
+/* Header */
 .admin-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* levo naslov, desno user profil */
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
-.admin-header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1f2937;
+/* Admin navbar */
+.admin-navbar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background: transparent;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.6rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Quiz card footer */
+.quiz-card-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.quiz-card-footer .btn {
+  flex: 1; /* oba dugmeta iste širine */
+  height: 50px;
 }
 
 /* Dugmad */
@@ -36,17 +124,22 @@
 .btn-blue { background-color: #3b82f6; }
 .btn-blue:hover { background-color: #2563eb; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
 
+
+
 .btn-green { background-color: #10b981; }
 .btn-green:hover { background-color: #059669; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
 
-.btn-red { background-color:#ef4444; }
+.btn-red { background-color:#ef4444;   border-radius: 0.6rem;
+}
 .btn-red:hover { background-color: #eb2581; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
 
 /* Grid kvizova */
 .quiz-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* auto-fill umesto auto-fit */
   gap: 1.5rem;
+  justify-items: center; /* Centriranje svakog kviza u gridu */
+  justify-content: start; /* Poravnava kvizove sa početkom */
 }
 
 .quiz-card {
@@ -56,38 +149,85 @@
   padding: 1.5rem;
   box-shadow: 0 6px 10px rgba(0,0,0,0.1);
   width: 230px;
-  height: 250px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
+/* Quiz card header */
 .quiz-card-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+    width: 85%;
+    height: auto;
+  justify-content: center; /* Center the title */
+  align-items: center; /* Vertically center */
+  position: relative; /* Ensure that the action buttons can be positioned absolutely */
+    padding-right: 50px; /* Pravi prostor za dugmadi na desnoj strani */
+  margin-bottom: 10px; /* Razmak između naslova i dugmadi */
+
 }
 
+/* Title inside quiz card header */
+.quiz-card-header h2 {
+  margin-left: 20px;
+  margin-top: 30px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Action buttons container */
 .quiz-card-actions {
+  position: absolute; /* Position them at the top-right corner */
+  top: 0;
+  right: 0;
   display: flex;
   gap: 0.5rem;
 }
-
-.btn-icon {
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  border-radius: 50%;
+/* Osnovni stil za ikona dugmadi */
+.quiz-card-actions button {
+  width: 36px; /* Veličina dugmadi */
+  height: 36px; /* Veličina dugmadi */
   display: flex;
-  align-items: center;
   justify-content: center;
+  margin-right: 0;
+  align-items: center;
+  background: none;
+  border: 2px solid transparent; /* Transparentni border koji će se promeniti na hover */
+  border-radius: 6px; /* Zaokružene ivice */
+  padding: 4px; /* Unutrašnji razmak za bolji izgled ikona */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Glatka animacija za hover */
 }
 
-.btn-yellow { background-color: #fbbf24; color: white; }
-.btn-yellow:hover { background-color: #f59e0b; }
+/* Stil za žuto (edit dugme) */
+.quiz-card-actions .btn-icon-btn-yellow {
+  color: #fbbf24; /* Žuta boja za ikonu */
+  border-color: transparent; /* U početku nema vidljivog okvira */
+}
 
-.btn-red { background-color: #ef4444; color: white; }
-.btn-red:hover { background-color: #dc2626; }
+/* Hover efekat za žuto dugme */
+.quiz-card-actions .btn-icon-btn-yellow:hover {
+  color: #f59e0b; /* Tamnija žuta boja na hover */
+  border-color: #fbbf24; /* Prikazivanje žutog okvira na hover */
+  background-color: rgba(255, 204, 0, 0.1); /* Blaga pozadinska boja na hover */
+  transform: scale(1.1); /* Blagi efekat uvećanja na hover */
+}
+
+/* Stil za crveno (delete dugme) */
+.quiz-card-actions .btn-icon-btn-red {
+  color: #ef4444; /* Crvena boja za ikonu */
+  border-color: transparent; /* U početku nema vidljivog okvira */
+}
+
+/* Hover efekat za crveno dugme */
+.quiz-card-actions .btn-icon-btn-red:hover {
+  color: #dc2626; /* Tamnija crvena boja na hover */
+  border-color: #ef4444; /* Prikazivanje crvenog okvira na hover */
+  background-color: rgba(239, 68, 68, 0.1); /* Blaga pozadinska boja na hover */
+  transform: scale(1.1); /* Blagi efekat uvećanja na hover */
+}
 
 
 .quiz-card:hover {
@@ -163,28 +303,8 @@
   background-size: 1rem;
 }
 
-.user-profile {
-  position: relative;
-  display: inline-block;
-}
-
-.user-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  object-fit: cover;
-  border: 2px solid #007bff;
-}
-
-.user-dropdown {
-  position: absolute;
-  top: 50px; /* ispod slike */
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  z-index: 10;
+@media (max-width: 768px) {
+  .quiz-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Manje širine za mobilne uređaje */
+  }
 }

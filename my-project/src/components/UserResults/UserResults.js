@@ -40,6 +40,7 @@ function UserResults() {
   }, {})
 
   return (
+    <div className="results-page">
     <div className="results-container">
       <h2>Moji rezultati</h2>
       {results.length === 0 ? (
@@ -109,11 +110,11 @@ function UserResults() {
       <h3>{quizResults[0].quizzName || `Kviz #${quizzId}`}</h3>
       <Line data={data} />
     </div>
-  );
-})}
-</div>
-
-    </div>
+    );
+    })}
+  </div>
+  </div>
+  </div>
   );
 }
 

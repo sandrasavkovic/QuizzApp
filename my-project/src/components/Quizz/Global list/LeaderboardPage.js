@@ -29,6 +29,7 @@ export default function LeaderboardPage() {
   }, [quizzId]);
 
   return (
+    <div className="globalboard-page">
     <div className="globalboard-container">
       {results.length > 0 && (
     <h2>Leader board for Quiz : {results[0].quizzName}</h2>
@@ -56,6 +57,7 @@ export default function LeaderboardPage() {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 }
