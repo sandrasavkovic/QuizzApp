@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProjectBackend.Dto.Question;
 using MyProjectBackend.Dto.Quizz;
@@ -37,6 +38,7 @@ namespace MyProjectBackend.Controllers
 
 
         [HttpPost("create")]
+        [Authorize(Roles = "admin")]
         public IActionResult Create(CreateQuizzDto createdQuizz)
         {
             // mozda za teme prosledi listu questions i dodaj sve teme na osnovu id-eva tema u tim questionima
@@ -54,19 +56,6 @@ namespace MyProjectBackend.Controllers
                 MaxScore = maxScore,
                 Difficulty = createdQuizz.Difficulty,
                 QuestionIds = createdQuizz.QuestionIds,
-                //Questions = createdQuizz.Questions.Select(q => new QuestionDto
-                //{
-                //    Text = q.Text,
-                //    ThemeId = q.ThemeId,
-                //    Type = q.Type,
-                //    Points = q.Points,
-                //    CorrectAnswer = q.CorrectAnswer,
-                //    Options = q.Options?.Select(o => new OptionDto
-                //    {
-                //        Text = o.Text,
-                //        IsCorrect = o.IsCorrect
-                //    }).ToList()
-                //}).ToList(),
                 ThemeIds = createdQuizz.ThemeIds,
             };
             QuizzDto newQuizz = _quizzService.AddQuizz(quiz);
@@ -83,6 +72,7 @@ namespace MyProjectBackend.Controllers
         }
 
         [HttpPut("update/{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateQuizz(int id, [FromBody] QuizzDto quizzDto)
         {
 
@@ -105,6 +95,7 @@ namespace MyProjectBackend.Controllers
 
 
         [HttpDelete("delete/{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteQuizz(int id)
         {
             bool result = _quizzService.DeleteQuizz(id);

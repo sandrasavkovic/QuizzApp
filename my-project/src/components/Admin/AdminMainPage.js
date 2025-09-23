@@ -159,7 +159,6 @@ const handleDeleteQuiz = async (quizId) => {
  return (
     <div className="admin-container">
       <div className="admin-header">
-        <h1>Admin Dashboard</h1>
        <div className="user-profile">
   <img
     src={user?.image || "/default-user.png"}

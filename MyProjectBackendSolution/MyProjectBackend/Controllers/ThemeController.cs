@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyProjectBackend.Dto.Question;
@@ -28,6 +29,7 @@ namespace MyProjectBackend.Controllers
         }
 
         [HttpPost("create")]
+        [Authorize(Roles = "admin")]
         public IActionResult CreateTheme([FromBody] ThemeDto themeDto)
         {
             if (string.IsNullOrEmpty(themeDto.Name))
@@ -40,6 +42,7 @@ namespace MyProjectBackend.Controllers
 
 
         [HttpPut("update/{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateTheme(int id, [FromBody] ThemeDto theme)
         {
             var res = _themeService.UpdateTheme(id, theme);
@@ -61,6 +64,7 @@ namespace MyProjectBackend.Controllers
 
 
         [HttpDelete("delete/{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteTheme(int id)
         {
             bool result = _themeService.DeleteTheme(id);

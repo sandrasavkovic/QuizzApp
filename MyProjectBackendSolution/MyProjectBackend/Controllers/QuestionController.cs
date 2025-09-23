@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProjectBackend.Dto.Question;
 using MyProjectBackend.Interfaces;
@@ -18,6 +19,7 @@ namespace MyProjectBackend.Controllers
         }
 
         [HttpPost("create")]
+        [Authorize(Roles="admin")]
         public IActionResult CreateQuestion([FromBody] QuestionDto questionDto)
         {
             if (questionDto == null)
@@ -29,12 +31,14 @@ namespace MyProjectBackend.Controllers
 
 
         [HttpGet("questions")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetQuestions()
         {
            return Ok(_questionService.GetAllQuestions());
         }
 
         [HttpPut("update/{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateQuestion(int id, [FromBody] QuizzQuestionsDto questionDto)
         {
 
@@ -57,6 +61,7 @@ namespace MyProjectBackend.Controllers
 
 
         [HttpDelete("delete/{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteQuestion(int id)
         {
             bool result = _questionService.DeleteQuestion(id);
