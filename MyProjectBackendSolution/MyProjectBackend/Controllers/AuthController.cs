@@ -16,11 +16,12 @@ namespace MyProjectBackend.Controllers
     {
         private readonly IUserService _userService;
         private readonly IConfigurationSection _secretKey;
-        public AuthController(IUserService userService, IConfiguration configuration)
+        private readonly IAuthService _authService;
+        public AuthController(IUserService userService, IConfiguration configuration, IAuthService authService)
         {
             _userService = userService;
             _secretKey = configuration.GetSection("JWT:SecretKey");
-
+            _authService = authService;
         }
 
         /*
@@ -35,45 +36,14 @@ namespace MyProjectBackend.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginUserDto loginUser)
         {
-            string username = loginUser.Username;
-            string password = loginUser.Password;
+            var token = _authService.Authenticate(loginUser);
 
-            List<UserDto> users = _userService.GetAllUsers();
-
-            var user = users.FirstOrDefault(u => u.Username == username);
-            // BCrypt.Verify(unetiPAss, hashovaniUbazi)
-            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
+            if (token == null)
             {
                 return Unauthorized("Invalid username or password.");
             }
-            // claimovi, ako je username Admin, onda je i role Admin
-            List<Claim> claims = new List<Claim>
-            {
-                 new Claim(ClaimTypes.Name, user.Username),
-                  new Claim("userId", user.Id.ToString())
 
-            };
-
-            if (user.Username.ToLower() == "admin")
-            {
-                claims.Add(new Claim(ClaimTypes.Role, "admin"));
-            }
-
-            // Kreiramo JWT token
-            SymmetricSecurityKey secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey.Value));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-            var tokenOptions = new JwtSecurityToken(
-                issuer: "http://localhost:7121", // tvoj server URL
-                audience: "http://localhost:7121", // opcionalno, može biti isti kao issuer
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(20),
-                signingCredentials: signinCredentials
-            );
-
-            string tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
-            return Ok(new { Token = tokenString });
+            return Ok(new { Token = token });
         }
 
         [HttpPost("register")]
@@ -87,6 +57,7 @@ namespace MyProjectBackend.Controllers
             {
                 return BadRequest("Password should have at least 6 characters.");
             }
+
             var existingUser = _userService.GetAllUsers()
                                   .FirstOrDefault(u => u.Username.ToLower() == registerDto.Username.ToLower());
             if (existingUser != null)
@@ -127,8 +98,6 @@ namespace MyProjectBackend.Controllers
                 Password = hashedPassword,
                 Image = imageUrl
             };
-
-            //_userService.AddUser(userDto);
 
 
             return Ok(_userService.AddUser(userDto));

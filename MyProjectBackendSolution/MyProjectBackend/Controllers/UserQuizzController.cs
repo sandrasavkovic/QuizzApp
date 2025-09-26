@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProjectBackend.Dto.Quizz;
 using MyProjectBackend.Interfaces;
@@ -97,6 +98,7 @@ namespace MyProjectBackend.Controllers
         }
 
         [HttpGet("globalboard")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetGlobalboard()
         {
             var results = _userquizzservice.GetGlobalboard();
@@ -113,6 +115,27 @@ namespace MyProjectBackend.Controllers
             {
                 success = true,
                 globalResults = results
+            });
+        }
+
+        [HttpGet("users-results")]
+        [Authorize(Roles = "admin")]
+        public IActionResult GetAllUsersResults()
+        {
+            var results = _userquizzservice.GetAllUserResults();
+            if (results == null)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "No users results!"
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                usersResults = results
             });
         }
     }

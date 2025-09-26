@@ -49,20 +49,20 @@ function ResultInfo() {
 
   return (
     <div className="result-info">
-  <h2>Rezultati kviza : {quizz.title}</h2>
+  <h2> {quizz.title}</h2>
 
   <div className="result-summary">
-    <p>Ukupan broj pitanja: {totalQuestionsCount}</p>
-    <p>Tačnih odgovora: {correctAnswersCount}</p>
-    <p>Osvojeni bodovi: {score}/{maxScore}</p>
-    <p>Procenat uspešnosti: {percentage}%</p>
+    <p>Total questions: {totalQuestionsCount}</p>
+    <p>Correct answers: {correctAnswersCount}</p>
+    <p>Points/Total points: {score}/{maxScore}</p>
+    <p>Percentage of success: {percentage}%</p>
   </div>
 
-  <h3>Detalji po pitanjima:</h3>
+  <h3>Details:</h3>
   <div className="result-questions">
     {questions.map((q, index) => {
       const userAnsObj = answers.find(a => Number(a.questionId) === q.id);
-      const userAns = userAnsObj?.answer || "Nema";
+      const userAns = userAnsObj?.answer || "No answer";
       const isCorrect = userAnsObj?.isCorrect;
 
       let correctAns = "";
@@ -81,14 +81,14 @@ function ResultInfo() {
           className={`result-question-card ${isCorrect ? "correct" : "wrong"}`}
         >
           <p><b>{index + 1}. {q.text}</b></p>
-          <p>Tvoj odgovor: {userAns}</p>
-          <p>Tačan odgovor: {correctAns}</p>
+          <p>Your answer: {userAns}</p>
+          <p>Correct answer: {correctAns}</p>
         </div>
       );
     })}
   </div>
 
-  <button onClick={() => navigate("/main")}>Nazad</button>
+  <button onClick={() => navigate("/main")}>Home</button>
 </div>
 
   );

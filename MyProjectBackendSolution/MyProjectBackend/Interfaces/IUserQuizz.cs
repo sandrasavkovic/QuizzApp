@@ -25,5 +25,7 @@ namespace MyProjectBackend.Interfaces
 
         List<GlobalboardRankDto> GetGlobalboard();
 
+        List<GlobalboardDto> GetAllUserResults();
+
     }
 }

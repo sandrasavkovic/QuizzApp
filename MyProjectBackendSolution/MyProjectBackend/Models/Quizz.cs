@@ -16,9 +16,7 @@
 
         public string Description { get; set; }
 
-        // ima teme
         public List<Theme> Themes { get; set; } = new();
-        // pitanaja realizujem pomocu veze s temom
 
         public List<Question> Questions { get; set; } = new();
 

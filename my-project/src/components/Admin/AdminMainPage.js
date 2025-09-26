@@ -33,6 +33,7 @@ function AdminMainPage() {
       const userData = await getUser(localStorage.getItem("userId"));
       setUser(userData);
       console.log(userData);
+      console.log(roleClaim);
     } catch (err) {
       console.error(err);
     }
@@ -198,6 +199,7 @@ function AdminMainPage() {
               <button className="btn btn-blue" onClick={() => navigate("/admin/themes")}>Themes</button>
               <button className="btn btn-blue" onClick={() => navigate("/admin/questions")}>Questions</button>
               <button className="btn btn-blue" onClick={() => navigate("/globalboard")} > Global board</button>
+              <button className="btn btn-blue" onClick={() => navigate("/users-results")} > Users results</button>
             </div>
         </div>
          )}

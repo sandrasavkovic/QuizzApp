@@ -28,11 +28,13 @@ builder.Services.AddCors(options =>
 
 // mapiranje servisa i interfejsa
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IQuizzService, QuizzService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<IUserQuizz, UserQuizzService>();
 builder.Services.AddScoped<IUserAnswer, UserAnswerService>();
+
 
 //var mapperConfig = new MapperConfiguration(mc =>
 //{

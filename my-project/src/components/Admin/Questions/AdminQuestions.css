@@ -40,7 +40,7 @@
 }
 
 .admin-questions-page li {
-  background: #fff;
+  background: transparent;
   padding: 1rem 1.5rem;
   margin-bottom: 1rem;
   border-radius: 10px;
@@ -68,31 +68,28 @@
   color: #555;
 }
 
-/* Dugmad za Edit/Delete */
+/* Dugmadi unutar li */
 .admin-questions-page li button {
-  margin-left: 0.5rem;
-  padding: 0.4rem 0.8rem;
-  border: none;
+  margin-left: 1rem;
+  background: transparent;
+  border: 2px solid transparent;
   border-radius: 6px;
+  padding: 4px 8px;
   cursor: pointer;
+  transition: all 0.3s ease;
   font-size: 0.85rem;
-  transition: background 0.2s ease;
 }
 
-.admin-questions-page li button:first-of-type {
-  background-color: #10b981;
-  color: white;
+/* Hover efekat */
+.admin-questions-page li button:hover {
+  background: linear-gradient(135deg, #a5f3fc, #c084fc);
+  border-color: #3b82f6;
 }
 
-.admin-questions-page li button:first-of-type:hover {
-  background-color: #059669;
-}
-
-.admin-questions-page li button:last-of-type {
-  background-color: #ef4444;
-  color: white;
-}
-
-.admin-questions-page li button:last-of-type:hover {
-  background-color: #b91c1c;
+/* Flex kontejner za dugmadi */
+.admin-questions-page li .button-container {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  align-items: center;
 }

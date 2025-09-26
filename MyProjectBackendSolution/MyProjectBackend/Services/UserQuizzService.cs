@@ -114,8 +114,6 @@ namespace MyProjectBackend.Services
 
         public List<GlobalboardRankDto> GetGlobalboard()
         {
-            // uzimamo za svaki kviz najbolji rezultat
-         
 
             var results = _dbContext.UserQuizzs
                 .Include(uq => uq.User)
@@ -139,6 +137,23 @@ namespace MyProjectBackend.Services
             }
             
             return dtos;
+        }
+
+        public List<GlobalboardDto> GetAllUserResults()
+        {
+            bool exists = _dbContext.UserQuizzs.Any();
+            if (!exists)
+            {
+                return null;
+            }
+            var results = _dbContext.UserQuizzs
+             .Include(uq => uq.User)
+             .Include(uq => uq.Quizz)
+                .OrderByDescending(uq => uq.Score)
+              .ThenBy(uq => uq.TimeTaken)
+              .ToList();
+
+            return _mapper.Map<List<GlobalboardDto>>(results);
         }
 
     }

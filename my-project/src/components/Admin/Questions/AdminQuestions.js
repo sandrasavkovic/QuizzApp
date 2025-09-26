@@ -86,9 +86,19 @@ const refreshQuestions = async () => {
       <ul>
         {questions.map(q => (
           <li key={q.id}>
-            <strong>{q.text}</strong> (Theme: {q.themeName}, Points: {q.points})
-            <button onClick={() => setEditingQuestion(q)}>Edit</button>
-            <button onClick={() => handleDelete(q.id)}>Delete</button>
+              <div className="question-text">
+        <strong>{q.text}</strong>
+        <span>Theme: {q.themeName}, </span>
+        <span>Points: {q.points}</span>
+      </div>
+      <div className="button-container">
+        <button onClick={() => setEditingQuestion(q)}>
+          <i className="bi bi-pen-fill"></i>
+        </button>
+        <button onClick={() => handleDelete(q.id)}>
+          <i className="bi bi-trash-fill"></i>
+        </button>
+      </div>
           </li>
         ))}
       </ul>

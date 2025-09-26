@@ -42,19 +42,19 @@ function UserResults() {
   return (
     <div className="results-page">
     <div className="results-container">
-      <h2>Moji rezultati</h2>
+      <h2>My results</h2>
       {results.length === 0 ? (
-        <p>Još nemaš rešene kvizove.</p>
+        <p>You haven't done any quizzes.</p>
       ) : (
         <table className="results-table">
           <thead>
             <tr>
               <th></th>
-              <th>Datum</th>
-              <th>Poeni</th>
-              <th>Procenat</th>
-              <th>Trajanje</th>
-              <th>Detalji</th>
+              <th>Date</th>
+              <th>Points</th>
+              <th>Percentage</th>
+              <th>Time</th>
+              <th>Details</th>
             </tr>
           </thead>
           <tbody>
@@ -72,7 +72,7 @@ function UserResults() {
                        navigate(`/quiz-result/${r.id}`)
                     }
                   >
-                    Pregled
+                    More info
                   </button>
                 </td>
               </tr>

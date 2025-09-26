@@ -158,3 +158,25 @@ export async function getGlobalboard() {
     throw err;
   }
 }
+
+export async function getUsersResults() {
+  try{
+        console.log("SALJEM NA OVOJ ADRESI: ");
+        console.log(`${API_URL}/api/userQuizz/users-results`);
+   const response = await fetch(`${API_URL}/api/userQuizz/users-results`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+  });
+
+  console.log(response);
+  if (!response.ok) {
+    throw new Error("Failed to fetch users results!");
+  }
+  return await response.json();
+  }
+  catch (err) {
+    throw err;
+  }
+}

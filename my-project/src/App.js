@@ -12,6 +12,7 @@ import AdminQuestionsPage from './components/Admin/Questions/AdminQuestions';
 import { ToastContainer, toast } from 'react-toastify';
 import LeaderboardPage from './components/Quizz/Global list/LeaderboardPage';
 import GlobalboardPage from './components/Quizz/Global list/GlobalboardPage';
+import AllUsersResults from './components/Quizz/Global list/AllUsersResults';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
@@ -31,6 +32,7 @@ function App() {
         <Route path="/admin/questions" element={<AdminQuestionsPage />} /> 
         <Route path="/leaderboard/:quizzId" element={<LeaderboardPage />} />
         <Route path="/globalboard" element={<GlobalboardPage />} />
+        <Route path="/users-results" element={<AllUsersResults/>} />
 
 
       </Routes>
