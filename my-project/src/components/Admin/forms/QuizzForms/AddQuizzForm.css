@@ -44,7 +44,7 @@
 
 .add-quiz-form input,
 .add-quiz-form select {
-  width: 100%;
+  width: 95%;
   padding: 0.7rem 1rem;
   border: 1px solid #d1d5db;
   border-radius: 0.9rem;

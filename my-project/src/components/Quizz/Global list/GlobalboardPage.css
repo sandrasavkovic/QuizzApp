@@ -73,3 +73,22 @@
   font-weight: 700;
   color: #4c1d95;
 }
+
+
+.globalboard-page button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  font-weight: 600;
+  background: linear-gradient(to right, #3b82f6, #9333ea);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.globalboard-page button:hover {
+  background: linear-gradient(to right, #2563eb, #7e22ce);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}

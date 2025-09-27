@@ -60,7 +60,7 @@ function UserResults() {
           <tbody>
             {results.map((r, i) => (
               <tr key={i}>
-                <td>{r.quizzTitle || `Pokusaj #${r.id}`}</td>
+                <td>{r.quizzName || `Attempt #${r.id}`}</td>
                 <td>{new Date(r.attemptDate).toLocaleString()}</td>
                 <td>{r.score}</td>
                 <td>{r.percentage}%</td>
@@ -93,7 +93,7 @@ function UserResults() {
   );
 
   const data = {
-    labels: sortedResults.map((r, idx) => `Pokusaj ${idx + 1}`),
+    labels: sortedResults.map((r, idx) => `Attempt ${idx + 1}`),
     datasets: [
       {
         label: quizResults[0].quizzName || `Kviz #${quizzId}`,
@@ -114,6 +114,8 @@ function UserResults() {
     })}
   </div>
   </div>
+    <button onClick={() => navigate("/main")}>Home</button>
+
   </div>
   );
 }

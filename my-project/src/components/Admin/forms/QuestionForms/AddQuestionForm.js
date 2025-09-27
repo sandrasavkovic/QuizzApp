@@ -101,7 +101,7 @@ useEffect(() => {
                     placeholder={`Option ${idx + 1}`} 
                   />
                   <label>
-                    Correct:{type === "SingleChoice" ? (
+                    {type === "SingleChoice" ? (
                    <input
                    type="radio"
                     name="singleCorrect"  // sve opcije istog pitanja imaju isti name

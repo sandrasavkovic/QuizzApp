@@ -31,7 +31,6 @@ namespace MyProjectBackend.Controllers
 
 
         [HttpGet("questions")]
-        [Authorize(Roles = "admin")]
         public IActionResult GetQuestions()
         {
            return Ok(_questionService.GetAllQuestions());

@@ -98,7 +98,6 @@ namespace MyProjectBackend.Controllers
         }
 
         [HttpGet("globalboard")]
-        [Authorize(Roles = "admin")]
         public IActionResult GetGlobalboard()
         {
             var results = _userquizzservice.GetGlobalboard();

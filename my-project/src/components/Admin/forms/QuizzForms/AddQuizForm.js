@@ -122,22 +122,18 @@ const toggleQuestion = (id) => {
           required
         />
       
-        <button type="button" className="btn btn-green" onClick={handleAddQuestionClick}>Add Question</button>
 
 
       
         
         {showSelectQuestionsModal && (
-  <SelectQuestionsModal
-    questions={questions}
-    selectedQuestions={selectedQuestions}
-    onToggle={toggleQuestion}
-    onClose={handleCloseSelectQuestions}
-  />
-)}
-
-        
-              
+    <SelectQuestionsModal
+      questions={questions}
+      selectedQuestions={selectedQuestions}
+      onToggle={toggleQuestion}
+      onClose={handleCloseSelectQuestions}
+    />
+  )}
 
 
         <label>Time Limit (seconds):</label>
@@ -159,11 +155,14 @@ const toggleQuestion = (id) => {
           <option value="Medium">Medium</option>
           <option value="Hard">Hard</option>
         </select>
+        <button type="button" className="btn btn-blue" onClick={handleAddQuestionClick}>Add Questions</button>
 
         <div className="form-buttons">
           <button type="submit">Add Quiz</button>
           <button type="button" onClick={onClose}>Cancel</button>
         </div>
+
+        
       </form>
     </div>
   );

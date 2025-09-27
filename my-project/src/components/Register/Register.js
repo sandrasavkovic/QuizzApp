@@ -68,12 +68,21 @@ return (
         required
       />
 
-      <input
-        type="file"
-        name="image"
-        accept="image/*"
-        onChange={handleChange}
-      />
+      <div className="mb-3">
+  <label htmlFor="image" className="btn btn-outline-primary w-100">
+    <i className="bi bi-upload me-2"></i> Upload Image
+  </label>
+  <input
+     type="file"
+    id="image"
+      name="image"
+      accept="image/*"
+      onChange={handleChange}
+      className="d-none"
+      style={{ display: "none" }}
+  />
+</div>
+
 
       {err && <p className="error">{err}</p>}
 

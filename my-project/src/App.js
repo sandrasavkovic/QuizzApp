@@ -13,11 +13,43 @@ import { ToastContainer, toast } from 'react-toastify';
 import LeaderboardPage from './components/Quizz/Global list/LeaderboardPage';
 import GlobalboardPage from './components/Quizz/Global list/GlobalboardPage';
 import AllUsersResults from './components/Quizz/Global list/AllUsersResults';
+import jwtDecode from 'jwt-decode';
+import { useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function App() {
-  
+   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const decoded = jwtDecode(token);
+      const now = Date.now() / 1000;
+
+      if (decoded.exp < now) {
+        // Token je istekao
+        toast.warning("Your session expired");
+        localStorage.clear();         
+        window.location.href = "/";    
+      } else {
+        const timeLeft = (decoded.exp - now) * 1000; // milisekunde
+        const timer = setTimeout(() => {
+          toast.warning("Your session expired");
+          localStorage.clear();
+          window.location.href = "/";
+        }, timeLeft);
+
+        return () => clearTimeout(timer); 
+      }
+
+    } catch (err) {
+      // Ako token nije validan
+      localStorage.clear();
+      window.location.href = "/";
+    }
+  }, []);
+
   return (
     <div className="App">
       <Routes>

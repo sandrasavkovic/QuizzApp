@@ -185,56 +185,63 @@ function StartQuizPage() {
           <p>{currentQuestion.text}</p>
 
           {/* SingleChoice */}
-          {currentQuestion.type === "SingleChoice" &&
-            currentQuestion.options.map((opt, index) => (
-              <button
-                key={`${currentQuestion.id}-single-${opt.id || index}`}
-                onClick={() =>
-                  handleAnswerSelect(currentQuestion.id, opt.text)
-                }
-              >
-                {opt.text}
-              </button>
-            ))}
+          {/* SingleChoice */}  
+      {currentQuestion.type === "SingleChoice" &&
+          currentQuestion.options.map((opt, index) => {
+          const isSelected = answers[currentQuestion.id] === opt.text;
+          return (
+          <button
+            key={`${currentQuestion.id}-single-${opt.id || index}`}
+            className={`answer-btn ${isSelected ? "selected" : ""}`}
+            onClick={() =>
+             handleAnswerSelect(currentQuestion.id, opt.text)
+         }
+        >
+         {opt.text}
+      </button>
+    );
+  })}
+
 
           {/* MultipleChoice */}
-          {currentQuestion.type === "MultipleChoice" &&
-            currentQuestion.options.map((opt, index) => (
-              <label key={`${currentQuestion.id}-multi-${opt.id || index}`}>
-                <input
-                  type="checkbox"
-                  checked={
-                    answers[currentQuestion.id]?.includes(opt.text) || false
-                  }
-                  onChange={() =>
-                    handleAnswerSelect(currentQuestion.id, opt.text, true)
-                  }
-                />
-                {opt.text}
-              </label>
-            ))}
+      {currentQuestion.type === "MultipleChoice" &&
+          currentQuestion.options.map((opt, index) => {
+          const isChecked = answers[currentQuestion.id]?.includes(opt.text) || false;
+          return (
+          <label
+            key={`${currentQuestion.id}-multi-${opt.id || index}`}
+            className={`answer-option ${isChecked ? "selected" : ""}`}
+          >
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={() =>
+            handleAnswerSelect(currentQuestion.id, opt.text, true)
+            }
+          />
+          {opt.text}
+         </label>
+          );
+      })}
 
           {/* True/False */}
-          {currentQuestion.type === "TrueFalse" && (
-            <>
-              <button
-                key={`${currentQuestion.id}-true`}
-                onClick={() =>
-                  handleAnswerSelect(currentQuestion.id, "True")
-                }
-              >
-                True
-              </button>
-              <button
-                key={`${currentQuestion.id}-false`}
-                onClick={() =>
-                  handleAnswerSelect(currentQuestion.id, "False")
-                }
-              >
-                False
-              </button>
-            </>
-          )}
+         {currentQuestion.type === "TrueFalse" && (
+        <>
+        {["True", "False"].map((val) => {
+        const isSelected = answers[currentQuestion.id] === val;
+        return (
+        <button
+            key={`${currentQuestion.id}-${val.toLowerCase()}`}
+            className={`answer-btn ${isSelected ? "selected" : ""}`}
+            onClick={() => handleAnswerSelect(currentQuestion.id, val)}
+          >
+              {val}
+            </button>
+          );
+          })}
+        </>
+        )}
+
 
           {/* FillInTheBlank */}
           {currentQuestion.type === "FillInTheBlank" && (

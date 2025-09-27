@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./GlobalboardPage.css";
 import { getGlobalboard } from "../../../services/userQuizzService";
 import { toast } from "react-toastify";
@@ -8,6 +9,8 @@ export default function GlobalboardPage() {
   const [filtered, setFiltered] = useState([]);
   const [quizFilter, setQuizFilter] = useState("all");
   const [timeFilter, setTimeFilter] = useState("all");
+  const navigate = useNavigate();
+
   useEffect(() => {
     async function fetchGlobalboard() {
       try {
@@ -112,6 +115,8 @@ export default function GlobalboardPage() {
         </tbody>
       </table>
     </div>
+      <button onClick={() => navigate("/main")}>Home</button>
+
     </div>
   );
 }

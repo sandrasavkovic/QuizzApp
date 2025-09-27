@@ -104,14 +104,16 @@ function AdminMainPage() {
       {
        // setQuizess((prev) =>[...prev, newQuizz])
        // console.log("KVIZOVI", quizzes);
+       toast.success("Quizz successfully added!");
        const data = await getQuizzes();
             setQuizess(data);   
+          
       }
 
       
       const handleStartQuizz = (quizId) =>
       {
-         alert(quizId);
+        // alert(quizId);
         navigate("/start-quiz", {state :  { quizId } })
       }
 
@@ -128,9 +130,13 @@ function AdminMainPage() {
 
     const closeEditQuizForm = () => setEditingQuizz(null);
 
-    const handleQuizUpdated = (updatedQuiz) => {
-        setQuizess(prev => prev.map(q => q.id === updatedQuiz.id ? updatedQuiz : q));
-        closeEditQuizForm();
+    const handleQuizUpdated =async (updatedQuiz) => {
+       // setQuizess(prev => prev.map(q => q.id === updatedQuiz.id ? updatedQuiz : q));
+        const data = await getQuizzes();
+            setQuizess(data);
+            closeEditQuizForm();
+
+
   };
 
   const handleDeleteQuiz = async (quizId) => {
@@ -198,11 +204,12 @@ function AdminMainPage() {
               <button className="btn btn-blue" onClick={openQuizzForm}>Add Quizz</button>
               <button className="btn btn-blue" onClick={() => navigate("/admin/themes")}>Themes</button>
               <button className="btn btn-blue" onClick={() => navigate("/admin/questions")}>Questions</button>
-              <button className="btn btn-blue" onClick={() => navigate("/globalboard")} > Global board</button>
               <button className="btn btn-blue" onClick={() => navigate("/users-results")} > Users results</button>
             </div>
         </div>
          )}
+        
+         
    </div>
 
 
@@ -231,7 +238,9 @@ function AdminMainPage() {
           <option value="Medium">Medium</option>
           <option value="Hard">Hard</option>
         </select>
-
+          <div>
+                        <button className="btn btn-blue" onClick={() => navigate("/globalboard")} > Global board</button>
+         </div>
       </div>
 
          <div className="quiz-grid">

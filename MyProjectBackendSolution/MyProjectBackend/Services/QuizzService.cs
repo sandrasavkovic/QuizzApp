@@ -159,9 +159,29 @@ namespace MyProjectBackend.Services
 
             if (updatedQuizz.ThemeIds != null && updatedQuizz.ThemeIds.Any())
             {
-                quizz.Themes = _dbContext.Themes
-                    .Where(t => updatedQuizz.ThemeIds.Contains(t.Id))
-                    .ToList();
+                //quizz.Themes = _dbContext.Themes
+                //    .Where(t => updatedQuizz.ThemeIds.Contains(t.Id))
+                //    .ToList();
+                var currentThemes = quizz.Themes.ToList();
+
+                foreach (var t in currentThemes)
+                {
+                    if (!updatedQuizz.ThemeIds.Contains(t.Id))
+                    {
+                        quizz.Themes.Remove(t);
+                    }
+                }
+
+                foreach (var tId in updatedQuizz.ThemeIds)
+                {
+                    if (!currentThemes.Any(ct => ct.Id == tId))
+                    {
+                        var theme = _dbContext.Themes.Find(tId);
+                        if (theme != null)
+                            quizz.Themes.Add(theme);
+                    }
+                }
+
             }
             else
             {

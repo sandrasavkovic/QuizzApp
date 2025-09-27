@@ -62,6 +62,8 @@ export default function EditQuizForm({ quiz, onClose, onQuizUpdated }) {
       const data = await updateQuizz(quiz.id, quizData);
       if(data.success){
             onQuizUpdated(data.quizz);
+            toast.success("Successfully updated quizz!");
+            console.log("USPESNOO");
       }
      else{
         toast.error(data.message);
@@ -95,34 +97,6 @@ const toggleQuestion = (id) => {
 
         <label>Description:</label>
         <input type="text" value={description} onChange={e => setDescription(e.target.value)} required />
-{/* 
-        <label>Select Questions:</label>
-        <div className="questions-list">
-          {questions.map(q => (
-            <label key={q.id} className="question-option">
-              <input type="checkbox"
-                     checked={selectedQuestions.includes(q.id)}
-                     onChange={() => toggleQuestion(q.id)}
-              />
-              {q.text}
-            </label>
-          ))}
-        </div> */}
-        
-        {/* <label>Select Questions:</label>
-        <div className="questions-list">
-          {questions.map(q => (
-            <label key={q.id} className="question-option">
-              <input type="checkbox"
-                     checked={selectedQuestions.includes(q.id)}
-                     onChange={() => toggleQuestion(q.id)}
-              />
-              {q.text}
-            </label>
-          ))}
-        </div> */}
-<button type="button" className="btn btn-green" onClick={hadnleEditQuestionsClick}>Edit questions</button>
-
 
       
         
@@ -145,6 +119,8 @@ const toggleQuestion = (id) => {
           <option value="Medium">Medium</option>
           <option value="Hard">Hard</option>
         </select>
+
+        <button type="button" className="btn btn-blue" onClick={hadnleEditQuestionsClick}>Edit questions</button>
 
         <div className="form-buttons">
           <button type="submit">Save Changes</button>

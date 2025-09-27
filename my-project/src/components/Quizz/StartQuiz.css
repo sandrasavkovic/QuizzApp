@@ -136,3 +136,58 @@
   transform: translateY(-2px);
   box-shadow: 0 12px 24px rgba(0,0,0,0.2);
 }
+
+.filters select option:checked {
+  background-color: #3b82f6; /* plava (kao hover za dugmad) */
+  color: white;
+}
+
+.answer-btn {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.answer-btn:hover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.answer-btn.selected {
+  border-color: #a5f3fc;
+  background: #a619c9;
+  color: white;
+  font-weight: bold;
+}
+
+.answer-option {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.answer-option input {
+  margin-right: 0.5rem;
+}
+
+.answer-option:hover {
+  border-color: #3b82f6;
+  background: #f0f9ff;
+}
+
+.answer-option.selected {
+  border-color: #a5f3fc;
+  background: #a619c9;
+  font-weight: 600;
+}

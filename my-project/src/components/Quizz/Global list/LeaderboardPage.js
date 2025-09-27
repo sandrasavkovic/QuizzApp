@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./GlobalboardPage.css"
 import { getLeaderboard } from "../../../services/userQuizzService";
@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 export default function LeaderboardPage() {
   const { quizzId } = useParams();
   const [results, setResults] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchLeaderboard() {
       try {
@@ -58,6 +58,8 @@ export default function LeaderboardPage() {
         </tbody>
       </table>
     </div>
+          <button onClick={() => navigate("/main")}>Home</button>
+
     </div>
   );
 }

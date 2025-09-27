@@ -9,6 +9,8 @@ namespace MyProjectBackend.Dto.Results
 
         public int QuizzId { get; set; }
 
+
+       
         public string QuizzName { get; set; }
 
         public DateTime AttemptDate { get; set; }
