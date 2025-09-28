@@ -1,9 +1,10 @@
 const API_URL = process.env.REACT_APP_API_URL;
-  const token = localStorage.getItem("token");
 
 export async function createTheme(new_theme) {
 
   try {
+        const token = localStorage.getItem("token");
+
     const response = await fetch(`${API_URL}/api/theme/create`, {
       method: "POST",
       headers: {
@@ -27,6 +28,8 @@ export async function createTheme(new_theme) {
 export async function getThemes() {
 
   try {
+        const token = localStorage.getItem("token");
+
     const response = await fetch(`${API_URL}/api/theme/themes`, {
       method: "GET",
       headers: {
@@ -47,6 +50,8 @@ export async function getThemes() {
 
 export async function updateTheme(id, newTheme) {
    try {
+        const token = localStorage.getItem("token");
+
     console.log(JSON.stringify({ id: id, name: newTheme.name }));
     const response = await fetch(`${API_URL}/api/theme/update/${id}`, {
       method: "PUT",
@@ -70,6 +75,8 @@ body: JSON.stringify({ id: id, name: newTheme.name })
 
 export async function deleteTheme(id) {
   try {
+        const token = localStorage.getItem("token");
+
     const response = await fetch(`${API_URL}/api/theme/delete/${id}`, {
       method: "DELETE",
       headers: {

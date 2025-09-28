@@ -24,8 +24,16 @@ namespace MyProjectBackend.Services
         {
             UserQuizz userQuizz = _mapper.Map<UserQuizz>(newUserQuizz);
             _dbContext.UserQuizzs.Add(userQuizz);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while trying to add result: " + ex.Message, ex);
+
+            }
             return _mapper.Map<UserQuizzDto>(userQuizz);
         }
 

@@ -1,9 +1,8 @@
 const API_URL = process.env.REACT_APP_API_URL;
-const token = localStorage.getItem("token");
 
 export async function getQuizzes() {
   try {
-
+    const token = localStorage.getItem("token");
     const response = await fetch(`${API_URL}/api/quizz/basic`, {
       method: "GET",
       headers: {
@@ -25,6 +24,7 @@ export async function getQuizzes() {
 
 export async function createQuiz(newQuiz) {
   try {
+    const token = localStorage.getItem("token");
     const response = await fetch(`${API_URL}/api/quizz/create`, {
       method: "POST",
       headers: {
@@ -47,6 +47,7 @@ export async function createQuiz(newQuiz) {
 
 export async function getQuizById(quizId) {
   try {
+    const token = localStorage.getItem("token");
 
     const response = await fetch(`${API_URL}/api/quizz/getById/${quizId}`, {
       method: "GET",
@@ -71,6 +72,8 @@ export async function getQuizById(quizId) {
 
 export async function updateQuizz(id, newQuizz) {
    try {
+        const token = localStorage.getItem("token");
+
     console.log(newQuizz);
     console.log(JSON.stringify( newQuizz));
     const response = await fetch(`${API_URL}/api/quizz/update/${id}`, {
@@ -96,6 +99,8 @@ export async function updateQuizz(id, newQuizz) {
 
 export async function deleteQuizz(id) {
   try {
+        const token = localStorage.getItem("token");
+
     const response = await fetch(`${API_URL}/api/quizz/delete/${id}`, {
       method: "DELETE",
       headers: {

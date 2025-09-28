@@ -25,7 +25,7 @@ export default function GlobalboardPage() {
     fetchGlobalboard();
   }, []);
 
-
+  useEffect(()=>console.log(results));
    
   return (
     <div className="globalboard-page">
@@ -47,7 +47,7 @@ export default function GlobalboardPage() {
         </thead>
         <tbody>
           {results.map((r, idx) => (
-            <tr key={r.userId}>
+            <tr key={idx}>
               <td>{idx + 1}</td>
               <td>{r.quizzName}</td>
               <td>{r.username}</td>

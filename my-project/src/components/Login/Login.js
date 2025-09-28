@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { login } from "../../services/authServices"; 
@@ -11,6 +11,9 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    console.log(localStorage.getItem("token"));
+  })
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");

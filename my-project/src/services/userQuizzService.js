@@ -1,11 +1,10 @@
 const API_URL = process.env.REACT_APP_API_URL;
-const token = localStorage.getItem("token");
-
-
 
 
 export async function saveQuizResult(resultDto) {
    try {
+        const token = localStorage.getItem("token");
+
     const response = await fetch(`${API_URL}/api/userQuizz/save`, {
       method: "POST",
       headers: {
@@ -31,6 +30,7 @@ export async function saveQuizResult(resultDto) {
 
 export async function getQuizResultById(quizId) {
      try {
+    const token = localStorage.getItem("token");
 
     const response = await fetch(`${API_URL}/api/userQuizz/result/${quizId}`, {
       method: "GET",
@@ -52,6 +52,7 @@ export async function getQuizResultById(quizId) {
 
 export async function getUserResults(userId) {
   try {
+    const token = localStorage.getItem("token");
 
     const response = await fetch(`${API_URL}/api/userQuizz/results/${userId}`, {
       method: "GET",
@@ -73,6 +74,7 @@ export async function getUserResults(userId) {
 
 export async function getQuestionsForQuizz(quizzId) {
   try {
+    const token = localStorage.getItem("token");
 
     const response = await fetch(`${API_URL}/api/userQuizz/questions/${quizzId}`, {
       method: "GET",
@@ -95,6 +97,7 @@ export async function getQuestionsForQuizz(quizzId) {
 
 export async function getQuizzById(quizzId) {
   try {
+    const token = localStorage.getItem("token");
 
     const response = await fetch(`${API_URL}/api/userQuizz/quizz/${quizzId}`, {
       method: "GET",
@@ -118,6 +121,8 @@ export async function getQuizzById(quizzId) {
 
 export async function getLeaderboard(quizzId) {
   try{
+        const token = localStorage.getItem("token");
+
     console.log("OVDE!", quizzId);
    const response = await fetch(`${API_URL}/api/userQuizz/leaderboard/${quizzId}`, {
     method: "GET",
@@ -141,6 +146,8 @@ export async function getLeaderboard(quizzId) {
 
 export async function getGlobalboard() {
   try{
+        const token = localStorage.getItem("token");
+
    const response = await fetch(`${API_URL}/api/userQuizz/globalboard`, {
     method: "GET",
     headers: {
@@ -161,6 +168,8 @@ export async function getGlobalboard() {
 
 export async function getUsersResults() {
   try{
+        const token = localStorage.getItem("token");
+
         console.log("SALJEM NA OVOJ ADRESI: ");
         console.log(`${API_URL}/api/userQuizz/users-results`);
    const response = await fetch(`${API_URL}/api/userQuizz/users-results`, {

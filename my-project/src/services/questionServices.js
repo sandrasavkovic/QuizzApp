@@ -1,4 +1,3 @@
-const token = localStorage.getItem("token");
 const API_URL = process.env.REACT_APP_API_URL;
 
 export async function createQuestion(question) {
@@ -28,6 +27,8 @@ export async function createQuestion(question) {
 
 export async function getQuestions() {
   try{
+    const token = localStorage.getItem("token");
+
     const response = await fetch (`${API_URL}/api/question/questions`,{
       method: "GET",
       headers: {
@@ -50,6 +51,8 @@ export async function getQuestions() {
 
 export async function updateQuestion(id, newQuestion) {
    try {
+        const token = localStorage.getItem("token");
+
     console.log(newQuestion);
     console.log(JSON.stringify( newQuestion));
     const response = await fetch(`${API_URL}/api/question/update/${id}`, {
@@ -75,6 +78,8 @@ export async function updateQuestion(id, newQuestion) {
 
 export async function deleteQuestion(id) {
   try {
+        const token = localStorage.getItem("token");
+
     const response = await fetch(`${API_URL}/api/question/delete/${id}`, {
       method: "DELETE",
       headers: {

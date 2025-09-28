@@ -45,8 +45,9 @@ namespace MyProjectBackend.Services
             }
             SymmetricSecurityKey secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey.Value)); 
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            var tokenOptions = new JwtSecurityToken(issuer: "http://localhost:7121",// tvoj server URL audience:
-                "http://localhost:7121", // opcionalno, može biti isti kao issuer
+            var tokenOptions = new JwtSecurityToken(issuer:
+                "http://localhost:7121",
+                "http://localhost:7121", 
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(20), 
                 signingCredentials: signinCredentials ); 

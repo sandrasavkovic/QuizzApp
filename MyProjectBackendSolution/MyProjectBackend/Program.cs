@@ -8,6 +8,7 @@ using MyProjectBackend.Infrastructure;
 using MyProjectBackend.Interfaces;
 using MyProjectBackend.Mapping;
 using MyProjectBackend.Services;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -78,7 +79,12 @@ builder.Services.AddAuthentication(options =>
             Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]))
     };
 });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
+});
 
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 var app = builder.Build();
 app.UseCors("AllowReact"); // aktivacija corsa

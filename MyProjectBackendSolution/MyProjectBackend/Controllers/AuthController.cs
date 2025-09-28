@@ -58,19 +58,6 @@ namespace MyProjectBackend.Controllers
                 return BadRequest("Password should have at least 6 characters.");
             }
 
-            var existingUser = _userService.GetAllUsers()
-                                  .FirstOrDefault(u => u.Username.ToLower() == registerDto.Username.ToLower());
-            if (existingUser != null)
-            {
-                return BadRequest("Username alredy exists!");
-            }
-
-            var existingEmail = _userService.GetAllUsers()
-                                 .FirstOrDefault(u => u.Email.ToLower() == registerDto.Email.ToLower());
-            if (existingEmail != null)
-            {
-                return BadRequest("User with this email alredy exists!");
-            }
 
             if (registerDto.ImageFile != null && registerDto.ImageFile.Length > 0)
             {
@@ -100,7 +87,19 @@ namespace MyProjectBackend.Controllers
             };
 
 
-            return Ok(_userService.AddUser(userDto));
+            try
+            {
+                var createdUser = _userService.AddUser(userDto);
+                return Ok(createdUser);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message); 
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while registering the user.");
+            }
         }
 
 

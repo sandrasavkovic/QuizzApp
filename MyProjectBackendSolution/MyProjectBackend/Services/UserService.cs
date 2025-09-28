@@ -19,9 +19,26 @@ namespace MyProjectBackend.Services
 
         public UserDto AddUser(UserDto newUser)
         {
-           User user = _mapper.Map<User>(newUser);
+            bool exists = _dbContext.Users.Any(u =>
+                  u.Username.ToLower() == newUser.Username.ToLower() ||
+                    u.Email.ToLower() == newUser.Email.ToLower());
+
+            if (exists)
+            {
+                throw new ArgumentException("User with this username or email already exists.");
+            }
+
+            User user = _mapper.Map<User>(newUser);
             _dbContext.Users.Add(user);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while trying to add user: " + ex.Message, ex);
+
+            }
 
             return _mapper.Map<UserDto>(user); // vracamo kreirani obhejat nazad
         }

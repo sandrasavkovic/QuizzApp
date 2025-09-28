@@ -27,7 +27,6 @@ namespace MyProjectBackend.Infrastructure
             //Kazemo mu da pronadje sve konfiguracije u Assembliju i da ih primeni nad bazom
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
          
-            // kad brisem temu brisu se i pitanja
             modelBuilder.Entity<Question>()
                  .HasOne(q => q.Theme)
                    .WithMany(t => t.Questions)
@@ -35,7 +34,6 @@ namespace MyProjectBackend.Infrastructure
                     .OnDelete(DeleteBehavior.Cascade);
 
 
-            // kad se brise kviz, brise se samo iz veze many to many tj questionquizz tabele, a pitanja ostaju
             modelBuilder.Entity<Quizz>()
                  .HasMany(q => q.Questions)
                  .WithMany(q => q.Quizzes)
@@ -45,12 +43,12 @@ namespace MyProjectBackend.Infrastructure
                    .HasOne<Question>()
                   .WithMany()
                   .HasForeignKey("QuestionId")
-                  .OnDelete(DeleteBehavior.Cascade), // kad obrišem kviz, veza nestaje
+                  .OnDelete(DeleteBehavior.Cascade), 
                   j => j
                    .HasOne<Quizz>()
                   .WithMany()
                   .HasForeignKey("QuizzId")
-               .OnDelete(DeleteBehavior.Cascade)  // kad obrišem kviz, veza nestaje
+               .OnDelete(DeleteBehavior.Cascade)  
                );
           }
     }
