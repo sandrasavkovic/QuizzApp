@@ -40,7 +40,15 @@ namespace MyProjectBackend.Services
                 .ToList();
 
             _dbContext.Quizzes.Add(quizz);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message;
+                throw new Exception("Error while trying to add quizz: " + ex.Message, ex);
+            }
             return _mapper.Map<QuizzDto>(quizz);
         }
 
@@ -59,7 +67,15 @@ namespace MyProjectBackend.Services
             if (quizz == null) return false;
 
             _dbContext.Quizzes.Remove(quizz);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message;
+                throw new Exception("Error while trying to delete quizz: " + ex.Message, ex);
+            }
             return true;
         }
     
@@ -114,7 +130,7 @@ namespace MyProjectBackend.Services
            // Quizz quizz = _dbContext.Quizzes.Find(id);
             var quizz = _dbContext.Quizzes
                 .Include(q => q.Questions) 
-                .ThenInclude(q => q.Options) 
+                //.ThenInclude(q => q.Options) 
                 .Include(q => q.Themes)     
                 .FirstOrDefault(q => q.Id == id);
 
@@ -188,8 +204,15 @@ namespace MyProjectBackend.Services
                 quizz.Themes.Clear();
             }
 
-            _dbContext.SaveChanges();
-
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message;
+                throw new Exception("Error while trying to update quizz: " + ex.Message, ex);
+            }
             return _mapper.Map<QuizzDto>(quizz);
         }
 

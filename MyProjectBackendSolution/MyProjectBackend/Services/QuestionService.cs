@@ -28,7 +28,15 @@ namespace MyProjectBackend.Services
             question.Theme = theme;
             //
             _dbContext.Questions.Add(question);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message;
+                throw new Exception("Error while trying to add question: " + ex.Message, ex);
+            }
             return _mapper.Map<QuestionDto>(question);
          // return question;
         }
@@ -63,7 +71,15 @@ namespace MyProjectBackend.Services
             if (question == null) return false;
 
             _dbContext.Questions.Remove(question);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message;
+                throw new Exception("Error while trying to delete question: " + ex.Message, ex);
+            }
             return true;
         }
 
@@ -113,8 +129,15 @@ namespace MyProjectBackend.Services
             question.Points = updatedQuestion.Points;
             question.Type = updatedQuestion.Type;
             question.CorrectAnswer = updatedQuestion.CorrectAnswer;
-            _dbContext.SaveChanges();
-
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message;
+                throw new Exception("Error while trying to update quesiton: " + ex.Message, ex);
+            }
             return _mapper.Map<QuizzQuestionsDto>(question);
         }
        

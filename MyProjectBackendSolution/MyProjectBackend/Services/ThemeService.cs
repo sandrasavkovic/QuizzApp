@@ -21,7 +21,15 @@ namespace MyProjectBackend.Services
         {
             Theme theme = _mapper.Map<Theme>(newTheme);
             _dbContext.Themes.Add(theme);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message;
+                throw new Exception("Error while trying to add theme: " + ex.Message, ex);
+            }
             return _mapper.Map<ThemeDto>(theme);
           // return theme;
         }
@@ -55,7 +63,15 @@ namespace MyProjectBackend.Services
 
             _dbContext.Themes.Remove(theme);
 
-            _dbContext.SaveChanges(); 
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message;
+                throw new Exception("Error while trying to delete theme: " + ex.Message, ex);
+            }
             return true;
         }
 
@@ -93,7 +109,15 @@ namespace MyProjectBackend.Services
             }
             Theme theme = _dbContext.Themes.Find(id);
             theme.Name = updatedTheme.Name;
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message;
+                throw new Exception("Error while trying to update theme: " + ex.Message, ex);
+            }
             return _mapper.Map<ThemeDto>(theme);
         }
 

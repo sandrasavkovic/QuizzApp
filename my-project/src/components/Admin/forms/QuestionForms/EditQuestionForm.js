@@ -37,7 +37,7 @@ function EditQuestionForm({ question, themes, onClose, onQuestionUpdated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(options);
     const updatedQuestion = {
       id: question.id,
       Text: text,
@@ -47,6 +47,7 @@ function EditQuestionForm({ question, themes, onClose, onQuestionUpdated }) {
       Options: (type === "SingleChoice" || type === "MultipleChoice") ? options : [],
       CorrectAnswer: (type === "FillInTheBlank" || type === "TrueFalse") ? correctAnswer : null,
     };
+    console.log(updateQuestion);
 
     try {
       const data = await updateQuestion(question.id, updatedQuestion);

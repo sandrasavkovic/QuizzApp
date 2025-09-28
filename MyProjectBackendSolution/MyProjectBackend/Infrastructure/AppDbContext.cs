@@ -33,6 +33,8 @@ namespace MyProjectBackend.Infrastructure
                    .WithMany(t => t.Questions)
                      .HasForeignKey(q => q.ThemeId)
                     .OnDelete(DeleteBehavior.Cascade);
+
+
             // kad se brise kviz, brise se samo iz veze many to many tj questionquizz tabele, a pitanja ostaju
             modelBuilder.Entity<Quizz>()
                  .HasMany(q => q.Questions)

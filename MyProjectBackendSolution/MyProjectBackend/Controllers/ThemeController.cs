@@ -34,7 +34,15 @@ namespace MyProjectBackend.Controllers
         {
             if (string.IsNullOrEmpty(themeDto.Name))
                 return BadRequest("Theme name is required");
-            ThemeDto theme = _themeService.AddTheme(themeDto);
+            ThemeDto theme;
+            try
+            {
+                 theme = _themeService.AddTheme(themeDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
            
             return Ok(theme); // Theme, a ne theme dto
         }
@@ -45,7 +53,15 @@ namespace MyProjectBackend.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult UpdateTheme(int id, [FromBody] ThemeDto theme)
         {
-            var res = _themeService.UpdateTheme(id, theme);
+            ThemeDto res;
+            try
+            {
+                 res = _themeService.UpdateTheme(id, theme);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             if (res == null)
             {
                 return Ok(new
@@ -67,9 +83,17 @@ namespace MyProjectBackend.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult DeleteTheme(int id)
         {
-            bool result = _themeService.DeleteTheme(id);
+            bool result;
+            try
+            {
+                result = _themeService.DeleteTheme(id);
+                return Ok(new { success = result });
 
-            return Ok(new { success = result });
+            }
+            catch (Exception ex) 
+                {
+                    return BadRequest(ex.Message);
+                }
 
         }
     }

@@ -13,6 +13,8 @@ namespace MyProjectBackend.Infrastructure.Configurations
             builder.Property(x => x.Id).ValueGeneratedOnAdd(); //Kazem da ce se primarni kljuc
                                                                //automatski generisati prilikom dodavanja,
                                                                //redom 1 2 3...
+            builder.HasIndex(x => x.Username).IsUnique();
+            builder.HasIndex(x => x.Email).IsUnique();
 
 
 

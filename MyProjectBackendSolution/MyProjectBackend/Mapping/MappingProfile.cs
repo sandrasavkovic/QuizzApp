@@ -29,6 +29,7 @@ namespace MyProjectBackend.Mapping
             CreateMap<UserQuizz, UserResultsDto>()
                 .ForMember(dest => dest.QuizzName, opt => opt.MapFrom(src => src.Quizz.Title))
                  .ReverseMap();
+
             CreateMap<UserQuizz, GlobalboardRankDto>()
                  .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))
                  .ForMember(dest => dest.QuizzName, opt => opt.MapFrom(src => src.Quizz.Title))

@@ -14,6 +14,9 @@ namespace MyProjectBackend.Infrastructure.Configurations
                                                                //automatski generisati prilikom dodavanja,
                                                                //redom 1 2 3...
 
+            builder.HasIndex(x => x.Name).IsUnique();
+
+
         }
     }
 }

@@ -25,7 +25,15 @@ namespace MyProjectBackend.Controllers
             if (questionDto == null)
                 return BadRequest("Question data is required.");
 
-            var createdQuestion = _questionService.AddQuestion(questionDto);
+            QuestionDto createdQuestion;
+            try
+            {
+                createdQuestion = _questionService.AddQuestion(questionDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return Ok(createdQuestion);
         }
 
@@ -40,8 +48,15 @@ namespace MyProjectBackend.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult UpdateQuestion(int id, [FromBody] QuizzQuestionsDto questionDto)
         {
-
-            var updatedQuestion = _questionService.UpdateQuestion(id, questionDto);
+            QuizzQuestionsDto updatedQuestion;
+            try
+            {
+                updatedQuestion = _questionService.UpdateQuestion(id, questionDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             if (updatedQuestion == null)
             {
                 return Ok(new
@@ -63,7 +78,16 @@ namespace MyProjectBackend.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult DeleteQuestion(int id)
         {
-            bool result = _questionService.DeleteQuestion(id);
+            bool result;
+
+            try
+            {
+                result = _questionService.DeleteQuestion(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
             return Ok(new { success = result });
             

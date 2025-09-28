@@ -41,7 +41,6 @@ namespace MyProjectBackend.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult Create(CreateQuizzDto createdQuizz)
         {
-            // mozda za teme prosledi listu questions i dodaj sve teme na osnovu id-eva tema u tim questionima
             List<Theme> themes = _quizzService.GetThemesByIds(createdQuizz.ThemeIds); 
 
             List<QuestionDto> questions = _quizzService.GetQuestionsForIds(createdQuizz.QuestionIds);
@@ -58,7 +57,15 @@ namespace MyProjectBackend.Controllers
                 QuestionIds = createdQuizz.QuestionIds,
                 ThemeIds = createdQuizz.ThemeIds,
             };
-            QuizzDto newQuizz = _quizzService.AddQuizz(quiz);
+            QuizzDto newQuizz;
+            try
+            {
+                newQuizz = _quizzService.AddQuizz(quiz);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return Ok(newQuizz);
         }
 
@@ -76,7 +83,15 @@ namespace MyProjectBackend.Controllers
         public IActionResult UpdateQuizz(int id, [FromBody] QuizzDto quizzDto)
         {
 
-            var updatedQuizz= _quizzService.UpdateQuizz(id, quizzDto);
+            QuizzDto updatedQuizz;
+            try
+            {
+                updatedQuizz = _quizzService.UpdateQuizz(id, quizzDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             if (updatedQuizz == null)
             {
                 return Ok(new
@@ -98,10 +113,16 @@ namespace MyProjectBackend.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult DeleteQuizz(int id)
         {
-            bool result = _quizzService.DeleteQuizz(id);
-
-            return Ok(new { success = result });
-
+            bool result;
+            try
+            {
+                result = _quizzService.DeleteQuizz(id);
+                return Ok(new { success = result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }
