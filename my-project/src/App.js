@@ -9,12 +9,10 @@ import ResultInfo from './components/Quizz/ResultInfo';
 import UserResults from './components/UserResults/UserResults';
 import AdminThemesPage from './components/Admin/Themes/AdminThemes';
 import AdminQuestionsPage from './components/Admin/Questions/AdminQuestions';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import LeaderboardPage from './components/Quizz/Global list/LeaderboardPage';
 import GlobalboardPage from './components/Quizz/Global list/GlobalboardPage';
 import AllUsersResults from './components/Quizz/Global list/AllUsersResults';
-import jwtDecode from 'jwt-decode';
-import { useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import ProtectedRoute from './protectedRoutes/ProtectedRoutes';
@@ -27,10 +25,22 @@ function App() {
         <Route path="*" element={<Login />} />
         <Route path="/test" element={<Test />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/main' element={<AdminMainPage />} />
-        <Route path='/start-quiz' element={<StartQuizPage/>}/>
-        <Route path="/quiz-result/:id" element={<ResultInfo />} />
-        <Route path="/my-results" element={<UserResults/>}/>
+        <Route path='/main' element={
+          <ProtectedRoute>
+            <AdminMainPage />
+            </ProtectedRoute>} />
+        <Route path='/start-quiz' element={
+          <ProtectedRoute>
+            <StartQuizPage/>
+            </ProtectedRoute>}/>
+        <Route path="/quiz-result/:id" element={
+          <ProtectedRoute>
+            <ResultInfo />
+            </ProtectedRoute>} />
+        <Route path="/my-results" element={
+          <ProtectedRoute >
+            <UserResults/>
+            </ProtectedRoute>}/>
         <Route path="/admin/themes" element={
           <ProtectedRoute role="admin">
             <AdminThemesPage />
@@ -38,8 +48,14 @@ function App() {
         <Route path="/admin/questions" element={<ProtectedRoute role="admin">
             <AdminQuestionsPage />
            </ProtectedRoute>} />
-        <Route path="/leaderboard/:quizzId" element={<LeaderboardPage />} />
-        <Route path="/globalboard" element={<GlobalboardPage />}/>
+        <Route path="/leaderboard/:quizzId" element={
+          <ProtectedRoute>
+            <LeaderboardPage />
+            </ProtectedRoute>} />
+        <Route path="/globalboard" element={
+          <ProtectedRoute>
+            <GlobalboardPage />
+            </ProtectedRoute>}/>
         <Route path="/users-results" element={<ProtectedRoute role="admin">
             <AllUsersResults />
            </ProtectedRoute>} />

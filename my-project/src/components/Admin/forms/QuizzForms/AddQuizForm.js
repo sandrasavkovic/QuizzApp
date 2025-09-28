@@ -10,11 +10,9 @@ import { toast } from "react-toastify";
 export default function AddQuizForm({ onQuizAdded, onClose }) {
   const [title, setTitle] = useState("");
   const [themes, setThemes] = useState([]);
-  const [selectedThemes, setSelectedThemes] = useState([]);
   const [timeLimit, setTimeLimit] = useState(60); // default 60 sekundi
   const [difficulty, setDifficulty] = useState("Easy");
   const [description, setDescription] = useState("");
-  const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [selectedQuestions, setSelectedQuestions] = useState([]);
 const [showSelectQuestionsModal, setShowSelectQuestionsModal] = useState(false);
@@ -65,12 +63,7 @@ const [showSelectQuestionsModal, setShowSelectQuestionsModal] = useState(false);
       ),
     ].filter(Boolean);
 
-    const formattedQuestions = questions.map(q => ({
-  ...q,
-  ThemeId: Number(q.themeId), // backend očekuje ThemeId
-  Theme: { Id: Number(q.themeId) } // backend očekuje i Theme objekat
-}));
-
+    
     try {
       console.log("OVO su teme: ", themeIdsFromQuestions);
       console.log("OVO SU PITANJA", questions);
@@ -128,10 +121,6 @@ const toggleQuestion = (id) => {
           required
         />
       
-
-
-      
-        
         {showSelectQuestionsModal && (
     <SelectQuestionsModal
       questions={questions}

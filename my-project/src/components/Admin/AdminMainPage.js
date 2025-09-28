@@ -13,7 +13,6 @@ function AdminMainPage() {
     // samo prikazujemo
    // const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
     const [themes, setThemes] = useState([]);
-    const [themeForm, setThemeForm] = useState(false);
     const [quizzForm, setQuizzForm] = useState(false);
     const navigate = useNavigate();
     // za filtriranje
@@ -23,8 +22,6 @@ function AdminMainPage() {
     const [user, setUser] = useState(null);
     const [showDropdown, setShowDropdown] = useState(false);
     const [editingQuiz, setEditingQuizz] = useState(null);
-   
-
     const roleClaim = localStorage.getItem("roleClaim");
 
     useEffect(() => {

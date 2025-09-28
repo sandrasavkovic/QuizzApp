@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getQuizById } from "../../services/quizServices"; 
 import "./StartQuiz.css";
-import ResultInfo from "./ResultInfo";
 import { saveQuizResult } from "../../services/userQuizzService";
 
 function StartQuizPage() {
@@ -14,7 +13,6 @@ function StartQuizPage() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [results, setResults] = useState(null);
 
   useEffect(() => {
     if (!quizId) return;
