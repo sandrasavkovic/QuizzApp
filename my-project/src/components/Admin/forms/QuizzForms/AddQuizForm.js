@@ -5,6 +5,8 @@ import { getQuestions } from "../../../../services/questionServices";
 import "./AddQuizzForm.css";
 import AddQuestionForm from ".././QuestionForms/AddQuestionForm";
 import SelectQuestionsModal from "./SelectQuestionsModal";
+import { toast } from "react-toastify";
+
 export default function AddQuizForm({ onQuizAdded, onClose }) {
   const [title, setTitle] = useState("");
   const [themes, setThemes] = useState([]);
@@ -42,6 +44,10 @@ const [showSelectQuestionsModal, setShowSelectQuestionsModal] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (selectedQuestions.length === 0) {
+    toast.warning("You must select at least one question for the quiz!");
+    return;
+  }
     /*
     // uzimam ideve tema iz questions (bez dupl)
     const themeIdsFromQuestions = [

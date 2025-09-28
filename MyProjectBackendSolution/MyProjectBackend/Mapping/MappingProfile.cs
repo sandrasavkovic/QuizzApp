@@ -23,7 +23,8 @@ namespace MyProjectBackend.Mapping
             CreateMap<Theme, ThemeDto>().ReverseMap();
             CreateMap<UserQuizz, GlobalboardDto>()
                  .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))
-                 .ForMember(dest => dest.QuizzName, opt => opt.MapFrom(src => src.Quizz.Title));
+                 .ForMember(dest => dest.QuizzName, opt => opt.MapFrom(src => src.Quizz.Title))
+                 .ForMember(dest=>dest.UserId, opt=>opt.MapFrom(src=>src.User.Id));
             
 
             CreateMap<UserQuizz, UserResultsDto>()
@@ -31,8 +32,11 @@ namespace MyProjectBackend.Mapping
                  .ReverseMap();
 
             CreateMap<UserQuizz, GlobalboardRankDto>()
-                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username));
-
+                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))
+                 .ForMember(dest => dest.QuizzName, opt => opt.MapFrom(src => src.Quizz.Title))
+                 .ForMember(dest => dest.BestTime, opt => opt.MapFrom(src => src.TimeTaken))
+                 .ForMember(dest => dest.BestScore, opt => opt.MapFrom(src => src.Score))
+                 .ForMember(dest => dest.TotalAttempts, opt => opt.Ignore());
 
             CreateMap<Question, QuestionDisplayDto>()
                .ForMember(dest => dest.ThemeName, opt => opt.MapFrom(src => src.Theme.Name));

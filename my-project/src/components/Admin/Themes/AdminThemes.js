@@ -5,11 +5,12 @@ import EditThemeForm from "../forms/ThemeForms/EditThemeForm";
 import { deleteTheme } from "../../../services/themeService";
 import "./AdminThemes.css";
 import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 function AdminThemesPage() {
   const [themes, setThemes] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingTheme, setEditingTheme] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
       const data = await getThemes();
@@ -77,6 +78,8 @@ function AdminThemesPage() {
           </li>
         ))}
       </ul>
+                  <button className="btn btn-blue" onClick={() => navigate("/main")}>Home</button>
+
     </div>
   )
 }

@@ -114,25 +114,30 @@ namespace MyProjectBackend.Services
 
         public List<GlobalboardRankDto> GetGlobalboard()
         {
+
             var results = _dbContext.UserQuizzs
                 .Include(uq => uq.User)
                 .Include(uq => uq.Quizz)
-                .GroupBy(uq => uq.UserId) // grupisanje po korisniku
-                .Select(g => new GlobalboardRankDto
-                {
-                    Username = g.First().User.Username,
-                    TotalScore = g.Sum(uq => uq.Score),          // zbir svih score-ova korisnika
-                    TotalTime = g.Sum(uq => uq.TimeTaken),       // zbir ukupnog vremena
-                    TotalAttempts = g.Count(),                  // broj pokušaja
-                   
-                })
-                .OrderByDescending(dto => dto.TotalScore)       // prvo sortiraj po ukupnom score-u
-                .ThenBy(dto => dto.TotalTime)                   // zatim po ukupnom vremenu
-                .ToList();
+                .GroupBy(uq => uq.QuizzId)
+                .Select(g => g
+               .OrderByDescending(uq => uq.Score)
+               .ThenBy(uq => uq.TimeTaken)
+               .FirstOrDefault())
+                 .AsEnumerable()
+                .OrderByDescending(uq => uq.Score)   
+        .ThenBy(uq => uq.TimeTaken)          
+        .ToList();
 
-            return results;
+
+            var dtos =   _mapper.Map<List<GlobalboardRankDto>>(results);
+            foreach (var dto in dtos)
+            {
+                dto.TotalAttempts = _dbContext.UserQuizzs
+                    .Count(uq => uq.User.Username == dto.Username && uq.Quizz.Title == dto.QuizzName);
+            }
+            
+            return dtos;
         }
-
 
         public List<GlobalboardDto> GetAllUserResults()
         {

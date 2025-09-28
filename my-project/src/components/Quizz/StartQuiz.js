@@ -178,7 +178,7 @@ function StartQuizPage() {
   return (
     <div className="start-quiz-container">
       <h1>{quiz.title}</h1>
-      <p>Tajmer: {timeLeft} sec</p>
+      <p>Timer: {timeLeft} sec</p>
 
       {currentQuestion && (
         <div className="question-card">

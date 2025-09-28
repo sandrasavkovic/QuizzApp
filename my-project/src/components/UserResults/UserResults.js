@@ -49,7 +49,7 @@ function UserResults() {
         <table className="results-table">
           <thead>
             <tr>
-              <th></th>
+              <th>Quizz</th>
               <th>Date</th>
               <th>Points</th>
               <th>Percentage</th>

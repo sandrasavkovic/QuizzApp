@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getQuestions, deleteQuestion } from "../../../services/questionServices";
 import { getThemes } from "../../../services/themeService";
+import { useNavigate } from "react-router-dom";
 import AddQuestionForm from "../forms/QuestionForms/AddQuestionForm";
 import EditQuestionForm from "../forms/QuestionForms/EditQuestionForm";
 import "./AdminQuestions.css";
@@ -11,7 +12,7 @@ function AdminQuestionsPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState(null);
   const [themes, setThemes] = useState([]);
-
+  const navigate=useNavigate();
   useEffect(() => {
     async function fetchData() {
       const data = await getQuestions();
@@ -33,6 +34,8 @@ function AdminQuestionsPage() {
 const handleQuestionAdded = async () => {
   toast.success("New question added successfully!");
   await refreshQuestions(); // getQuestions() poziva backend i sada sva pitanja imaju Id
+  setShowForm(false);
+
 };
 const refreshQuestions = async () => {
   const data = await getQuestions();
@@ -102,6 +105,8 @@ const refreshQuestions = async () => {
           </li>
         ))}
       </ul>
+            <button onClick={() => navigate("/main")}>Home</button>
+
     </div>
   );
 }

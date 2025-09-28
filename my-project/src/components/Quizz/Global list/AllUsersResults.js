@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./GlobalboardPage.css"
 import { getUsersResults } from "../../../services/userQuizzService";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+
 export default function AllUsersResults() {
   const [results, setResults] = useState([]);
   const [filtered, setFiltered] = useState([]);
@@ -28,7 +29,7 @@ export default function AllUsersResults() {
     fetsUsersResults();
   });
 
-      useEffect(() => {
+   useEffect(() => {
     let filteredData = [...results];
 
     if (quizFilter !== "all") {
@@ -62,7 +63,6 @@ export default function AllUsersResults() {
 
   const uniqueQuizzes = [...new Set(results.map(r => r.quizzName))];
   return (
-    
     <div className="globalboard-page">
     <div className="globalboard-container">
       {results.length > 0 && (
@@ -70,26 +70,27 @@ export default function AllUsersResults() {
     )}
 
     <div className="filters">
-        <label>
-          Quiz:
-          <select value={quizFilter} onChange={e => setQuizFilter(e.target.value)}>
-            <option value="all">All</option>
-            {uniqueQuizzes.map(q => (
-              <option key={q} value={q}>{q}</option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          Period:
-          <select value={timeFilter} onChange={e => setTimeFilter(e.target.value)}>
-            <option value="all">All time</option>
-             <option value="today">Today</option>
-            <option value="weekly">This week</option>
-            <option value="monthly">This month</option>
-          </select>
-        </label>
-      </div>
+            <label>
+              Quiz:
+              <select value={quizFilter} onChange={e => setQuizFilter(e.target.value)}>
+                <option value="all">All</option>
+                {uniqueQuizzes.map(q => (
+                  <option key={q} value={q}>{q}</option>
+                ))}
+              </select>
+            </label>
+    
+            <label>
+              Period:
+              <select value={timeFilter} onChange={e => setTimeFilter(e.target.value)}>
+                <option value="all">All time</option>
+                 <option value="today">Today</option>
+                <option value="weekly">This week</option>
+                <option value="monthly">This month</option>
+              </select>
+            </label>
+          </div>
+    
 
       <table className="globalboard-table">
         <thead>

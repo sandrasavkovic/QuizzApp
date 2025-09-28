@@ -17,39 +17,10 @@ import jwtDecode from 'jwt-decode';
 import { useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import ProtectedRoute from './protectedRoutes/ProtectedRoutes';
 
 function App() {
-   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    try {
-      const decoded = jwtDecode(token);
-      const now = Date.now() / 1000;
-
-      if (decoded.exp < now) {
-        // Token je istekao
-        toast.warning("Your session expired");
-        localStorage.clear();         
-        window.location.href = "/";    
-      } else {
-        const timeLeft = (decoded.exp - now) * 1000; // milisekunde
-        const timer = setTimeout(() => {
-          toast.warning("Your session expired");
-          localStorage.clear();
-          window.location.href = "/";
-        }, timeLeft);
-
-        return () => clearTimeout(timer); 
-      }
-
-    } catch (err) {
-      // Ako token nije validan
-      localStorage.clear();
-      window.location.href = "/";
-    }
-  }, []);
-
+  
   return (
     <div className="App">
       <Routes>
@@ -60,12 +31,18 @@ function App() {
         <Route path='/start-quiz' element={<StartQuizPage/>}/>
         <Route path="/quiz-result/:id" element={<ResultInfo />} />
         <Route path="/my-results" element={<UserResults/>}/>
-        <Route path="/admin/themes" element={<AdminThemesPage />} />
-        <Route path="/admin/questions" element={<AdminQuestionsPage />} /> 
+        <Route path="/admin/themes" element={
+          <ProtectedRoute role="admin">
+            <AdminThemesPage />
+           </ProtectedRoute>} />
+        <Route path="/admin/questions" element={<ProtectedRoute role="admin">
+            <AdminQuestionsPage />
+           </ProtectedRoute>} />
         <Route path="/leaderboard/:quizzId" element={<LeaderboardPage />} />
-        <Route path="/globalboard" element={<GlobalboardPage />} />
-        <Route path="/users-results" element={<AllUsersResults/>} />
-
+        <Route path="/globalboard" element={<GlobalboardPage />}/>
+        <Route path="/users-results" element={<ProtectedRoute role="admin">
+            <AllUsersResults />
+           </ProtectedRoute>} />
 
       </Routes>
         <ToastContainer

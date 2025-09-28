@@ -26,32 +26,35 @@ export default function GlobalboardPage() {
   }, []);
 
 
-
+   
   return (
     <div className="globalboard-page">
     <div className="globalboard-container">
       <h2>🌍 Global board</h2>
 
       
-
       <table className="globalboard-table">
         <thead>
           <tr>
             <th>Rank</th>
+            <th>Quizz</th>
             <th>User</th>
-            <th>Total Score</th>
-            <th>Total time</th>
+            <th>Best Score</th>
             <th>Total attempts</th>
+            <th>Attempt date</th>
+            <th>Best Time</th>
           </tr>
         </thead>
         <tbody>
           {results.map((r, idx) => (
             <tr key={r.userId}>
               <td>{idx + 1}</td>
+              <td>{r.quizzName}</td>
               <td>{r.username}</td>
-              <td>{r.totalScore}</td>
-              <td>{r.totalTime}s</td>
+              <td>{r.bestScore}</td>
               <td>{r.totalAttempts}</td>
+              <td>{new Date(r.attemptDate + "Z").toLocaleString()}</td>
+              <td>{r.bestTime}s</td>
             </tr>
           ))}
         </tbody>

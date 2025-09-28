@@ -162,6 +162,7 @@ function AdminMainPage() {
       localStorage.removeItem("user");
       localStorage.removeItem("token");  
       localStorage.removeItem("userId");
+      localStorage.removeItem("roleClaim");
         navigate("/login");
       }
  return (
@@ -288,6 +289,7 @@ function AdminMainPage() {
         <p className="text-gray-500 text-center col-span-full">Nema dostupnih kvizova.</p>
         )}
       </div>
+
     </div>
    );
 }
