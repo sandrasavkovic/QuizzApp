@@ -120,13 +120,13 @@ namespace MyProjectBackend.Services
                 .Include(uq => uq.Quizz)
                 .GroupBy(uq => uq.QuizzId)
                 .Select(g => g
-               .OrderByDescending(uq => uq.Score)
-               .ThenBy(uq => uq.TimeTaken)
-               .FirstOrDefault())
-                 .AsEnumerable()
+                .OrderByDescending(uq => uq.Score)
+                .ThenBy(uq => uq.TimeTaken)
+                .FirstOrDefault())
+                .AsEnumerable()
                 .OrderByDescending(uq => uq.Score)   
-        .ThenBy(uq => uq.TimeTaken)          
-        .ToList();
+                .ThenBy(uq => uq.TimeTaken)          
+                .ToList();
 
 
             var dtos =   _mapper.Map<List<GlobalboardRankDto>>(results);

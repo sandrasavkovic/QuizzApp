@@ -27,7 +27,7 @@ function ResultInfo() {
         console.log("Dobavljena pitanja: ", questionsList);
         setQuestions(questionsList);
       } catch (err) {
-        console.error("Greška pri učitavanju rezultata:", err);
+        console.error("Greska pri učitavanju rezultata:", err);
       }
     };
     fetchData();
@@ -43,6 +43,7 @@ function ResultInfo() {
     answers,
     correctAnswersCount,
     totalQuestionsCount,
+    timeTaken
   } = data;
 
   const maxScore = questions.reduce((acc, q) => acc + (q.points || 1), 0);
@@ -56,6 +57,7 @@ function ResultInfo() {
     <p>Correct answers: {correctAnswersCount}</p>
     <p>Points/Total points: {score}/{maxScore}</p>
     <p>Percentage of success: {percentage}%</p>
+    <p>Time taken: {timeTaken}s</p>
   </div>
 
   <h3>Details:</h3>

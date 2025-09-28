@@ -40,6 +40,10 @@ export default function EditQuizForm({ quiz, onClose, onQuizUpdated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (selectedQuestions.length === 0) {
+      toast.warning("You must select at least one question for the quiz!");
+    return;
+  }
     const themeIdsFromQuestions = [
       ...new Set(
         selectedQuestions.map((qId) => {
